@@ -1,0 +1,74 @@
+!
+!Generation of errors for Arc elements
+!
+
+!*****************************************************
+!              Main Dipoles
+!*****************************************************
+print, text="mis-align dipoles";
+select, flag=error,clear;
+select,flag=error,range=s.dis_left.a1/e.dis_right.a1,pattern="^MB*";
+select,flag=error,range=s.dis_left.a2/e.dis_right.a2,pattern="^MB*";
+select,flag=error,range=s.dis_left.a3/e.dis_right.a3,pattern="^MB*";
+select,flag=error,range=s.dis_left.a4/e.dis_right.a4,pattern="^MB*";
+select,flag=error,range=s.dis_left.a5/e.dis_right.a5,pattern="^MB*";
+select,flag=error,range=s.dis_left.a6/e.dis_right.a6,pattern="^MB*";
+select,flag=error,range=s.dis_left.a7/e.dis_right.a7,pattern="^MB*";
+select,flag=error,range=s.dis_left.a8/e.dis_right.a8,pattern="^MB*";
+exec, align_magnetindividual(MBAll);
+exec, errorgenerate_align;
+
+!*****************************************************
+!             Main Quadrupole
+!*****************************************************
+print, text="mis-align quadrupole";
+select, flag=error,clear;
+select,flag=error,range=s.dis_left.a1/e.dis_right.a1,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a2/e.dis_right.a2,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a3/e.dis_right.a3,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a4/e.dis_right.a4,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a5/e.dis_right.a5,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a6/e.dis_right.a6,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a7/e.dis_right.a7,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a8/e.dis_right.a8,pattern="^MQ\.*";
+exec, align_magnetindividual(MQAll);
+exec, errorgenerate_align;
+
+!*****************************************************
+!             Arc BPMs
+!*****************************************************
+print, text="mis-align BPM";
+select, flag=error,clear;
+select,flag=error,range=s.dis_left.a1/e.dis_right.a1,class=MONITOR;
+select,flag=error,range=s.dis_left.a2/e.dis_right.a2,class=MONITOR;
+select,flag=error,range=s.dis_left.a3/e.dis_right.a3,class=MONITOR;
+select,flag=error,range=s.dis_left.a4/e.dis_right.a4,class=MONITOR;
+select,flag=error,range=s.dis_left.a5/e.dis_right.a5,class=MONITOR;
+select,flag=error,range=s.dis_left.a6/e.dis_right.a6,class=MONITOR;
+select,flag=error,range=s.dis_left.a7/e.dis_right.a7,class=MONITOR;
+select,flag=error,range=s.dis_left.a8/e.dis_right.a8,class=MONITOR;
+!select,flag=error,range=s.dis_left.a1/e.dis_right.a1,class=VMONITOR;
+!select,flag=error,range=s.dis_left.a2/e.dis_right.a2,class=VMONITOR;
+!select,flag=error,range=s.dis_left.a3/e.dis_right.a3,class=VMONITOR;
+!select,flag=error,range=s.dis_left.a4/e.dis_right.a4,class=VMONITOR;
+!select,flag=error,range=s.dis_left.a5/e.dis_right.a5,class=VMONITOR;
+!select,flag=error,range=s.dis_left.a6/e.dis_right.a6,class=VMONITOR;
+!select,flag=error,range=s.dis_left.a7/e.dis_right.a7,class=VMONITOR;
+!select,flag=error,range=s.dis_left.a8/e.dis_right.a8,class=VMONITOR;
+exec, align_magnetindividual(BPMAll);
+exec, errorgenerate_align_bpm;
+!*****************************************************
+!             Main Sextupoles
+!*****************************************************
+print, text="mis-align sextupoles";
+select, flag=error,clear;
+select,flag=error,range=s.dis_left.a1/e.dis_right.a1,pattern="^MS\.*";
+select,flag=error,range=s.dis_left.a2/e.dis_right.a2,pattern="^MS\.*";
+select,flag=error,range=s.dis_left.a3/e.dis_right.a3,pattern="^MS\.*";
+select,flag=error,range=s.dis_left.a4/e.dis_right.a4,pattern="^MS\.*";
+select,flag=error,range=s.dis_left.a5/e.dis_right.a5,pattern="^MS\.*";
+select,flag=error,range=s.dis_left.a6/e.dis_right.a6,pattern="^MS\.*";
+select,flag=error,range=s.dis_left.a7/e.dis_right.a7,pattern="^MS\.*";
+select,flag=error,range=s.dis_left.a8/e.dis_right.a8,pattern="^MS\.*";
+exec, align_magnetindividual(MSAll);
+exec, errorgenerate_align;

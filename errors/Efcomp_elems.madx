@@ -1,0 +1,69 @@
+!
+!Generation of field errors for Arc elements
+!
+StartSeed=EOPTION->SEED;
+NewSeed = StartSeed + 100; 
+EOPTION, SEED=NewSeed;
+
+!*****************************************************
+!              Main Dipoles
+!*****************************************************
+print, text="field errors dipoles";
+exec new_magnetfamily(MBAll);
+select, flag=error,clear;
+select,flag=error,range=s.dis_left.a1/e.dis_right.a1,pattern="^MB*";
+select,flag=error,range=s.dis_left.a2/e.dis_right.a2,pattern="^MB*";
+select,flag=error,range=s.dis_left.a3/e.dis_right.a3,pattern="^MB*";
+select,flag=error,range=s.dis_left.a4/e.dis_right.a4,pattern="^MB*";
+select,flag=error,range=s.dis_left.a5/e.dis_right.a5,pattern="^MB*";
+select,flag=error,range=s.dis_left.a6/e.dis_right.a6,pattern="^MB*";
+select,flag=error,range=s.dis_left.a7/e.dis_right.a7,pattern="^MB*";
+select,flag=error,range=s.dis_left.a8/e.dis_right.a8,pattern="^MB*";
+errorselect_main_dip_thin(current_slice): macro ={
+	select,flag=error,clear;
+	select,flag=error,range=s.dis_left.a1/e.dis_right.a1,pattern="^MB.*\.\.current_slice$";
+	select,flag=error,range=s.dis_left.a2/e.dis_right.a2,pattern="^MB.*\.\.current_slice$";
+	select,flag=error,range=s.dis_left.a3/e.dis_right.a3,pattern="^MB.*\.\.current_slice$";
+	select,flag=error,range=s.dis_left.a4/e.dis_right.a4,pattern="^MB.*\.\.current_slice$";
+	select,flag=error,range=s.dis_left.a5/e.dis_right.a5,pattern="^MB.*\.\.current_slice$";
+	select,flag=error,range=s.dis_left.a6/e.dis_right.a6,pattern="^MB.*\.\.current_slice$";
+	select,flag=error,range=s.dis_left.a7/e.dis_right.a7,pattern="^MB.*\.\.current_slice$";
+	select,flag=error,range=s.dis_left.a8/e.dis_right.a8,pattern="^MB.*\.\.current_slice$";
+};
+
+Nslice = NSLICEBD; !!! # slices for dipoles
+if (Nslice==0) {
+   print, text="Nslice = 0!!!";
+   value, NSLICEBD; 
+   EOPTION, SEED=NewSeed;
+   exec, efield_magnetindividual(MBAll);
+   exec, errorgenerate_dip(MBAll);
+   !stop;
+};
+current_slice = 1;
+while ( current_slice <= Nslice ) {
+      exec, errorselect_main_dip_thin($current_slice);  !===> only for thin
+      if (current_slice == 1) {                     !===> only for thin
+        NewSeed = EOPTION->SEED + 1; ! random part of the errors changes for first slice only
+      };
+      EOPTION, SEED=NewSeed;
+      exec, efield_magnetindividual(MBAll);
+      exec, errorgenerate_dip(MBAll);
+      current_slice = current_slice + 1;
+};
+
+!*****************************************************
+!             Main Quadrupole
+!*****************************************************
+print, text="field errors quadrupoles";
+select, flag=error,clear;
+select,flag=error,range=s.dis_left.a1/e.dis_right.a1,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a2/e.dis_right.a2,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a3/e.dis_right.a3,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a4/e.dis_right.a4,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a5/e.dis_right.a5,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a6/e.dis_right.a6,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a7/e.dis_right.a7,pattern="^MQ\.*";
+select,flag=error,range=s.dis_left.a8/e.dis_right.a8,pattern="^MQ\.*";
+exec efield_magnetindividual(MQAll);
+exec errorgenerate_quad(MQAll);

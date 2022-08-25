@@ -1,0 +1,82 @@
+! Table contains collision and injection coefficients from the error table
+! for quadrupoles at ref radius of 10 mm from
+!
+! -----------------------------------------------------------------------
+! Error type  : R - STANDARD              
+! -----------------------------------------------------------------------
+
+! Units : relative field error for Rr = 0.010 m in units of 10^-4
+Rr_MQAll := 0.010; ! reference radius
+
+! -----------------------------------------------------------------------
+! *********************** Magnet type : MQ  ****************** 
+! -----------------------------------------------------------------------
+!                                bn at injection 
+b1R_MQAll_inj  :=  0.0000 ;
+b2R_MQAll_inj  :=  2.0000 ;
+b3R_MQAll_inj  :=  0.0000 ;
+b4R_MQAll_inj  :=  0.0000 ;
+b5R_MQAll_inj  :=  0.0000 ;
+b6R_MQAll_inj  :=  0.0000 ;
+b7R_MQAll_inj  :=  0.0000 ;
+b8R_MQAll_inj  :=  0.0000 ;
+b9R_MQAll_inj  :=  0.0000 ;
+b10R_MQAll_inj :=  0.0000 ;
+b11R_MQAll_inj :=  0.0000 ;
+b12R_MQAll_inj :=  0.0000 ;
+b13R_MQAll_inj :=  0.0000 ;
+b14R_MQAll_inj :=  0.0000 ;
+b15R_MQAll_inj :=  0.0000 ;
+
+!                                bn in collision 
+b1R_MQAll_col  :=  0.0000 ;
+b2R_MQAll_col  :=  2.0000 ;
+b3R_MQAll_col  :=  0.0000 ;
+b4R_MQAll_col  :=  0.0000 ;
+b5R_MQAll_col  :=  0.0000 ;
+b6R_MQAll_col  :=  0.0000 ;
+b7R_MQAll_col  :=  0.0000 ;
+b8R_MQAll_col  :=  0.0000 ;
+b9R_MQAll_col  :=  0.0000 ;
+b10R_MQAll_col :=  0.0000 ;
+b11R_MQAll_col :=  0.0000 ;
+b12R_MQAll_col :=  0.0000 ;
+b13R_MQAll_col :=  0.0000 ;
+b14R_MQAll_col :=  0.0000 ;
+b15R_MQAll_col :=  0.0000 ;
+
+!                               an at injection 
+a1R_MQAll_inj  :=  0.0000 ;
+a2R_MQAll_inj  :=  0.0000 ;
+a3R_MQAll_inj  :=  0.0000 ;
+a4R_MQAll_inj  :=  0.0000 ;
+a5R_MQAll_inj  :=  0.0000 ;
+a6R_MQAll_inj  :=  0.0000 ;
+a7R_MQAll_inj  :=  0.0000 ;
+a8R_MQAll_inj  :=  0.0000 ;
+a9R_MQAll_inj  :=  0.0000 ;
+a10R_MQAll_inj :=  0.0000 ;
+a11R_MQAll_inj :=  0.0000 ;
+a12R_MQAll_inj :=  0.0000 ;
+a13R_MQAll_inj :=  0.0000 ;
+a14R_MQAll_inj :=  0.0000 ;
+a15R_MQAll_inj :=  0.0000 ;
+
+!                               an in collision 
+a1R_MQAll_col  := 0.0000  ;
+a2R_MQAll_col  := 0.0000  ;
+a3R_MQAll_col  := 0.0000  ;
+a4R_MQAll_col  := 0.0000  ;
+a5R_MQAll_col  := 0.0000  ;
+a6R_MQAll_col  := 0.0000  ;
+a7R_MQAll_col  := 0.0000  ;
+a8R_MQAll_col  := 0.0000  ;
+a9R_MQAll_col  := 0.0000  ;
+a10R_MQAll_col := 0.0000  ;
+a11R_MQAll_col := 0.0000  ;
+a12R_MQAll_col := 0.0000  ;
+a13R_MQAll_col := 0.0000  ;
+a14R_MQAll_col := 0.0000  ;
+a15R_MQAll_col := 0.0000  ;
+
+return;

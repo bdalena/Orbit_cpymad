@@ -1,0 +1,84 @@
+! Table contains collision and injection coefficients from the error table
+! for dipoles at ref radius of 26 mm from CT dipole of CEPC
+!
+! -----------------------------------------------------------------------
+! Error type  : R - STANDARD
+!               S - Systematic
+! -----------------------------------------------------------------------
+
+! Units : relative field error for Rr = 0.026 m in units of 10^-4
+Rr_MBAll := 0.026; ! reference radius
+
+! -----------------------------------------------------------------------
+! *********************** Magnet type : MB & MBDS ****************** 
+! -----------------------------------------------------------------------
+!                     bn at injection 
+b1S_MBAll_inj  :=  0.0000 ; b1R_MBAll_inj  :=  1.0000 ;
+b2S_MBAll_inj  := -1.0400 ; b2R_MBAll_inj  :=  0.1000 ;
+b3S_MBAll_inj  :=  5.4100 ; b3R_MBAll_inj  :=  0.5400 ;
+b4S_MBAll_inj  :=  1.0500 ; b4R_MBAll_inj  :=  0.1000 ;
+b5S_MBAll_inj  := -3.6600 ; b5R_MBAll_inj  :=  0.3660 ;
+b6S_MBAll_inj  := -0.2380 ; b6R_MBAll_inj  :=  0.0240 ;
+b7S_MBAll_inj  :=  2.1600 ; b7R_MBAll_inj  :=  0.2100 ;
+b8S_MBAll_inj  :=  0.0000 ; b8R_MBAll_inj  :=  0.0000 ;
+b9S_MBAll_inj  :=  0.0000 ; b9R_MBAll_inj  :=  0.0000 ;
+b10S_MBAll_inj :=  0.0000 ; b10R_MBAll_inj :=  0.0000 ;
+b11S_MBAll_inj :=  0.0000 ; b11R_MBAll_inj :=  0.0000 ;
+b12S_MBAll_inj :=  0.0000 ; b12R_MBAll_inj :=  0.0000 ;
+b13S_MBAll_inj :=  0.0000 ; b13R_MBAll_inj :=  0.0000 ;
+b14S_MBAll_inj :=  0.0000 ; b14R_MBAll_inj :=  0.0000 ;
+b15S_MBAll_inj :=  0.0000 ; b15R_MBAll_inj :=  0.0000 ;
+
+!                      bn in collision 
+b1S_MBAll_col  :=  0.0000 ;  b1R_MBAll_col  :=  1.0000 ;
+b2S_MBAll_col  :=  0.0000 ;  b2R_MBAll_col  :=  0.0000 ;
+b3S_MBAll_col  :=  0.0000 ;  b3R_MBAll_col  :=  0.0000 ;
+b4S_MBAll_col  :=  0.0000 ;  b4R_MBAll_col  :=  0.0000 ;
+b5S_MBAll_col  :=  0.0000 ;  b5R_MBAll_col  :=  0.0000 ;
+b6S_MBAll_col  :=  0.0000 ;  b6R_MBAll_col  :=  0.0000 ;
+b7S_MBAll_col  :=  0.0000 ;  b7R_MBAll_col  :=  0.0000 ;
+b8S_MBAll_col  :=  0.0000 ;  b8R_MBAll_col  :=  0.0000 ;
+b9S_MBAll_col  :=  0.0000 ;  b9R_MBAll_col  :=  0.0000 ;
+b10S_MBAll_col :=  0.0000 ;  b10R_MBAll_col :=  0.0000 ;
+b11S_MBAll_col :=  0.0000 ;  b11R_MBAll_col :=  0.0000 ;
+b12S_MBAll_col :=  0.0000 ;  b12R_MBAll_col :=  0.0000 ;
+b13S_MBAll_col :=  0.0000 ;  b13R_MBAll_col :=  0.0000 ;
+b14S_MBAll_col :=  0.0000 ;  b14R_MBAll_col :=  0.0000 ;
+b15S_MBAll_col :=  0.0000 ;  b15R_MBAll_col :=  0.0000 ;
+
+!                      an at injection 
+a1S_MBAll_inj  :=  0.0000 ;  a1R_MBAll_inj  :=  0.0000 ;
+a2S_MBAll_inj  :=  0.0000 ;  a2R_MBAll_inj  :=  0.0000 ;
+a3S_MBAll_inj  :=  0.0000 ;  a3R_MBAll_inj  :=  0.0000 ;
+a4S_MBAll_inj  :=  0.0000 ;  a4R_MBAll_inj  :=  0.0000 ;
+a5S_MBAll_inj  :=  0.0000 ;  a5R_MBAll_inj  :=  0.0000 ;
+a6S_MBAll_inj  :=  0.0000 ;  a6R_MBAll_inj  :=  0.0000 ;
+a7S_MBAll_inj  :=  0.0000 ;  a7R_MBAll_inj  :=  0.0000 ;
+a8S_MBAll_inj  :=  0.0000 ;  a8R_MBAll_inj  :=  0.0000 ;
+a9S_MBAll_inj  :=  0.0000 ;  a9R_MBAll_inj  :=  0.0000 ;
+a10S_MBAll_inj :=  0.0000 ;  a10R_MBAll_inj :=  0.0000 ;
+a11S_MBAll_inj :=  0.0000 ;  a11R_MBAll_inj :=  0.0000 ;
+a12S_MBAll_inj :=  0.0000 ;  a12R_MBAll_inj :=  0.0000 ;
+a13S_MBAll_inj :=  0.0000 ;  a13R_MBAll_inj :=  0.0000 ;
+a14S_MBAll_inj :=  0.0000 ;  a14R_MBAll_inj :=  0.0000 ;
+a15S_MBAll_inj :=  0.0000 ;  a15R_MBAll_inj :=  0.0000 ;
+
+!                      an in collision 
+a1S_MBAll_col  := 0.0000  ;  a1R_MBAll_col  := 0.0000  ;
+a2S_MBAll_col  := 0.0000  ;  a2R_MBAll_col  := 0.0000  ;
+a3S_MBAll_col  := 0.0000  ;  a3R_MBAll_col  := 0.0000  ;
+a4S_MBAll_col  := 0.0000  ;  a4R_MBAll_col  := 0.0000  ;
+a5S_MBAll_col  := 0.0000  ;  a5R_MBAll_col  := 0.0000  ;
+a6S_MBAll_col  := 0.0000  ;  a6R_MBAll_col  := 0.0000  ;
+a7S_MBAll_col  := 0.0000  ;  a7R_MBAll_col  := 0.0000  ;
+a8S_MBAll_col  := 0.0000  ;  a8R_MBAll_col  := 0.0000  ;
+a9S_MBAll_col  := 0.0000  ;  a9R_MBAll_col  := 0.0000  ;
+a10S_MBAll_col := 0.0000  ;  a10R_MBAll_col := 0.0000  ;
+a11S_MBAll_col := 0.0000  ;  a11R_MBAll_col := 0.0000  ;
+a12S_MBAll_col := 0.0000  ;  a12R_MBAll_col := 0.0000  ;
+a13S_MBAll_col := 0.0000  ;  a13R_MBAll_col := 0.0000  ;
+a14S_MBAll_col := 0.0000  ;  a14R_MBAll_col := 0.0000  ;
+a15S_MBAll_col := 0.0000  ;  a15R_MBAll_col := 0.0000  ;
+
+return;
+

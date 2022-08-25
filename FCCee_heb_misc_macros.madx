@@ -1,0 +1,315 @@
+!**********************************************************************
+! macro to extract the different subsequences
+extract_seq(): macro = {
+   use, sequence = fcc_heb;
+   seqedit, sequence = fcc_heb;
+   flatten;
+   cycle, start = s.dis_right.a8;
+   flatten;
+   extract, sequence=fcc_heb, from=s1.dis_right.a8, to=ip1, newname=left_match_sec1;
+   extract, sequence=fcc_heb, from=ip1, to=e1.dis_left.a1, newname=right_match_sec1;
+   extract, sequence=fcc_heb, from=s1.dis_right.a1, to=ip2, newname=left_match_sec2;
+   extract, sequence=fcc_heb, from=ip2, to=e1.dis_left.a2, newname=right_match_sec2;
+   extract, sequence=fcc_heb, from=s1.dis_right.a2, to=ip3, newname=left_match_sec3;
+   extract, sequence=fcc_heb, from=ip3, to=e1.dis_left.a3, newname=right_match_sec3;
+   extract, sequence=fcc_heb, from=s1.dis_right.a3, to=ip4, newname=left_match_sec4;
+   extract, sequence=fcc_heb, from=ip4, to=e1.dis_left.a4, newname=right_match_sec4;
+   extract, sequence=fcc_heb, from=s1.dis_right.a4, to=ip5, newname=left_match_sec5;
+   extract, sequence=fcc_heb, from=ip5, to=e1.dis_left.a5, newname=right_match_sec5;
+   extract, sequence=fcc_heb, from=s1.dis_right.a5, to=ip6, newname=left_match_sec6;
+   extract, sequence=fcc_heb, from=ip6, to=e1.dis_left.a6, newname=right_match_sec6;
+   extract, sequence=fcc_heb, from=s1.dis_right.a6, to=ip7, newname=left_match_sec7;
+   extract, sequence=fcc_heb, from=ip7, to=e1.dis_left.a7, newname=right_match_sec7;
+   extract, sequence=fcc_heb, from=s1.dis_right.a7, to=ip8, newname=left_match_sec8;
+   extract, sequence=fcc_heb, from=ip8, to=e1.dis_left.a8, newname=right_match_sec8;
+   extract, sequence=fcc_heb, from=s1.dis_left.a1, to=e.dis_left.a1, newname=match_dis_1_left;
+   extract, sequence=fcc_heb, from=s1.dis_right.a1, to=e.dis_right.a1, newname=match_dis_1_right;
+   extract, sequence=fcc_heb, from=s1.dis_left.a2, to=e.dis_left.a2, newname=match_dis_2_left;
+   extract, sequence=fcc_heb, from=s1.dis_right.a2, to=e.dis_right.a2, newname=match_dis_2_right;
+   extract, sequence=fcc_heb, from=s1.dis_left.a3, to=e.dis_left.a3, newname=match_dis_3_left;
+   extract, sequence=fcc_heb, from=s1.dis_right.a3, to=e.dis_right.a3, newname=match_dis_3_right;
+   extract, sequence=fcc_heb, from=s1.dis_left.a4, to=e.dis_left.a4, newname=match_dis_4_left;
+   extract, sequence=fcc_heb, from=s1.dis_right.a4, to=e.dis_right.a4, newname=match_dis_4_right;
+   extract, sequence=fcc_heb, from=s1.dis_left.a5, to=e.dis_left.a5, newname=match_dis_5_left;
+   extract, sequence=fcc_heb, from=s1.dis_right.a5, to=e.dis_right.a5, newname=match_dis_5_right;
+   extract, sequence=fcc_heb, from=s1.dis_left.a6, to=e.dis_left.a6, newname=match_dis_6_left;
+   extract, sequence=fcc_heb, from=s1.dis_right.a6, to=e.dis_right.a6, newname=match_dis_6_right;
+   extract, sequence=fcc_heb, from=s1.dis_left.a7, to=e.dis_left.a7, newname=match_dis_7_left;
+   extract, sequence=fcc_heb, from=s1.dis_right.a7, to=e.dis_right.a7, newname=match_dis_7_right;
+   extract, sequence=fcc_heb, from=s1.dis_left.a8, to=e.dis_left.a8, newname=match_dis_8_left;
+   extract, sequence=fcc_heb, from=s1.dis_right.a8, to=e.dis_right.a8, newname=match_dis_8_right;
+   endedit;
+   use, sequence=left_match_sec1;
+   seqedit, sequence=left_match_sec1;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec2;
+   seqedit, sequence=left_match_sec2;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec3;
+   seqedit, sequence=left_match_sec3;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec4;
+   seqedit, sequence=left_match_sec4;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec5;
+   seqedit, sequence=left_match_sec5;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec6;
+   seqedit, sequence=left_match_sec6;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec7;
+   seqedit, sequence=left_match_sec7;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec8;
+   seqedit, sequence=left_match_sec8;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence = fcc_heb;
+};
+! macro to extract the different subsequences
+extract_thin_seq(): macro = {
+   use, sequence = fcc_heb;
+   seqedit, sequence = fcc_heb;
+   flatten;
+   cycle, start = s.dis_right.a8;
+   flatten;
+   extract, sequence=fcc_heb, from=bpm.s1.001, to=corr.s1.053, newname=insertion_1;
+   extract, sequence=fcc_heb, from=bpm.s2.001, to=corr.s2.041, newname=insertion_2;
+   extract, sequence=fcc_heb, from=bpm.s3.001, to=corr.s3.053, newname=insertion_3;
+   extract, sequence=fcc_heb, from=bpm.s4.001, to=corr.s4.041, newname=insertion_4;
+   extract, sequence=fcc_heb, from=bpm.s5.001, to=corr.s5.053, newname=insertion_5;
+   extract, sequence=fcc_heb, from=bpm.s6.001, to=corr.s6.041, newname=insertion_6;
+   extract, sequence=fcc_heb, from=bpm.s7.001, to=corr.s7.053, newname=insertion_7;
+   extract, sequence=fcc_heb, from=bpm.s8.001, to=corr.s8.041, newname=insertion_8;
+   extract, sequence=fcc_heb, from=s.cell_arc_1, to=corr.a1.023, newname=arc_1;
+   extract, sequence=fcc_heb, from=s.cell_arc_2, to=corr.a2.023, newname=arc_2;
+   extract, sequence=fcc_heb, from=s.cell_arc_3, to=corr.a3.023, newname=arc_3;
+   extract, sequence=fcc_heb, from=s.cell_arc_4, to=corr.a4.023, newname=arc_4;
+   extract, sequence=fcc_heb, from=s.cell_arc_5, to=corr.a5.023, newname=arc_5;
+   extract, sequence=fcc_heb, from=s.cell_arc_6, to=corr.a6.023, newname=arc_6;
+   extract, sequence=fcc_heb, from=s.cell_arc_7, to=corr.a7.023, newname=arc_7;
+   extract, sequence=fcc_heb, from=s.cell_arc_8, to=corr.a8.023, newname=arc_8;
+   extract, sequence=fcc_heb, from=s.dis_left.a1, to=e.dis_left.a1, newname=dis_left.a1;
+   extract, sequence=fcc_heb, from=s.dis_right.a1, to=e.dis_right.a1, newname=dis_right.a1;
+   extract, sequence=fcc_heb, from=s.dis_left.a2, to=e.dis_left.a2, newname=dis_left.a2;
+   extract, sequence=fcc_heb, from=s.dis_right.a2, to=e.dis_right.a2, newname=dis_right.a2;
+   extract, sequence=fcc_heb, from=s.dis_left.a3, to=e.dis_left.a3, newname=dis_left.a3;
+   extract, sequence=fcc_heb, from=s.dis_right.a3, to=e.dis_right.a3, newname=dis_right.a3;
+   extract, sequence=fcc_heb, from=s.dis_left.a4, to=e.dis_left.a4, newname=dis_left.a4;
+   extract, sequence=fcc_heb, from=s.dis_right.a4, to=e.dis_right.a4, newname=dis_right.a4;
+   extract, sequence=fcc_heb, from=s.dis_left.a5, to=e.dis_left.a5, newname=dis_left.a5;
+   extract, sequence=fcc_heb, from=s.dis_right.a5, to=e.dis_right.a5, newname=dis_right.a5;
+   extract, sequence=fcc_heb, from=s.dis_left.a6, to=e.dis_left.a6, newname=dis_left.a6;
+   extract, sequence=fcc_heb, from=s.dis_right.a6, to=e.dis_right.a6, newname=dis_right.a6;
+   extract, sequence=fcc_heb, from=s.dis_left.a7, to=e.dis_left.a7, newname=dis_left.a7;
+   extract, sequence=fcc_heb, from=s.dis_right.a7, to=e.dis_right.a7, newname=dis_right.a7;
+   extract, sequence=fcc_heb, from=s.dis_left.a8, to=e.dis_left.a8, newname=dis_left.a8;
+   extract, sequence=fcc_heb, from=s.dis_right.a8, to=e.dis_right.a8, newname=dis_right.a8;
+   extract, sequence=fcc_heb, from=s1.dis_right.a8, to=ip1, newname=left_match_sec1;
+   extract, sequence=fcc_heb, from=ip1, to=e1.dis_left.a1, newname=right_match_sec1;
+   extract, sequence=fcc_heb, from=s1.dis_right.a1, to=ip2, newname=left_match_sec2;
+   extract, sequence=fcc_heb, from=ip2, to=e1.dis_left.a2, newname=right_match_sec2;
+   extract, sequence=fcc_heb, from=s1.dis_right.a2, to=ip3, newname=left_match_sec3;
+   extract, sequence=fcc_heb, from=ip3, to=e1.dis_left.a3, newname=right_match_sec3;
+   extract, sequence=fcc_heb, from=s1.dis_right.a3, to=ip4, newname=left_match_sec4;
+   extract, sequence=fcc_heb, from=ip4, to=e1.dis_left.a4, newname=right_match_sec4;
+   extract, sequence=fcc_heb, from=s1.dis_right.a4, to=ip5, newname=left_match_sec5;
+   extract, sequence=fcc_heb, from=ip5, to=e1.dis_left.a5, newname=right_match_sec5;
+   extract, sequence=fcc_heb, from=s1.dis_right.a5, to=ip6, newname=left_match_sec6;
+   extract, sequence=fcc_heb, from=ip6, to=e1.dis_left.a6, newname=right_match_sec6;
+   extract, sequence=fcc_heb, from=s1.dis_right.a6, to=ip7, newname=left_match_sec7;
+   extract, sequence=fcc_heb, from=ip7, to=e1.dis_left.a7, newname=right_match_sec7;
+   extract, sequence=fcc_heb, from=s1.dis_right.a7, to=ip8, newname=left_match_sec8;
+   extract, sequence=fcc_heb, from=ip8, to=e1.dis_left.a8, newname=right_match_sec8;
+   endedit;
+   use, sequence=left_match_sec1;
+   seqedit, sequence=left_match_sec1;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec2;
+   seqedit, sequence=left_match_sec2;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec3;
+   seqedit, sequence=left_match_sec3;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec4;
+   seqedit, sequence=left_match_sec4;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec5;
+   seqedit, sequence=left_match_sec5;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec6;
+   seqedit, sequence=left_match_sec6;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec7;
+   seqedit, sequence=left_match_sec7;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence=left_match_sec8;
+   seqedit, sequence=left_match_sec8;
+   flatten;
+   reflect;
+   flatten;
+   endedit;
+   use, sequence = fcc_heb;
+};
+!**********************************************************************
+! macro to modify the initial starting point of heb ring
+cycle_heb_ring(start_point) : macro = {
+   seqedit, sequence=fcc_heb;
+   flatten;
+   cycle, start=start_point;
+   flatten;
+   endedit;
+   use, sequence=fcc_heb;
+};
+!**********************************************************************
+! macro to select the columns in twiss table
+tws_select() : macro = {
+   select,flag=twiss,clear;
+   select,flag=twiss,column=name,keyword,s,l,x,y,betx,bety,alfx,alfy,
+   dx,dpx,dy,dpy,mux,muy,wx,wy,R51,R52, angle,
+   k1l,k2l,k1sl,k2sl,apertype,aper_1,aper_2,aper_3,aper_4;
+};
+!**********************************************************************
+! macro to compute detuning with momentum with madx
+mk_tune(ring): macro = {
+   select,flag=twiss,clear;
+   select,flag=twiss,column=name,betx,bety;
+   select,flag=summ,clear;
+   select,flag=summ,column=bx1,by1,bx2,by2,bx3,by3,bx4,by4,bx5,by5,
+   bx6,by6,bx7,by7,bx8,by8;
+   use,sequence=ring;twiss;
+   bx10=table(twiss,ip1,betx);bx1:=(table(twiss,ip1,betx)/bx10-1.)*100.;
+   by10=table(twiss,ip1,bety);by1:=(table(twiss,ip1,bety)/by10-1.)*100.;
+   bx50=table(twiss,ip5,betx);bx5:=(table(twiss,ip5,betx)/bx50-1.)*100.;
+   by50=table(twiss,ip5,bety);by5:=(table(twiss,ip5,bety)/by50-1.)*100.;
+   bx30=table(twiss,ip3,betx);bx3:=(table(twiss,ip3,betx)/bx30-1.)*100.;
+   by30=table(twiss,ip3,bety);by3:=(table(twiss,ip3,bety)/by30-1.)*100.;
+   bx70=table(twiss,ip7,betx);bx7:=(table(twiss,ip7,betx)/bx70-1.)*100.;
+   by70=table(twiss,ip7,bety);by7:=(table(twiss,ip7,bety)/by70-1.)*100.;
+   twiss,sequence=ring, deltap=-0.0025:0.00251:0.0001;
+   select,flag=summ,clear;
+   write,table=summ,file=summ_ring.tfs;
+};
+!**********************************************************************
+! macro to set the target tunes in the cells
+set_target_tune_cell(qx_cell, qy_cell): macro = {
+   mux_ins = qx_cell; muy_ins = qx_cell;
+   mux_a1 = qx_cell; muy_a1 = qy_cell;
+   mux_dsl_a1 = qx_cell; muy_dsl_a1 = qy_cell;
+   mux_dsr_a1 = qx_cell; muy_dsr_a1 = qy_cell;
+   mux_a2 = qx_cell; muy_a2 = qy_cell;
+   mux_dsl_a2 = qx_cell; muy_dsl_a2 = qy_cell;
+   mux_dsr_a2 = qx_cell; muy_dsr_a2 = qy_cell;
+   mux_a3 = qx_cell; muy_a3 = qy_cell;
+   mux_dsl_a3 = qx_cell; muy_dsl_a3 = qy_cell;
+   mux_dsr_a3 = qx_cell; muy_dsr_a3 = qy_cell;
+   mux_a4 = qx_cell; muy_a4 = qy_cell;
+   mux_dsl_a4 = qx_cell; muy_dsl_a4 = qy_cell;
+   mux_dsr_a4 = qx_cell; muy_dsr_a4 = qy_cell;
+   mux_a5 = qx_cell; muy_a5 = qy_cell;
+   mux_dsl_a5 = qx_cell; muy_dsl_a5 = qy_cell;
+   mux_dsr_a5 = qx_cell; muy_dsr_a5 = qy_cell;
+   mux_a6 = qx_cell; muy_a6 = qy_cell;
+   mux_dsl_a6 = qx_cell; muy_dsl_a6 = qy_cell;
+   mux_dsr_a6 = qx_cell; muy_dsr_a6 = qy_cell;
+   mux_a7 = qx_cell; muy_a7 = qy_cell;
+   mux_dsl_a7 = qx_cell; muy_dsl_a7 = qy_cell;
+   mux_dsr_a7 = qx_cell; muy_dsr_a7 = qy_cell;
+   mux_a8 = qx_cell; muy_a8 = qy_cell;
+   mux_dsl_a8 = qx_cell; muy_dsl_a8 = qy_cell;
+   mux_dsr_a8 = qx_cell; muy_dsr_a8 = qy_cell;
+};
+!**********************************************************************
+load_beam(): macro = {
+   if (beam_mode == 0) {
+      pbeam_inj := 20.0;
+      pbeam_top := 45.6;
+      ebeam_inj := sqrt( pbeam_inj^2 + emass^2 );
+      ebeam_top := sqrt( pbeam_top^2 + emass^2 );
+      nbun := 16640; npar := 1.700000e+11;
+   };
+   if (beam_mode == 1) {
+      pbeam_inj := 20.0;
+      pbeam_top := 80.0;
+      ebeam_inj := sqrt( pbeam_inj^2 + emass^2 );
+      ebeam_top := sqrt( pbeam_top^2 + emass^2 );
+      nbun := 2000; npar := 1.500000e+11;
+   };
+   if (beam_mode == 2) {
+      pbeam_inj := 20.0;
+      pbeam_top := 120.00000000000001;
+      ebeam_inj := sqrt( pbeam_inj^2 + emass^2 );
+      ebeam_top := sqrt( pbeam_top^2 + emass^2 );
+      nbun := 393; npar := 1.500000e+11;
+   };
+   if (beam_mode == 3) {
+      pbeam_inj := 20.0;
+      pbeam_top := 182.5;
+      ebeam_inj := sqrt( pbeam_inj^2 + emass^2 );
+      ebeam_top := sqrt( pbeam_top^2 + emass^2 );
+      nbun := 48; npar := 2.300000e+11;
+   };
+   if (injection_mode == 1) {
+      ebeam := ebeam_inj;
+   } else {
+      ebeam := ebeam_top;
+   };
+   if (with_radiate == 0) {
+      beam, particle = electron,
+      npart = npar,
+      kbunch = nbun,
+      energy = ebeam,
+      radiate = false;
+   } else {
+      beam, particle = electron,
+      npart = npar,
+      kbunch = nbun,
+      energy = ebeam,
+      radiate = true;
+   };
+};
+!**********************************************************************

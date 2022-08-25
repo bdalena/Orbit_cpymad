@@ -1,0 +1,229 @@
+!**********************************************************************
+!  Misalign magnets
+!
+!**********************************************************************
+align_magnetindividual(TYPM) : macro ={
+
+!Calculate the actual alignment errors of a given magnet 
+!for a given seed and at injection or collision energy
+
+if (injection_mode == 1)
+{
+dxssr     := 1E-3 * ( ON_DXR     * dxR_TYPM_inj     * TGAUSS(3.) );
+dyssr     := 1E-3 * ( ON_DYR     * dyR_TYPM_inj     * TGAUSS(3.) );
+dsssr     := 1E-3 * ( ON_DSR     * dsR_TYPM_inj     * TGAUSS(3.) );
+dphissr   := 1E-3 * ( ON_DPHIR   * dphiR_TYPM_inj   * TGAUSS(3.) );
+dthetassr := 1E-3 * ( ON_DTHETAR * dthetaR_TYPM_inj * TGAUSS(3.) );
+dpsissr   := 1E-3 * ( ON_DPSIR   * dpsiR_TYPM_inj   * TGAUSS(3.) );
+mrexssr   := 1E-3 * ( ON_MREXR   * mrexR_TYPM_inj   * TGAUSS(3.) );
+mreyssr   := 1E-3 * ( ON_MREYR   * mreyR_TYPM_inj   * TGAUSS(3.) );
+};
+if (injection_mode == 0)
+{
+dxssr     := 1E-3 * ( ON_DXR     * dxR_TYPM_col     * TGAUSS(3.) );
+dyssr     := 1E-3 * ( ON_DYR     * dyR_TYPM_col     * TGAUSS(3.) );
+dsssr     := 1E-3 * ( ON_DSR     * dsR_TYPM_col     * TGAUSS(3.) );
+dphissr   := 1E-3 * ( ON_DPHIR   * dphiR_TYPM_col   * TGAUSS(3.) );
+dthetassr := 1E-3 * ( ON_DTHETAR * dthetaR_TYPM_col * TGAUSS(3.) );
+dpsissr   := 1E-3 * ( ON_DPSIR   * dpsiR_TYPM_col   * TGAUSS(3.) );
+mrexssr   := 1E-3 * ( ON_MREXR   * mrexR_TYPM_col   * TGAUSS(3.) );
+mreyssr   := 1E-3 * ( ON_MREYR   * mreyR_TYPM_col   * TGAUSS(3.) );
+};
+value,dxssr,dyssr,dphissr,dthetassr,dpsissr,mrexssr,mreyssr;
+value, ON_DXR, ON_DYR;
+value, ON_DPHIr, ON_DTHETAr ;
+value, ON_DPSIr, ON_DSr ;
+value, ON_MREXr, ON_MREYr ;
+!value,dxssr,dyssr,dphissr,dthetassr,dpsissr,mrexssr,mreyssr;
+!value, ON_DXR, ON_DYR;
+};
+
+errorgenerate_align: macro ={
+ealign, dx:=dxssr, dy:=dyssr, ds:=dsssr, dphi:=dphissr, dtheta:=dthetassr, dpsi:=dpsissr;
+};
+
+errorgenerate_align_bpm: macro ={
+ealign, dx:=dxssr, dy:=dyssr, ds:=dsssr, dphi:=dphissr, dtheta:=dthetassr, dpsi:=dpsissr, mrex:=mrexssr, mrey:=mreyssr;
+};
+
+!***********************************************************************
+!   Add field errors to dipoles and quadrupoles
+!
+!***********************************************************************
+
+new_magnetfamily(TYPM) : macro ={
+
+if (injection_mode == 1)
+{
+b1ss  = b1S_TYPM_inj  ;
+b2ss  = b2S_TYPM_inj  ;
+b3ss  = b3S_TYPM_inj  ;
+b4ss  = b4S_TYPM_inj  ;
+b5ss  = b5S_TYPM_inj  ;
+b6ss  = b6S_TYPM_inj  ;
+b7ss  = b7S_TYPM_inj  ;
+b8ss  = b8S_TYPM_inj  ;
+b9ss  = b9S_TYPM_inj  ;
+b10ss = b10S_TYPM_inj ;
+b11ss = b11S_TYPM_inj ;
+b12ss = b12S_TYPM_inj ;
+b13ss = b13S_TYPM_inj ;
+b14ss = b14S_TYPM_inj ;
+b15ss = b15S_TYPM_inj ;
+
+a1ss  = a1S_TYPM_inj  ;
+a2ss  = a2S_TYPM_inj  ;
+a3ss  = a3S_TYPM_inj  ;
+a4ss  = a4S_TYPM_inj  ;
+a5ss  = a5S_TYPM_inj  ;
+a6ss  = a6S_TYPM_inj  ;
+a7ss  = a7S_TYPM_inj  ;
+a8ss  = a8S_TYPM_inj  ;
+a9ss  = a9S_TYPM_inj  ;
+a10ss = a10S_TYPM_inj ;
+a11ss = a11S_TYPM_inj ;
+a12ss = a12S_TYPM_inj ;
+a13ss = a13S_TYPM_inj ;
+a14ss = a14S_TYPM_inj ;
+a15ss = a15S_TYPM_inj ;
+};
+if (injection_mode == 0)
+{
+b1ss  = b1S_TYPM_col  ;
+b2ss  = b2S_TYPM_col  ;
+b3ss  = b3S_TYPM_col  ;
+b4ss  = b4S_TYPM_col  ;
+b5ss  = b5S_TYPM_col  ;
+b6ss  = b6S_TYPM_col  ;
+b7ss  = b7S_TYPM_col  ;
+b8ss  = b8S_TYPM_col  ;
+b9ss  = b9S_TYPM_col  ;
+b10ss = b10S_TYPM_col ;
+b11ss = b11S_TYPM_col ;
+b12ss = b12S_TYPM_col ;
+b13ss = b13S_TYPM_col ;
+b14ss = b14S_TYPM_col ;
+b15ss = b15S_TYPM_col ;
+
+a1ss  = a1S_TYPM_col  ;
+a2ss  = a2S_TYPM_col  ;
+a3ss  = a3S_TYPM_col  ;
+a4ss  = a4S_TYPM_col  ;
+a5ss  = a5S_TYPM_col  ;
+a6ss  = a6S_TYPM_col  ;
+a7ss  = a7S_TYPM_col  ;
+a8ss  = a8S_TYPM_col  ;
+a9ss  = a9S_TYPM_col  ;
+a10ss = a10S_TYPM_col ;
+a11ss = a11S_TYPM_col ;
+a12ss = a12S_TYPM_col ;
+a13ss = a13S_TYPM_col ;
+a14ss = a14S_TYPM_col ;
+a15ss = a15S_TYPM_col ;
+};
+};
+
+
+efield_magnetindividual(TYPM) : macro ={
+
+!Calculate the actual field errors of a given magnet 
+!for a given seed and at injection or collision energy
+
+if (injection_mode == 1)
+{
+b1ssr   := 1E-4 * (ON_B1S  * b1ss  + ON_B1R  * b1R_TYPM_inj   * TGAUSS(3.) );
+b2ssr   := 1E-4 * (ON_B2S  * b2ss  + ON_B2R  * b2R_TYPM_inj   * TGAUSS(3.) );
+b3ssr   := 1E-4 * (ON_B3S  * b3ss  + ON_B3R  * b3R_TYPM_inj   * TGAUSS(3.) );
+b4ssr   := 1E-4 * (ON_B4S  * b4ss  + ON_B4R  * b4R_TYPM_inj   * TGAUSS(3.) );
+b5ssr   := 1E-4 * (ON_B5S  * b5ss  + ON_B5R  * b5R_TYPM_inj   * TGAUSS(3.) );
+b6ssr   := 1E-4 * (ON_B6S  * b6ss  + ON_B6R  * b6R_TYPM_inj   * TGAUSS(3.) );
+b7ssr   := 1E-4 * (ON_B7S  * b7ss  + ON_B7R  * b7R_TYPM_inj   * TGAUSS(3.) );
+b8ssr   := 1E-4 * (ON_B8S  * b8ss  + ON_B8R  * b8R_TYPM_inj   * TGAUSS(3.) );
+b9ssr   := 1E-4 * (ON_B9S  * b9ss  + ON_B9R  * b9R_TYPM_inj   * TGAUSS(3.) );
+b10ssr  := 1E-4 * (ON_B10S * b10ss + ON_B10R * b10R_TYPM_inj  * TGAUSS(3.) );
+b11ssr  := 1E-4 * (ON_B11S * b11ss + ON_B11R * b11R_TYPM_inj  * TGAUSS(3.) );
+b12ssr  := 1E-4 * (ON_B12S * b12ss + ON_B12R * b12R_TYPM_inj  * TGAUSS(3.) );
+b13ssr  := 1E-4 * (ON_B13S * b13ss + ON_B13R * b13R_TYPM_inj  * TGAUSS(3.) );
+b14ssr  := 1E-4 * (ON_B14S * b14ss + ON_B14R * b14R_TYPM_inj  * TGAUSS(3.) );
+b15ssr  := 1E-4 * (ON_B15S * b15ss + ON_B15R * b15R_TYPM_inj  * TGAUSS(3.) );
+
+a1ssr	:= 1E-4 * (ON_A1S  * a1ss  + ON_A1R  * a1R_TYPM_inj   * TGAUSS(3.) );
+a2ssr	:= 1E-4 * (ON_A2S  * a2ss  + ON_A2R  * a2R_TYPM_inj   * TGAUSS(3.) );
+a3ssr	:= 1E-4 * (ON_A3S  * a3ss  + ON_A3R  * a3R_TYPM_inj   * TGAUSS(3.) );
+a4ssr	:= 1E-4 * (ON_A4S  * a4ss  + ON_A4R  * a4R_TYPM_inj   * TGAUSS(3.) );
+a5ssr	:= 1E-4 * (ON_A5S  * a5ss  + ON_A5R  * a5R_TYPM_inj   * TGAUSS(3.) );
+a6ssr	:= 1E-4 * (ON_A6S  * a6ss  + ON_A6R  * a6R_TYPM_inj   * TGAUSS(3.) );
+a7ssr	:= 1E-4 * (ON_A7S  * a7ss  + ON_A7R  * a7R_TYPM_inj   * TGAUSS(3.) );
+a8ssr	:= 1E-4 * (ON_A8S  * a8ss  + ON_A8R  * a8R_TYPM_inj   * TGAUSS(3.) );
+a9ssr	:= 1E-4 * (ON_A9S  * a9ss  + ON_A9R  * a9R_TYPM_inj   * TGAUSS(3.) );
+a10ssr  := 1E-4 * (ON_A10S * a10ss + ON_A10R * a10R_TYPM_inj  * TGAUSS(3.) );
+a11ssr  := 1E-4 * (ON_A11S * a11ss + ON_A11R * a11R_TYPM_inj  * TGAUSS(3.) );
+a12ssr  := 1E-4 * (ON_A12S * a12ss + ON_A12R * a12R_TYPM_inj  * TGAUSS(3.) );
+a13ssr  := 1E-4 * (ON_A13S * a13ss + ON_A13R * a13R_TYPM_inj  * TGAUSS(3.) );
+a14ssr  := 1E-4 * (ON_A14S * a14ss + ON_A14R * a14R_TYPM_inj  * TGAUSS(3.) );
+a15ssr  := 1E-4 * (ON_A15S * a15ss + ON_A15R * a15R_TYPM_inj  * TGAUSS(3.) );
+
+};
+
+if (injection_mode == 0)
+{
+b1ssr   := 1E-4 * (ON_B1S  * b1ss  + ON_B1R  * b1R_TYPM_col   * TGAUSS(3.) );
+b2ssr   := 1E-4 * (ON_B2S  * b2ss  + ON_B2R  * b2R_TYPM_col   * TGAUSS(3.) );
+b3ssr   := 1E-4 * (ON_B3S  * b3ss  + ON_B3R  * b3R_TYPM_col   * TGAUSS(3.) );
+b4ssr   := 1E-4 * (ON_B4S  * b4ss  + ON_B4R  * b4R_TYPM_col   * TGAUSS(3.) );
+b5ssr   := 1E-4 * (ON_B5S  * b5ss  + ON_B5R  * b5R_TYPM_col   * TGAUSS(3.) );
+b6ssr   := 1E-4 * (ON_B6S  * b6ss  + ON_B6R  * b6R_TYPM_col   * TGAUSS(3.) );
+b7ssr   := 1E-4 * (ON_B7S  * b7ss  + ON_B7R  * b7R_TYPM_col   * TGAUSS(3.) );
+b8ssr   := 1E-4 * (ON_B8S  * b8ss  + ON_B8R  * b8R_TYPM_col   * TGAUSS(3.) );
+b9ssr   := 1E-4 * (ON_B9S  * b9ss  + ON_B9R  * b9R_TYPM_col   * TGAUSS(3.) );
+b10ssr  := 1E-4 * (ON_B10S * b10ss + ON_B10R * b10R_TYPM_col  * TGAUSS(3.) );
+b11ssr  := 1E-4 * (ON_B11S * b11ss + ON_B11R * b11R_TYPM_col  * TGAUSS(3.) );
+b12ssr  := 1E-4 * (ON_B12S * b12ss + ON_B12R * b12R_TYPM_col  * TGAUSS(3.) );
+b13ssr  := 1E-4 * (ON_B13S * b13ss + ON_B13R * b13R_TYPM_col  * TGAUSS(3.) );
+b14ssr  := 1E-4 * (ON_B14S * b14ss + ON_B14R * b14R_TYPM_col  * TGAUSS(3.) );
+b15ssr  := 1E-4 * (ON_B15S * b15ss + ON_B15R * b15R_TYPM_col  * TGAUSS(3.) );
+
+a1ssr	:= 1E-4 * (ON_A1S  * a1ss  + ON_A1R  * a1R_TYPM_col   * TGAUSS(3.) );
+a2ssr	:= 1E-4 * (ON_A2S  * a2ss  + ON_A2R  * a2R_TYPM_col   * TGAUSS(3.) );
+a3ssr	:= 1E-4 * (ON_A3S  * a3ss  + ON_A3R  * a3R_TYPM_col   * TGAUSS(3.) );
+a4ssr	:= 1E-4 * (ON_A4S  * a4ss  + ON_A4R  * a4R_TYPM_col   * TGAUSS(3.) );
+a5ssr	:= 1E-4 * (ON_A5S  * a5ss  + ON_A5R  * a5R_TYPM_col   * TGAUSS(3.) );
+a6ssr	:= 1E-4 * (ON_A6S  * a6ss  + ON_A6R  * a6R_TYPM_col   * TGAUSS(3.) );
+a7ssr	:= 1E-4 * (ON_A7S  * a7ss  + ON_A7R  * a7R_TYPM_col   * TGAUSS(3.) );
+a8ssr	:= 1E-4 * (ON_A8S  * a8ss  + ON_A8R  * a8R_TYPM_col   * TGAUSS(3.) );
+a9ssr	:= 1E-4 * (ON_A9S  * a9ss  + ON_A9R  * a9R_TYPM_col   * TGAUSS(3.) );
+a10ssr  := 1E-4 * (ON_A10S * a10ss + ON_A10R * a10R_TYPM_col  * TGAUSS(3.) );
+a11ssr  := 1E-4 * (ON_A11S * a11ss + ON_A11R * a11R_TYPM_col  * TGAUSS(3.) );
+a12ssr  := 1E-4 * (ON_A12S * a12ss + ON_A12R * a12R_TYPM_col  * TGAUSS(3.) );
+a13ssr  := 1E-4 * (ON_A13S * a13ss + ON_A13R * a13R_TYPM_col  * TGAUSS(3.) );
+a14ssr  := 1E-4 * (ON_A14S * a14ss + ON_A14R * a14R_TYPM_col  * TGAUSS(3.) );
+a15ssr  := 1E-4 * (ON_A15S * a15ss + ON_A15R * a15R_TYPM_col  * TGAUSS(3.) );
+};
+value,b1ssr,b2ssr,b3ssr,b4ssr,b5ssr,b6ssr,b7ssr;
+value,ON_B1S, b1ss, ON_B1R, b1R_TYPM_inj;
+};
+
+
+errorgenerate_dip : macro ={
+
+Rr := Rr_MBAll; ! reference radius 
+
+Efcomp,  radius = Rr, order= 0,
+dknr:={b1ssr,b2ssr,b3ssr,b4ssr,b5ssr,b6ssr,b7ssr,b8ssr,
+       b9ssr,b10ssr,b11ssr,b12ssr,b13ssr,b14ssr,b15ssr},
+dksr:={a1ssr,a2ssr,a3ssr,a4ssr,a5ssr,a6ssr,a7ssr,a8ssr,
+       a9ssr,a10ssr,a11ssr,a12ssr,a13ssr,a14ssr,a15ssr};
+       
+};
+
+errorgenerate_quad : macro ={
+
+Rr := Rr_MQAll; ! reference radius 
+
+Efcomp,  radius = Rr, order= 1,
+dknr:={0.0,b2ssr,0.0,0.0,0.0,0.0,0.0,0.0,
+       0.0,0.0,0.0,0.0,0.0,0.0,0.0},
+dksr:={0.0,a2ssr,0.0,0.0,0.0,0.0,0.0,0.0,
+       0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+       
+};
