@@ -19,9 +19,6 @@ madx = Madx()
 
 madx.option(echo=True)
 
-os.system("mkdir -p temp")
-os.system("mkdir -p results")
-
 madx.set(format="12d")
 madx.set(format="20.12g")
 madx.set(format="-18s")
