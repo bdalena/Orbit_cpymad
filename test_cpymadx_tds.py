@@ -460,8 +460,8 @@ ax14[1].set_ylabel("y [m]")
 ax14[1].set_xlim(0,93)
 fig14, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 plt.title("-with CORR madx and sextuon (seed={0})- Orbits in m".format(eseed))
+#plt.savefig("test_seed{0}/")
 
 
 
-
-plt.show()
+#plt.show()
