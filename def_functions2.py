@@ -14,61 +14,6 @@ import os
 
 #madx = Madx()
 
-def plot_graph(df1,df2):
-    '''
-    For plotting the orbit, beta-beating and normalized dispersion.
-    twiss_start = 
-    twiss_end = 
-    '''
-
-    print('\n')
-    print('PLOT')
-
-    print('\n')
-    print(df1)
-
-    print('\n')
-    print(df2)
-
-    plt.rcParams.update({'font.size':13})
-    plt.rc('xtick',labelsize=11)
-    plt.rc('ytick',labelsize=11)
-
-    # Plot orbits in m
-    fig, ax=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-    ax[0].plot(df2['S']/1000., df2['X'], "-r")
-    ax[0].set_ylabel("x [m]")
-    ax[1].plot(df2['S']/1000., df2['Y'], "-b")
-    ax[1].set_xlabel("longitundinal position [km]")
-    ax[1].set_ylabel("y [m]")
-    ax[1].set_xlim(0,93)
-    fig, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-    plt.title("Orbits in m")
-
-    # Plot beta-beat in %
-    fig1, ax1=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-    ax1[0].plot(df2['S']/1000., 100.*((df2['BETX']-df1['BETX'])/df1['BETX']), "-r")
-    ax1[0].set_ylabel(r"$\Delta\beta_{x}/\beta_{x,ref}$ [%]")
-    ax1[1].plot(df2['S']/1000., 100.*((df2['BETY']-df1['BETY'])/df1['BETY']), "-b")
-    ax1[1].set_xlabel("longitundinal position [km]")
-    ax1[1].set_ylabel(r"$\Delta\beta_{y}/\beta_{y,ref}$ [%]")
-    ax1[1].set_xlim(0,93)
-    fig1, plt.subplots_adjust(left=.13, right=.97, top=.94, bottom=.11)
-    plt.title("Beta-beat in %")
-
-    # Plot normalized dispersion mm^1/2
-    fig2, ax2=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-    ax2[0].plot(df2['S']/1000., (df2['DX']-df1['DX'])/np.sqrt(df1['BETX']), "-r")
-    ax2[0].set_ylabel(r"$\Delta D_{x}/\sqrt{\beta_{x,ref}}$ [m$^{1/2}$]")
-    ax2[1].plot(df2['S']/1000., (df2['DY']-df1['DY'])/np.sqrt(df1['BETY']), "-b")
-    ax2[1].set_xlabel("longitundinal position [km]")
-    ax2[1].set_ylabel(r"$\Delta D_{y}/\sqrt{\beta_{y,ref}}$ [m$^{1/2}$]")
-    ax2[1].set_xlim(0,93)
-    fig2, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-    plt.title("Normalized dispersion [mm$^{1/2}$]")
-
-    plt.show()
-
 #----------------------------------------------------------------------------------------------------------------
 
 def std(data,elem1,elem2):
@@ -143,7 +88,6 @@ def anal_corr_calc(madx,file1,file2):
     ind_E_arc=ref_tfs.index[ref_tfs["NAME"]=="MQ.A2.001"].tolist()[0] #index for the ending of an arc
 
     #Getting back the std
-    #data_MQ_arc_err=ref_err.loc[ref_err["NAME"].str.contains('MQ.A')]
     data_MQ_A1_err=ref_err.loc[ref_err["NAME"].str.contains('MQ.A1')]
     data_MQ_A2_err=ref_err.loc[ref_err["NAME"].str.contains('MQ.A2')]
     data_MQ_A3_err=ref_err.loc[ref_err["NAME"].str.contains('MQ.A3')]
@@ -163,7 +107,6 @@ def anal_corr_calc(madx,file1,file2):
     data_MB_A8_err=ref_err.loc[ref_err["NAME"].str.contains('MB.A8')]
     
     data_corr=ref_tfs.loc[ref_tfs["NAME"].str.contains('CORR.A')]
-    #print('data_corr = ',data_corr)
     data_bpm=ref_tfs.loc[ref_tfs["NAME"].str.contains('BPM')]
     data_MQ=ref_tfs.loc[ref_tfs["NAME"].str.contains('MQ')]
     data_MQA=ref_tfs.loc[ref_tfs["NAME"].str.contains('MQ.A')]
@@ -189,18 +132,6 @@ def anal_corr_calc(madx,file1,file2):
     ma7x,ma7y,std7x_mb,std7y_mb=std(data_MB_A7_err,"K0L","DPSI")
     ma8x,ma8y,std8x_mb,std8y_mb=std(data_MB_A8_err,"K0L","DPSI")
 
-    print('ma1x=', ma1x)
-    print('ma1y=', ma1y)
-    print('std1x=', std1x)
-    print('std1y=', std1y)
-    print('std1x_mb=', std1x_mb)
-    print('std1y_mb=', std1y_mb)
-    
-    #data_MB_angle=ref_err.loc[ref_err["NAME"].str.contains('MB.A')]
-
-    #var_K0L = np.var(data_MB_angle["K0L"])
-    #sigma_K0L = np.sqrt(var_K0L)
-
     #Columns index
     i_S=ref_tfs.columns.get_loc("S")
     i_L=ref_tfs.columns.get_loc("L")
@@ -221,14 +152,8 @@ def anal_corr_calc(madx,file1,file2):
     Q_y=float(ref_tfs_headers.iat[23,3])
 
     Brho=3.3356*p
-    #MB_K0L=MB_angle/L_arc #dipole bending angle converted in K0
-    #MB_K0L=MB_angle/L_d
-
     n=4 #number of dipoles in the cell
 
-    #MB_field_err_a1=std1x_mb/MB_K0L
-
-    
     MB_field_err_a1=std1x_mb/L_d
     MB_field_err_a2=std2x_mb/L_d
     MB_field_err_a3=std3x_mb/L_d
@@ -238,19 +163,14 @@ def anal_corr_calc(madx,file1,file2):
     MB_field_err_a7=std7x_mb/L_d
     MB_field_err_a8=std8x_mb/L_d
 
-    #roll_angle_MB=ref_err.iat[ind_d,i_DPSI] #dipole roll angle (rad)
-
     mu_cell=np.pi/2
     beta_bar=L_cell/np.sin(mu_cell)
     beta_max=beta_bar*(1+np.sin(L_cell/2))
     rho=L_tot/(2*np.pi) #radius of the circle
-    #top_nrg=182 #for lattice 90° (GeV)
     N_d=(2*np.pi)/MB_angle #tot nb of dipole
     N_q=N_d/2 #tot nb of quad (because we work in the arcs)
 
     #----- CORRECTOR STRENGTH -----
-
-    
     
     f=1
     fact1x=f#*np.sign(ma1x)
@@ -272,18 +192,6 @@ def anal_corr_calc(madx,file1,file2):
     corr_strength_x_A7=fact7x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a7)**2+2*std7x**2*K1L**2))
     corr_strength_x_A8=fact8x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a8)**2+2*std8x**2*K1L**2))
     
-    #Formula 2: sum
-    '''
-    corr_strength_x_A1=fact1x*((beta_bar/beta_max)*(n*(MB_angle*abs(MB_field_err))+2*abs(ma1x)*K1L*L_q))
-    corr_strength_x_A2=fact1x*((beta_bar/beta_max)*(n*(MB_angle*abs(MB_field_err))+2*abs(ma2x)*K1L*L_q))
-    corr_strength_x_A3=fact1x*((beta_bar/beta_max)*(n*(MB_angle*abs(MB_field_err))+2*abs(ma3x)*K1L*L_q))
-    corr_strength_x_A4=fact1x*((beta_bar/beta_max)*(n*(MB_angle*abs(MB_field_err))+2*abs(ma4x)*K1L*L_q))
-    corr_strength_x_A5=fact1x*((beta_bar/beta_max)*(n*(MB_angle*abs(MB_field_err))+2*abs(ma5x)*K1L*L_q))
-    corr_strength_x_A6=fact1x*((beta_bar/beta_max)*(n*(MB_angle*abs(MB_field_err))+2*abs(ma6x)*K1L*L_q))
-    corr_strength_x_A7=fact1x*((beta_bar/beta_max)*(n*(MB_angle*abs(MB_field_err))+2*abs(ma7x)*K1L*L_q))
-    corr_strength_x_A8=fact1x*((beta_bar/beta_max)*(n*(MB_angle*abs(MB_field_err))+2*abs(ma8x)*K1L*L_q))
-    '''
-    
     fact1y=f#*np.sign(ma1y)
     fact2y=f#*np.sign(ma2y)
     fact3y=f#*np.sign(ma3y)
@@ -303,18 +211,6 @@ def anal_corr_calc(madx,file1,file2):
     corr_strength_y_A7=fact7y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std7y_mb/rho)**2+2*std7y**2*K1L**2))
     corr_strength_y_A8=fact8y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std8y_mb/rho)**2+2*std8y**2*K1L**2))
     
-    #Formula 2: sum
-    '''
-    corr_strength_y_A1=fact1y*(beta_bar/beta_max)*(n*(L_d*roll_angle_MB/rho)+2*ma1y*K1L*L_q)
-    corr_strength_y_A2=fact1y*(beta_bar/beta_max)*(n*(L_d*roll_angle_MB/rho)+2*ma2y*K1L*L_q)
-    corr_strength_y_A3=fact1y*(beta_bar/beta_max)*(n*(L_d*roll_angle_MB/rho)+2*ma3y*K1L*L_q)
-    corr_strength_y_A4=fact1y*(beta_bar/beta_max)*(n*(L_d*roll_angle_MB/rho)+2*ma4y*K1L*L_q)
-    corr_strength_y_A5=fact1y*(beta_bar/beta_max)*(n*(L_d*roll_angle_MB/rho)+2*ma5y*K1L*L_q)
-    corr_strength_y_A6=fact1y*(beta_bar/beta_max)*(n*(L_d*roll_angle_MB/rho)+2*ma6y*K1L*L_q)
-    corr_strength_y_A7=fact1y*(beta_bar/beta_max)*(n*(L_d*roll_angle_MB/rho)+2*ma7y*K1L*L_q)
-    corr_strength_y_A8=fact1y*(beta_bar/beta_max)*(n*(L_d*roll_angle_MB/rho)+2*ma8y*K1L*L_q)
-    '''
-
     #----- STORE CORR VALUE -----
 
     data_MQ_A1=ref_tfs.loc[ref_tfs["NAME"].str.contains('MQ.A1')]
@@ -417,24 +313,11 @@ def save_twiss(twiss):
     twiss_dy=twiss.dy
 
     T = pd.DataFrame(list(zip(twiss_s,twiss_x,twiss_y,twiss.betx,twiss.bety,twiss.dx,twiss.dx)), columns = ['S','X','Y','BETX','BETY','DX','DY'])
-    #print(T)
-    '''
-    T=[]
-    T.append(twiss_s)
-    T.append(twiss_x)
-    T.append(twiss_y)
-    T.append(twiss_betx)
-    T.append(twiss_bety)
-    T.append(twiss_dx)
-    T.append(twiss_dy)
-    '''
-    
+
     return(T)
 
 #----------------------------------------------------------------------------------------------------------------
 def rename_bpm_sec(data,ind_k1,file_name,nsec):
-#    ii=0
-    print('rename_bpm_sec, data len = {0}'.format(len(data)))
     for p in range(len(data)):
         jj=p%len(data)+1
        # if jj==1:
@@ -453,9 +336,6 @@ def rename_bpm_sec(data,ind_k1,file_name,nsec):
                 file_name.write("bpmn.s{0}.0{1} : vbpm;\n".format(nsec,jj))
                    
 def rename_bpm_arc(data,ind_k1,file_name,narc):
-    print('rename_bpm_arc, data len = {0}'.format(len(data)))
-    print('rename_bpm_arc, narc = {0}'.format(narc))
-    print('rename_bpm_arc, len(data)/narc = {0}'.format(len(data)/narc))
     ii=0
     for p in range(len(data)):
         jj=int(p%(len(data)/narc)+1)
@@ -526,7 +406,6 @@ def macro_bpm(file_ref,file_out,narc,nsec):
     head_opt=pd.read_csv(fnameref, header=50, sep='\s+', nrows=0).columns[1:]
     ref_tfs=pd.read_csv(fnameref, skiprows=52, sep='\s+', names=head_opt)
 
-    
     if os.path.exists(file_out):
         os.remove(file_out)
     else:
@@ -564,11 +443,13 @@ def svd_first(madx,i_start,seq,err,tol,beta):
         start.append('CORRN.S{0}.052'.format(i_start))
 
     if i_start ==8:
-        end.append('BPMN.S{0}.002'.format(1))
+        end.append('BPMN.S{0}.003'.format(1))
+        end.append('CORRN.S{0}.001'.format(1))
     else:
-        end.append('BPMN.S{0}.002'.format(i_start+1))
+        end.append('BPMN.S{0}.003'.format(i_start+1))
+        end.append('CORRN.S{0}.001'.format(i_start+1))
         
-    end.append('CORRN.A{0}.369'.format(i_start))
+    #end.append('CORRN.A{0}.369'.format(i_start))
  
     treading_svd(madx,i_start,start,end,seq,err,tol,beta)
 
@@ -583,10 +464,12 @@ def svd_ring(madx,seq,err,tol):
         else:
             start.append('CORRN.S{0}.052'.format(i))
         if i==8:    
-            end.append('BPMN.S{0}.002'.format(1))
+            end.append('BPMN.S{0}.003'.format(1))
+            end.append('CORRN.S{0}.001'.format(1))
         else:
-            end.append('BPMN.S{0}.002'.format(i+1))
-        end.append('CORRN.A{0}.369'.format(i))
+            end.append('BPMN.S{0}.003'.format(i+1))
+            end.append('CORRN.S{0}.001'.format(i+1))
+        #end.append('CORRN.A{0}.369'.format(i))
 
     treading_svd_ring(madx,start,end,seq,err,tol)
 
@@ -620,8 +503,6 @@ def treading_svd(madx,i_start,start,end,seq,err,tol,beta):
 
         return
 
-
-        
 def treading_svd_ring(madx,start,end,seq,err,tol):
         madx.command.usemonitor(status='off')
         madx.command.usemonitor(status='on', range=start[0]+'/'+end[0])
@@ -645,14 +526,10 @@ def treading_svd_ring(madx,start,end,seq,err,tol):
         madx.command.correct(flag='line',mode='svd',monerror=err,error=tol,plane='x',corzero=0,clist='cx_fccee_heb_mic_all.tab')
         madx.command.correct(flag='line',mode='svd',monerror=err,error=tol,plane='y',corzero=0,clist='cy_fccee_heb_mic_all.tab')
 
-        #madx.command.correct(flag='line',mode='svd',monerror=err,error=tol,plane='x',corzero=0)
-        #madx.command.correct(flag='line',mode='svd',monerror=err,error=tol,plane='y',corzero=0)
-
         return
 
 #----------------------------------------------------------------------------------------------------------------
     
-
 def rename_corr_arc(data,ind_k1,file_name,narc):
     ii=0
     for p in range(len(data)):
@@ -678,11 +555,8 @@ def rename_corr_arc(data,ind_k1,file_name,narc):
 
 #- - - - - -
 def rename_corr_sec(data,ind_k1,file_name,nsec):
-    #ii=0
     for p in range(len(data)):
         jj=int(p%len(data)+1)
-       # if jj==1:
-       #     ii+=1
 
         if data.iloc[p,ind_k1]>0:
             if jj<10:
@@ -695,7 +569,6 @@ def rename_corr_sec(data,ind_k1,file_name,nsec):
                 file_name.write("corrn.s{0}.00{1} : vcorr,kick:=k.mcbv.s{0}.00{1};\n".format(nsec,jj))
             elif jj>=10 and jj<100:
                 file_name.write("corrn.s{0}.0{1} : vcorr,kick:=k.mcbv.s{0}.0{1};\n".format(nsec,jj))
-
         
 #- - - - - -
                 
@@ -735,7 +608,6 @@ def replace_corr(madx,file_ref,narc,nsec):
                 madx.replace(element='corr.s{0}.0{1}'.format(ii,jj), by='corrn.s{0}.0{1}'.format(ii,jj))
             elif jj>=100 and jj<370:
                 madx.replace(element='corr.s{0}.{1}'.format(ii,jj), by='corrn.s{0}.{1}'.format(ii,jj))
-
                 
 #- - - - - -
 
@@ -745,7 +617,6 @@ def macro_corr(file_ref,file_out,narc,nsec):
     head_opt=pd.read_csv(fnameref, header=50, sep='\s+', nrows=0).columns[1:]
     ref_tfs=pd.read_csv(fnameref, skiprows=52, sep='\s+', names=head_opt)
 
-    
     if os.path.exists(file_out):
         os.remove(file_out)
     else:
@@ -770,7 +641,6 @@ def macro_corr(file_ref,file_out,narc,nsec):
     fname.write('\n')
     
     fname.close()
-
 
 #----------------------------------------------------------------------------------------------------------------
     
