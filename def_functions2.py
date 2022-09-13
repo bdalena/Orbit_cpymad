@@ -10,7 +10,7 @@ import sys
 import os
 
 #Uncomment xhen running test_cpymadx_tds.py
-#madx = Madx()
+madx = Madx()
 
 #----------------------------------------------------------------------------------------------------------------
 
@@ -329,7 +329,7 @@ def get_elem(madx_elem,elem_name,elem_loc):
 
 #----------------------------------------------------------------------------------------------------------------  
 
-def tune_match(seq,pace):
+def tune_match(seq,pace,tol_tar):
     '''
     For matching the tune.
     seq = name of the sequence : str
@@ -344,7 +344,7 @@ def tune_match(seq,pace):
 
 #----------------------------------------------------------------------------------------------------------------  
 
-def chroma_match(seq,pace):
+def chroma_match(seq,pace,tol_tar):
     '''
     For matching the chroma.
     seq = name of the sequence : str
@@ -533,7 +533,7 @@ def svd_first(madx,i_start,seq,err,tol,beta):
     #if it is an odd insertion: nb BPM = nb CORR = 53.
     #To correct in both plane, we select 2 CORR before the beginning of the arc and 2 BPM after the end of the arc
     #(two CORR and BPM because we need to select on horizontal and one vertical of each to correct in both plane).
-    #To kill the amplifications in the insertions in x plane, we need to add one more CORR and BPM at the after the arc.
+    #To kill the amplifications in the insertions in x plane, we need to add one more CORR and BPM at the end of the arc.
     if i_start%2 == 0:
         start.append('CORRN.S{0}.040'.format(i_start))
     else:
@@ -786,4 +786,23 @@ def macro_corr(file_ref,file_out,narc,nsec):
     fname.close()
 
 #----------------------------------------------------------------------------------------------------------------
+
+def match_quad(madx,file_out):
+    forces=np.empty(0)
+    data_frame=pd.DataFrame(madx.globals,columns=['NAME'])
+    data_k1=data_frame.loc[data_frame["NAME"].str.contains('k1')]
+    forces=np.append(forces,data_k1['NAME'].values)
+
+    fname=open(file_out, "w+")
+
+    for i in range(0,len(forces),1):
+        if madx.globals[forces[i]]>0:
+            fname.write(forces[i]+'     :=     '+str(madx.globals[forces[i]])+' + k1f_tune;\n')
+        else:
+            fname.write(forces[i]+'     :=     '+str(madx.globals[forces[i]])+' + k1d_tune;\n')
+
+    fname.close()
+
+
+
     
