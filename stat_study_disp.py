@@ -207,8 +207,6 @@ fig10.savefig(path+'disp_distribution_tune_match_it2_{0}seeds.png'.format(eseed)
 fig11.savefig(path+'disp_distribution_tune_match_it3_{0}seeds.png'.format(eseed)) 
 
 
-
-
 #plot of the rms: all
 fig17, ax17=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax17[0].plot(xseed, rms_disp_x, ".", label='CORRECT it1')
@@ -229,7 +227,6 @@ ax17[1].legend(fontsize=8,loc='best')
 fig17, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig17.savefig(path+'rms_disp_all_{0}seeds.pdf'.format(eseed))
 
-
 #plot of the mean: all
 fig18, ax18=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax18[0].plot(xseed, ave_disp_x, ".", label='CORRECT it1')
@@ -249,10 +246,6 @@ ax18[1].set_ylabel("mean$_y$ [m$^{1/2}$]")
 ax18[1].legend(fontsize=8,loc='best')
 fig18, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig18.savefig(path+'mean_disp_all_{0}seeds.pdf'.format(eseed))
-
-
-
-
 
 #plot of the rms: it without tune match
 fig2, ax2=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
@@ -284,9 +277,6 @@ ax4[1].legend(fontsize=10,loc='best')
 fig4, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig4.savefig(path+'mean_disp_correct_{0}seeds.pdf'.format(eseed))
 
-sys.exit()
-
-
 #plot of the rms: it with tune match
 fig12, ax12=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax12[0].plot(xseed3, rms_disp_x3, ".", label='it n°1')
@@ -303,8 +293,6 @@ ax12[1].legend(fontsize=10,loc='best')
 fig12, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig12.savefig(path+'rms_disp_tune_match_{0}seeds.pdf'.format(eseed))
 
-
-
 #plot of the mean: it with tune match
 fig13, ax13=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax13[0].plot(xseed3, ave_disp_x3, ".", label='it n°1')
@@ -320,11 +308,6 @@ ax13[1].set_ylabel("mean$_y$ [m$^{1/2}$]")
 ax13[1].legend(fontsize=10,loc='best')
 fig13, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig13.savefig(path+'mean_disp_tune_match_{0}seeds.pdf'.format(eseed))
-
-
-sys.exit()
-
-
 
 #for iteration n°1: it without tune match
 fig1, ax1=plt.subplots(nrows=2, ncols=2, sharey=True)
@@ -357,7 +340,6 @@ ax8[1,0].set_ylabel("counts")
 fig8, plt.subplots_adjust(left=.12, right=.97, top=.97, bottom=.10)
 fig8.tight_layout()
 fig8.savefig(path+'hist_disp_it2_{0}seeds.pdf'.format(eseed))
-
 
 #for iteration n°1: it with tune match
 fig14, ax14=plt.subplots(nrows=2, ncols=2, sharey=True)
@@ -407,10 +389,5 @@ fig16, plt.subplots_adjust(left=.12, right=.97, top=.97, bottom=.10)
 fig16.tight_layout()
 fig16.savefig(path+'hist_disp_tune_match_it3_{0}seeds.pdf'.format(eseed))
 
-
-
-
-
-#plt.show()
 
 

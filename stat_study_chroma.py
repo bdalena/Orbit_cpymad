@@ -281,7 +281,7 @@ ax4[1].set_xlabel("seed")
 ax4[1].set_ylabel("mean$_y$ [%]")
 ax4[1].legend(fontsize=10,loc='best')
 fig4, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-fig4.savefig(path+'mean_beta_correct{0}_seeds.pdf'.format(eseed))
+fig4.savefig(path+'mean_beta_correct_{0}seeds.pdf'.format(eseed))
 
 #plot of the rms: it with tune match
 fig12, ax12=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
