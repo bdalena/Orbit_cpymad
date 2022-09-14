@@ -212,7 +212,10 @@ max_orbit_y=np.max(orbit_y_all_seed)
 
 #to heavy for pdf format
 fig3.savefig(path+'orbit_distribution_it1_{0}seeds.png'.format(eseed))
-fig5.savefig(path+'orbit_distribution_it2_{0}seeds.png'.format(eseed)) 
+fig5.savefig(path+'orbit_distribution_it2_{0}seeds.png'.format(eseed))
+fig9.savefig(path+'orbit_distribution_tune_match_it1_{0}seeds.png'.format(eseed))
+fig10.savefig(path+'orbit_distribution_tune_match_it2_{0}seeds.png'.format(eseed))
+fig11.savefig(path+'orbit_distribution_tune_match_it2_{0}seeds.png'.format(eseed)) 
 
 #plot of the rms: it without tune match
 fig2, ax2=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
