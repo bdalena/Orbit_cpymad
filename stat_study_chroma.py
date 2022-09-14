@@ -331,7 +331,7 @@ ax1[1,1].set_xlabel("mean$_y$ [%]")
 ax1[1,0].set_ylabel("counts")
 fig1, plt.subplots_adjust(left=.12, right=.97, top=.97, bottom=.10)
 fig1.tight_layout()
-fig1.savefig(path+'hist_beta_it1_{0}seeds.pdf'.format(eseed))
+fig1.savefig(path+'hist_beta_correct_it1_{0}seeds.pdf'.format(eseed))
 
 #for iteration n°2: it without tune match
 fig8, ax8=plt.subplots(nrows=2, ncols=2, sharey=True)
@@ -347,7 +347,7 @@ ax8[1,1].set_xlabel("mean$_y$ [%]")
 ax8[1,0].set_ylabel("counts")
 fig8, plt.subplots_adjust(left=.12, right=.97, top=.97, bottom=.10)
 fig8.tight_layout()
-fig8.savefig(path+'hist_beta_it2_{0}seeds.pdf'.format(eseed))
+fig8.savefig(path+'hist_beta_correct_it2_{0}seeds.pdf'.format(eseed))
 
 #for iteration n°1: it with tune match
 fig14, ax14=plt.subplots(nrows=2, ncols=2, sharey=True)
