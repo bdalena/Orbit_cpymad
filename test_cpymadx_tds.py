@@ -66,6 +66,8 @@ madx.value('BETAIP->alpy')
 
 madx.twiss(sequence='fcc_heb', file='test_seed{0}/FCCee_heb_modett_seed{0}.tfs'.format(eseed))
 
+
+
 df.macro_bpm('test_seed{0}/FCCee_heb_modett_seed{0}.tfs'.format(eseed),"test_seed{0}/redef_bpm.madx".format(eseed),narc,nsec)
 madx.call(file='test_seed{0}/redef_bpm.madx'.format(eseed))
 
@@ -147,25 +149,47 @@ df.match_quad(madx,'FCCee_heb-quads.str')
 
 madx.call(file='FCCee_heb-quads.str')
 
-#tune match
-df.tune_match('fcc_heb',1.0E-7,tol_tar)
+madx.command.match(sequence='fcc_heb')
+madx.vary(name='k1f_tune',step=1.0E-7)
+madx.vary(name='k1d_tune',step=1.0E-7)
+madx.command.global_(sequence='fcc_heb',Q1=415.225,Q2=416.29)
+madx.jacobian(calls=10,tolerance=tol_tar)
+madx.endmatch()
 
 madx.twiss(sequence='fcc_heb', file='test_seed{0}/FCCee_heb_modett_tune_match_seed{0}.tfs'.format(eseed))
 
-#iteration n°1
+#iteration n°1 = initialisation
 df.svd_ring(madx,'fcc_heb',0,tol_err)
 madx.twiss(sequence='fcc_heb', file='test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it1_seed{0}.tfs'.format(eseed))
+os.system('mv cx_fccee_heb_mic_all.tab cx_fccee_heb_mic_all_ring_it1.tab')
+os.system('mv cy_fccee_heb_mic_all.tab cy_fccee_heb_mic_all_ring_it1.tab')
 
-#iteration n°2
-df.svd_ring(madx,'fcc_heb',0,tol_err)
-madx.twiss(sequence='fcc_heb', file='test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it2_seed{0}.tfs'.format(eseed))
+fname='test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it1_seed{0}.tfs'.format(eseed)
+head_opt=pd.read_csv(fname, header=50, sep='\s+', nrows=0).columns[1:]
+optics=pd.read_csv(fname, skiprows=52, sep='\s+', names=head_opt)
+optics=optics.reset_index(drop=True)
+rms_orbit_x=np.std(optics['X'])
+rms_orbit_y=np.std(optics['Y'])
 
-#iteration n°3
-df.svd_ring(madx,'fcc_heb',0,tol_err)
-madx.twiss(sequence='fcc_heb', file='test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it3_seed{0}.tfs'.format(eseed))
+file1='test_seed{0}/FCCee_heb_modett_seed{0}.tfs'.format(eseed)
+file2='test_seed{0}/FCCee_heb_errors_corr_seed{0}.out'.format(eseed)
+mean_corr_x,mean_corr_y,orbit_x,orbit_y=df.anal_corr_calc(file1,file2)
 
-os.system('mv cx_fccee_heb_mic_all.tab cx_fccee_heb_mic_all_ring_it3.tab')
-os.system('mv cy_fccee_heb_mic_all.tab cy_fccee_heb_mic_all_ring_it3.tab')
+max_it=15
+nb_it=1
 
+while rms_orbit_x>orbit_x or rms_orbit_y>orbit_y and nb_it<max_it:
+    
+    nb_it+=1
+    df.svd_ring(madx,'fcc_heb',0,tol_err)
+    madx.twiss(sequence='fcc_heb', file='test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it{1}_seed{0}.tfs'.format(eseed,nb_it))
+    os.system('mv cx_fccee_heb_mic_all.tab cx_fccee_heb_mic_all_ring_it{0}.tab'.format(nb_it))
+    os.system('mv cy_fccee_heb_mic_all.tab cy_fccee_heb_mic_all_ring_it{0}.tab'.format(nb_it))
 
-
+    fname='test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it{1}_seed{0}.tfs'.format(eseed,nb_it)
+    head_opt=pd.read_csv(fname, header=50, sep='\s+', nrows=0).columns[1:]
+    optics=pd.read_csv(fname, skiprows=52, sep='\s+', names=head_opt)
+    optics=optics.reset_index(drop=True)
+    rms_orbit_x=np.std(optics['X'])
+    rms_orbit_y=np.std(optics['Y'])
+    
