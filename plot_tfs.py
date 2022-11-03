@@ -14,16 +14,16 @@ plt.rcParams.update({'font.size':13})
 plt.rc('xtick',labelsize=11)
 plt.rc('ytick',labelsize=11)
 
-err_mq=80
-eseed=100
+err_mq=100
+eseed=47
 
 #path="/home/td271008/work/cpymadx/Orbit_cpymad/mq_offset_{0}_IP5_2it_100seeeds_corrhplus/test_seed{1}".format(err_mq,eseed)
 
 #path="/home/td271008/work/cpymadx/Orbit_cpymad/mb_fielderr_roll_mq_offset_{0}_IP5_2it_100seeeds_corrhplus/test_seed{1}".format(err_mq,eseed)
 
-#path="/home/td271008/work/cpymadx/Orbit_cpymad/test_seed{0}".format(eseed)
+path="/home/td271008/work/cpymadx/Orbit_cpymad/test_seed{0}".format(eseed)
 
-path="/home/td271008/work/cpymadx/Orbit_cpymad/tune_match_mb_fielderr_roll_mq_offset_{0}_IP5_100seeeds_corrhplus/test_seed{1}".format(err_mq,eseed)
+#path="/home/td271008/work/cpymadx/Orbit_cpymad/tune_match_mb_fielderr_roll_mq_offset_{0}_IP5_100seeeds_corrhplus/test_seed{1}".format(err_mq,eseed)
 
 
 fnameref=path+"/FCCee_heb_modett_seed{0}.tfs".format(eseed)
@@ -61,6 +61,126 @@ ax2[1].set_ylabel("y [m]")
 fig2, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig2.savefig(path+"/orbit_mqoffset_mberrfield_{0}_line_err_treading_seed{1}.pdf".format(err_mq,eseed))
 
+
+if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_line_sextuoff_it1_seed{0}.tfs".format(eseed)):
+    fnameall11=path+"/FCCee_heb_modett_orbcor_all_line_sextuoff_it1_seed{0}.tfs".format(eseed)
+    head_opt=pd.read_csv(fnameall11, header=50, sep='\s+', nrows=0).columns[1:]
+    optics_all11=pd.read_csv(fnameall11, skiprows=52, sep='\s+', names=head_opt)
+    optics_all11=optics_all11.reset_index(drop=True)
+    fig31, ax31=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+    ax31[0].plot(optics_all11['S']/1000., optics_all11['X'], "-r")
+    ax31[0].set_ylabel("x [m]")
+    ax31[1].plot(optics_all11['S']/1000., optics_all11['Y'], "-b")
+    ax31[1].set_xlabel("longitundinal position [km]")
+    ax31[1].set_ylabel("y [m]")
+    fig31, plt.subplots_adjust(left=.20, right=.97, top=.94, bottom=.11)
+    fig31.savefig(path+"/orbit_mqoffset_mberrfieldroll_{0}_line_err_treading_correctall_sextuoff_it1_seed{1}.pdf".format(err_mq,eseed))
+
+if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_line_sextuoff_it2_seed{0}.tfs".format(eseed)):
+    fnameall21=path+"/FCCee_heb_modett_orbcor_all_line_sextuoff_it2_seed{0}.tfs".format(eseed) 
+    head_opt=pd.read_csv(fnameall21, header=50, sep='\s+', nrows=0).columns[1:]
+    optics_all21=pd.read_csv(fnameall21, skiprows=52, sep='\s+', names=head_opt)
+    optics_all21=optics_all21.reset_index(drop=True)
+    fig41, ax41=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+    ax41[0].plot(optics_all21['S']/1000., optics_all21['X'], "-r")
+    ax41[0].set_ylabel("x [m]")
+    ax41[1].plot(optics_all21['S']/1000., optics_all21['Y'], "-b")
+    ax41[1].set_xlabel("longitundinal position [km]")
+    ax41[1].set_ylabel("y [m]")
+    fig41, plt.subplots_adjust(left=.20, right=.97, top=.94, bottom=.11)
+    fig41.savefig(path+"/orbit_mqoffset_mberrfieldroll_{0}_line_err_treading_correctall_sextuoff_it2_seed{1}.pdf".format(err_mq,eseed))
+
+
+if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_ring_sextuoff_it1_seed{0}.tfs".format(eseed)):
+    fnameall22=path+"/FCCee_heb_modett_orbcor_all_ring_sextuoff_it1_seed{0}.tfs".format(eseed) 
+    head_opt=pd.read_csv(fnameall22, header=50, sep='\s+', nrows=0).columns[1:]
+    optics_all22=pd.read_csv(fnameall22, skiprows=52, sep='\s+', names=head_opt)
+    optics_all22=optics_all22.reset_index(drop=True)
+    fig42, ax42=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+    ax42[0].plot(optics_all22['S']/1000., optics_all22['X'], "-r")
+    ax42[0].set_ylabel("x [m]")
+    ax42[1].plot(optics_all22['S']/1000., optics_all22['Y'], "-b")
+    ax42[1].set_xlabel("longitundinal position [km]")
+    ax42[1].set_ylabel("y [m]")
+    fig42, plt.subplots_adjust(left=.20, right=.97, top=.94, bottom=.11)
+    fig42.savefig(path+"/orbit_mqoffset_mberrfieldroll_{0}_ring_err_treading_correctall_sextuoff_first_it_seed{1}.pdf".format(err_mq,eseed))
+
+
+
+#i=0
+cnt=1
+
+fnameall23=path+"/FCCee_heb_modett_orbcor_all_ring_sextuoff_it{0}_seed{1}.tfs".format(cnt+1,eseed)
+
+while os.path.exists(fnameall23):
+    fnameall23=path+"/FCCee_heb_modett_orbcor_all_ring_sextuoff_it{0}_seed{1}.tfs".format(cnt+1,eseed)
+    cnt+=1
+    #i+=1
+
+fnameall23=path+"/FCCee_heb_modett_orbcor_all_ring_sextuoff_it{0}_seed{1}.tfs".format(cnt-1,eseed)
+print(fnameall23)
+
+if os.path.exists(fnameall23):
+    head_opt=pd.read_csv(fnameall23, header=50, sep='\s+', nrows=0).columns[1:]
+    optics_all23=pd.read_csv(fnameall23, skiprows=52, sep='\s+', names=head_opt)
+    optics_all23=optics_all23.reset_index(drop=True)
+    fig43, ax43=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+    ax43[0].plot(optics_all23['S']/1000., optics_all23['X'], "-r")
+    ax43[0].set_ylabel("x [m]")
+    ax43[1].plot(optics_all23['S']/1000., optics_all23['Y'], "-b")
+    ax43[1].set_xlabel("longitundinal position [km]")
+    ax43[1].set_ylabel("y [m]")
+    fig43, plt.subplots_adjust(left=.20, right=.97, top=.94, bottom=.11)
+    fig43.savefig(path+"/orbit_{0}_ring_err_treading_correctall_sextuoff_last_it_seed{1}.pdf".format(err_mq,eseed))
+
+
+
+
+
+    
+'''
+if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_ring_sextuoff_it4_seed{0}.tfs".format(eseed)):
+    fnameall23=path+"/FCCee_heb_modett_orbcor_all_ring_sextuoff_it4_seed{0}.tfs".format(eseed) 
+    head_opt=pd.read_csv(fnameall23, header=50, sep='\s+', nrows=0).columns[1:]
+    optics_all23=pd.read_csv(fnameall23, skiprows=52, sep='\s+', names=head_opt)
+    optics_all23=optics_all23.reset_index(drop=True)
+    fig43, ax43=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+    ax43[0].plot(optics_all23['S']/1000., optics_all23['X'], "-r")
+    ax43[0].set_ylabel("x [m]")
+    ax43[1].plot(optics_all23['S']/1000., optics_all23['Y'], "-b")
+    ax43[1].set_xlabel("longitundinal position [km]")
+    ax43[1].set_ylabel("y [m]")
+    fig43, plt.subplots_adjust(left=.20, right=.97, top=.94, bottom=.11)
+    fig43.savefig(path+"/orbit_mqoffset_mberrfieldroll_{0}_ring_err_treading_correctall_sextuoff_it4_seed{1}.pdf".format(err_mq,eseed))
+'''
+
+if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_ring_sextuon_it1_seed{0}.tfs".format(eseed)):
+    fnameall12=path+"/FCCee_heb_modett_orbcor_all_ring_sextuon_it1_seed{0}.tfs".format(eseed)
+    head_opt=pd.read_csv(fnameall12, header=50, sep='\s+', nrows=0).columns[1:]
+    optics_all12=pd.read_csv(fnameall12, skiprows=52, sep='\s+', names=head_opt)
+    optics_all12=optics_all12.reset_index(drop=True)
+    fig32, ax32=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+    ax32[0].plot(optics_all12['S']/1000., optics_all12['X'], "-r")
+    ax32[0].set_ylabel("x [m]")
+    ax32[1].plot(optics_all12['S']/1000., optics_all12['Y'], "-b")
+    ax32[1].set_xlabel("longitundinal position [km]")
+    ax32[1].set_ylabel("y [m]")
+    fig32, plt.subplots_adjust(left=.20, right=.97, top=.94, bottom=.11)
+    fig32.savefig(path+"/orbit_mqoffset_mberrfieldroll_{0}_ring_err_treading_correctall_sextuon_it1_seed{1}.pdf".format(err_mq,eseed))
+
+
+
+
+
+
+
+
+
+
+    
+
+sys.exit()
+    
 if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_sextuon_it1_seed{0}.tfs".format(eseed)):
     fnameall1=path+"/FCCee_heb_modett_orbcor_all_sextuon_it1_seed{0}.tfs".format(eseed)
     head_opt=pd.read_csv(fnameall1, header=50, sep='\s+', nrows=0).columns[1:]
@@ -73,7 +193,7 @@ if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_sextuon_it1_seed{0}.tfs".fo
     ax3[1].set_xlabel("longitundinal position [km]")
     ax3[1].set_ylabel("y [m]")
     fig3, plt.subplots_adjust(left=.20, right=.97, top=.94, bottom=.11)
-    fig3.savefig(path+"/orbit_mqoffset_mberrfield_{0}_line_err_treading_correctall_it1_seed{1}.pdf".format(err_mq,eseed))
+    fig3.savefig(path+"/orbit_mqoffset_mberrfield_{0}_line_err_treading_correctall_sextuon_it1_seed{1}.pdf".format(err_mq,eseed))
 
 if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_sextuon_it2_seed{0}.tfs".format(eseed)):
     fnameall2=path+"/FCCee_heb_modett_orbcor_all_sextuon_it2_seed{0}.tfs".format(eseed) 
@@ -87,7 +207,7 @@ if os.path.exists(path+"/FCCee_heb_modett_orbcor_all_sextuon_it2_seed{0}.tfs".fo
     ax4[1].set_xlabel("longitundinal position [km]")
     ax4[1].set_ylabel("y [m]")
     fig4, plt.subplots_adjust(left=.20, right=.97, top=.94, bottom=.11)
-    fig4.savefig(path+"/orbit_mqoffset_mberrfield_{0}_line_err_treading_correctall_it2_seed{1}.pdf".format(err_mq,eseed))
+    fig4.savefig(path+"/orbit_mqoffset_mberrfield_{0}_line_err_treading_correctall_sextuon_it2_seed{1}.pdf".format(err_mq,eseed))
 
 if os.path.exists(path+"/FCCee_heb_modett_tune_match_seed{0}.tfs".format(eseed)):
     fnametune=path+"/FCCee_heb_modett_tune_match_seed{0}.tfs".format(eseed)

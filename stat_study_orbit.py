@@ -13,14 +13,13 @@ import pandas as pd
 import sys
 import os
 
-err_mq=90 #quads offset
+err_mq=100 #quads offset
 eseed=100 #nb of seeds
 
 #path definition
 #path='/home/td271008/work/cpymadx/Orbit_cpymad/mq_offset_{0}_IP5_2it_100seeeds_corrhplus/'.format(err_mq)
 #path='/home/td271008/work/cpymadx/Orbit_cpymad/mb_fielderr_roll_mq_offset_{0}_IP5_2it_100seeeds_corrhplus/'.format(err_mq)
 path='/home/td271008/work/cpymadx/Orbit_cpymad/tune_match_mb_fielderr_roll_mq_offset_{0}_IP5_100seeeds_corrhplus/'.format(err_mq)
-#path='/home/td271008/work/cpymadx/Orbit_cpymad/tune_match_mb_fielderr_roll_mq_offset_{0}_IP5_10seeeds_corrhplus/'.format(err_mq)
 
 fig3, ax3=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 fig3, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
@@ -187,22 +186,41 @@ for i in range(eseed):
 max_orbit_x=np.max(orbit_x_all_seed)
 max_orbit_y=np.max(orbit_y_all_seed)
 
-#to heavy for pdf format
-#fig3.savefig(path+'orbit_distribution_correct_it1_{0}seeds.png'.format(eseed))
-fig5.savefig(path+'orbit_distribution_correct_it2_{0}seeds.png'.format(eseed))
-#fig9.savefig(path+'orbit_distribution_tune_match_first_it_{0}seeds.png'.format(eseed))
-#fig10.savefig(path+'orbit_distribution_tune_match_last_it_{0}seeds.png'.format(eseed))
+print('analytical rms: max_orbit_x = ',max_orbit_x)
+print('analytical rms: max_orbit_y = ',max_orbit_y)
+print('\n')
+
+print('rms_dist_x2 = ',rms_dist_x2)
+print('rms_dist_y2 = ',rms_dist_y2)
+print('\n')
+
+print('numerical rms x = ',rms_dist_x2[0])
+print('numerical rms y = ',rms_dist_y2[0])
+print('\n')
+
+mean_rms_dist_x2=np.mean(rms_dist_x2)
+mean_rms_dist_y2=np.mean(rms_dist_y2)
+
+print('numerical rms: mean_rms_dist_x2 = ',mean_rms_dist_x2)
+print('numerical rms: mean_rms_dist_y2 = ',mean_rms_dist_y2)
 sys.exit()
+
+#to heavy for pdf format
+fig3.savefig(path+'orbit_distribution_correct_it1_{0}seeds.png'.format(eseed))
+fig5.savefig(path+'orbit_distribution_correct_it2_{0}seeds.png'.format(eseed))
+fig9.savefig(path+'orbit_distribution_tune_match_first_it_{0}seeds.png'.format(eseed))
+fig10.savefig(path+'orbit_distribution_tune_match_last_it_{0}seeds.png'.format(eseed))
+
 #plot of the rms: it without tune match
 fig2, ax2=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax2[0].plot(xseed, rms_dist_x, ".", label='it n°1')
 ax2[0].plot(xseed2, rms_dist_x2, ".", label='it n°2')
 ax2[0].axhline(y=max_orbit_x, color='r', linestyle='--', label='analytical rms')
 ax2[0].set_ylabel("rms$_x$ [m]")
-ax2[0].set_ylim(0,500e-6) #for 80um
+#ax2[0].set_ylim(0,500e-6) #for 80um
 #ax2[0].set_ylim(0,6e-6) #for 20um
 #ax2[0].set_ylim(0,1.9e-5) #for 40um
-#ax2[0].set_ylim(0,250e-6) #for 60um
+ax2[0].set_ylim(0,250e-6) #for 60um
 #ax2[0].set_ylim(0,max_orbit_x+15e-5)
 ax2[0].legend(fontsize=10,loc='best')
 ax2[1].plot(xseed, rms_dist_y, ".", label='it n°1')
@@ -210,10 +228,10 @@ ax2[1].plot(xseed2, rms_dist_y2, ".", label='it n°2')
 ax2[1].axhline(y=max_orbit_y, color='r', linestyle='--', label='analytical rms')
 ax2[1].set_xlabel("seed")
 ax2[1].set_ylabel("rms$_y$ [m]")
-ax2[1].set_ylim(0,500e-6) #for 80um
+#ax2[1].set_ylim(0,500e-6) #for 80um
 #ax2[1].set_ylim(4e-6,6e-6) #for 20um
 #ax2[1].set_ylim(0.9e-5,1.9e-5) #for 40um
-#ax2[1].set_ylim(0,250e-6) #for 60um
+ax2[1].set_ylim(0,250e-6) #for 60um
 #ax2[1].set_ylim(0,max_orbit_y+15e-5)
 ax2[1].legend(fontsize=10,loc='best')
 fig2, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
@@ -224,19 +242,19 @@ fig4, ax4=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax4[0].plot(xseed, ave_dist_x, ".", label='it n°1')
 ax4[0].plot(xseed2, ave_dist_x2, ".", label='it n°2')
 ax4[0].set_ylabel("mean$_x$ [m]")
-ax4[0].set_ylim(-50e-6,50e-6) #for 80um
+#ax4[0].set_ylim(-50e-6,50e-6) #for 80um
 #ax4[0].set_ylim(-3e-7,3e-7) #for 20um
 #ax4[0].set_ylim(-6e-7,6e-7) #for 40um
-#ax4[0].set_ylim(-15e-7,15e-7) #for 60um
+ax4[0].set_ylim(-15e-7,15e-7) #for 60um
 ax4[0].legend(fontsize=10,loc='best')
 ax4[1].plot(xseed, ave_dist_y, ".", label='it n°1')
 ax4[1].plot(xseed2, ave_dist_y2, ".", label='it n°2')
 ax4[1].set_xlabel("seed")
 ax4[1].set_ylabel("mean$_y$ [m]")
-ax4[1].set_ylim(-50e-6,50e-6) #for 80um
+#ax4[1].set_ylim(-50e-6,50e-6) #for 80um
 #ax4[1].set_ylim(-3e-7,3e-7) #for 20um
 #ax4[1].set_ylim(-6e-7,6e-7) #for 40um
-#ax4[1].set_ylim(-15e-7,15e-7) #for 60um
+ax4[1].set_ylim(-15e-7,15e-7) #for 60um
 ax4[1].legend(fontsize=10,loc='best')
 fig4, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig4.savefig(path+'mean_orbit_correct_{0}seeds.pdf'.format(eseed))
@@ -247,10 +265,10 @@ ax12[0].plot(xseed3, rms_dist_x3, ".", label='first it')
 ax12[0].plot(xseed4, rms_dist_x4, ".", label='last it')
 ax12[0].axhline(y=max_orbit_x, color='r', linestyle='--', label='analytical rms')
 ax12[0].set_ylabel("rms$_x$ [m]")
-ax12[0].set_ylim(0,500e-6) #for 80um
+#ax12[0].set_ylim(0,500e-6) #for 80um
 #ax12[0].set_ylim(0,6e-6) #for 20um
 #ax12[0].set_ylim(0,1.9e-5) #for 40um
-#ax12[0].set_ylim(0,250e-6) #for 60um
+ax12[0].set_ylim(0,250e-6) #for 60um
 #ax12[0].set_ylim(0,max_orbit_x+15e-5)
 ax12[0].legend(fontsize=10,loc='best')
 ax12[1].plot(xseed3, rms_dist_y3, ".", label='first it')
@@ -258,10 +276,10 @@ ax12[1].plot(xseed4, rms_dist_y4, ".", label='last it')
 ax12[1].axhline(y=max_orbit_y, color='r', linestyle='--', label='analytical rms')
 ax12[1].set_xlabel("seed")
 ax12[1].set_ylabel("rms$_y$ [m]")
-ax12[1].set_ylim(0,500e-6) #for 80um
+#ax12[1].set_ylim(0,500e-6) #for 80um
 #ax12[1].set_ylim(4e-6,6e-6) #for 20um
 #ax12[1].set_ylim(0.9e-5,1.9e-5) #for 40um
-#ax12[1].set_ylim(0,250e-6) #for 60um
+ax12[1].set_ylim(0,250e-6) #for 60um
 #ax12[1].set_ylim(0,max_orbit_y+15e-5)
 ax12[1].legend(fontsize=10,loc='best')
 fig12, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
@@ -272,19 +290,19 @@ fig13, ax13=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax13[0].plot(xseed3, ave_dist_x3, ".", label='first it')
 ax13[0].plot(xseed4, ave_dist_x4, ".", label='last it')
 ax13[0].set_ylabel("mean$_x$ [m]")
-ax13[0].set_ylim(-50e-6,50e-6) #for 80um
+#ax13[0].set_ylim(-50e-6,50e-6) #for 80um
 #ax13[0].set_ylim(-3e-7,3e-7) #for 20um
 #ax13[0].set_ylim(-6e-7,6e-7) #for 40um
-#ax13[0].set_ylim(-15e-7,15e-7) #for 60um
+ax13[0].set_ylim(-15e-7,15e-7) #for 60um
 ax13[0].legend(fontsize=10,loc='best')
 ax13[1].plot(xseed3, ave_dist_y3, ".", label='first it')
 ax13[1].plot(xseed4, ave_dist_y4, ".", label='last it')
 ax13[1].set_xlabel("seed")
 ax13[1].set_ylabel("mean$_y$ [m]")
-ax13[1].set_ylim(-50e-6,50e-6) #for 80um
+#ax13[1].set_ylim(-50e-6,50e-6) #for 80um
 #ax13[1].set_ylim(-3e-7,3e-7) #for 20um
 #ax13[1].set_ylim(-6e-7,6e-7) #for 40um
-#ax13[1].set_ylim(-15e-7,15e-7) #for 60um
+ax13[1].set_ylim(-15e-7,15e-7) #for 60um
 ax13[1].legend(fontsize=10,loc='best')
 fig13, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig13.savefig(path+'mean_orbit_tune_match_{0}seeds.pdf'.format(eseed))

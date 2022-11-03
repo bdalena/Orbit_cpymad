@@ -210,7 +210,7 @@ cycle_heb_ring(start_point) : macro = {
 tws_select() : macro = {
    select,flag=twiss,clear;
    select,flag=twiss,column=name,keyword,s,l,x,y,betx,bety,alfx,alfy,
-   dx,dpx,dy,dpy,mux,muy,wx,wy,R51,R52, angle,
+   dx,dpx,dy,dpy,mux,muy,wx,wy,R51,R52, angle,dpsi,
    k1l,k2l,k1sl,k2sl,apertype,aper_1,aper_2,aper_3,aper_4;
 };
 !**********************************************************************
@@ -311,5 +311,26 @@ load_beam(): macro = {
       energy = ebeam,
       radiate = true;
    };
+};
+!**********************************************************************
+!**********************************************************************
+!Set the sextupole strengths to 0
+SEXTUOFF : macro ={
+print, text="sextupoles off";
+k2sf.old=k2sf;
+k2sd.old=k2sd;
+k2sf=0;
+k2sd=0;
+value k2sf;
+value k2sd;
+};
+
+!Set the sextupole strengths back
+SEXTUON : macro ={
+print, text="sextupoles on";
+k2sf=k2sf.old;
+k2sd=k2sd.old;
+value k2sf;
+value k2sd;
 };
 !**********************************************************************

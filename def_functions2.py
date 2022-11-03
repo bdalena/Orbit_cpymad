@@ -149,6 +149,7 @@ def anal_corr_calc(file1,file2):
     delta_q_x=(std1x+std2x+std3x+std4x+std5x+std6x+std7x+std8x)/8 #offset MB (m)
     delta_q_y=(std1y+std2y+std3y+std4y+std5y+std6y+std7y+std8y)/8 #offet MQ (m)
     MB_roll_angle=(std1y_mb+std2y_mb+std3y_mb+std4y_mb+std5y_mb+std6y_mb+std7y_mb+std8y_mb)/8 #DPSI (rad)
+    print('MB_roll_angle = ',MB_roll_angle)
 
     #Columns index
     i_S=ref_tfs.columns.get_loc("S")
@@ -329,7 +330,7 @@ def get_elem(madx_elem,elem_name,elem_loc):
 
 #----------------------------------------------------------------------------------------------------------------  
 
-def tune_match(seq,pace,tol_tar):
+def tune_match(madx,seq,pace,tol_tar,qx_tar,qy_tar):
     '''
     For matching the tune.
     seq = name of the sequence : str
@@ -338,7 +339,7 @@ def tune_match(seq,pace,tol_tar):
     madx.command.match(sequence=seq)
     madx.vary(name='k1f_tune',step=pace)
     madx.vary(name='k1d_tune',step=pace)
-    #madx.command.global_(sequence='fcc_heb',q1=qx_tar,q2=qy_tar) #!!!
+    madx.command.global_(sequence='fcc_heb',q1='qx_tar',q2='qy_tar') #!!!
     madx.jacobian(calls=10,tolerance=tol_tar)
     madx.endmatch()
 

@@ -13,7 +13,7 @@ import pandas as pd
 import sys
 import os
 
-err_mq=90 #quads offset
+err_mq=60 #quads offset
 eseed=100 #nb of seeds
 
 #path definition
@@ -86,8 +86,12 @@ for i in range(eseed):
 
         ax3[0].plot(optics_all1['S']/1000., 100.*((optics_all1['BETX']-optics_ref["BETX"])/optics_ref["BETX"]), ".")
         ax3[0].set_ylabel(r"$\Delta \beta_{x} / \beta_{x,ref}$ [%]")
+        #ax3[0].set_ylim(-150,150)
+        ax3[0].set_ylim(-40,40) #for 60um
         ax3[1].plot(optics_all1['S']/1000., 100.*((optics_all1['BETY']-optics_ref["BETY"])/optics_ref["BETY"]), ".")
         ax3[1].set_xlabel("longitundinal position [km]")
+        #ax3[1].set_ylim(-150,150)
+        ax3[1].set_ylim(-40,40) #for 60um
         ax3[1].set_ylabel(r"$\Delta \beta_{y} / \beta_{y,ref}$ [%]")
         
         iis+=1
@@ -108,8 +112,12 @@ for i in range(eseed):
 
         ax5[0].plot(optics_all2['S']/1000., 100.*((optics_all2['BETX']-optics_ref["BETX"])/optics_ref["BETX"]), ".")
         ax5[0].set_ylabel(r"$\Delta \beta_{x} / \beta_{x,ref}$ [%]")
+        #ax5[0].set_ylim(-60,60)
+        ax5[0].set_ylim(-40,40) #for 60um
         ax5[1].plot(optics_all2['S']/1000., 100.*((optics_all2['BETY']-optics_ref["BETY"])/optics_ref["BETY"]), ".")
         ax5[1].set_xlabel("longitundinal position [km]")
+        #ax5[1].set_ylim(-60,60)
+        ax5[1].set_ylim(-40,40) #for 60um
         ax5[1].set_ylabel(r"$\Delta \beta_{y} / \beta_{y,ref}$ [%]")
         
         jjs+=1

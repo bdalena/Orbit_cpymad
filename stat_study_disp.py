@@ -13,7 +13,7 @@ import pandas as pd
 import sys
 import os
 
-err_mq=90 #quads offset
+err_mq=60 #quads offset
 eseed=100 #nb of seeds
 
 #path definition

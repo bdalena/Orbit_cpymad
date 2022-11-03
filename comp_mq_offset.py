@@ -16,14 +16,17 @@ def add_value_label(x_list,y_list):
         plt.text(i,y_list[i-1]/2,y_list[i-1], ha="center")
 
 
-l_err_mq=[20,40,60,80,90,100]
+#l_err_mq=[20,40,60,80,90,100] #with mq offsets only
+l_err_mq=[60,80,90,100] #with mq offsets, mb err field & roll
 eseed=100
 l_passed=[]
 
 for i in range(len(l_err_mq)):
     cnt=0
     for j in range(eseed):
-        fname='/home/td271008/work/cpymadx/Orbit_cpymad/mq_offset_{0}_IP5_2it_{1}seeeds_corrhplus/test_seed{2}/FCCee_heb_modett_orbcor_all_sextuon_it2_seed{2}.tfs'.format(l_err_mq[i],eseed,j+1)
+        #fname='/home/td271008/work/cpymadx/Orbit_cpymad/mq_offset_{0}_IP5_2it_{1}seeeds_corrhplus/test_seed{2}/FCCee_heb_modett_orbcor_all_sextuon_it2_seed{2}.tfs'.format(l_err_mq[i],eseed,j+1)
+
+        fname='/home/td271008/work/cpymadx/Orbit_cpymad/mb_fielderr_roll_mq_offset_{0}_IP5_2it_{1}seeeds_corrhplus/test_seed{2}/FCCee_heb_modett_orbcor_all_sextuon_it2_seed{2}.tfs'.format(l_err_mq[i],eseed,j+1)
 
         if os.path.exists(fname):
             cnt+=1
@@ -51,5 +54,5 @@ for p in pps:
       textcoords="offset points",
       ha='center', va='bottom')
 
-fig.savefig('/home/td271008/work/cpymadx/Orbit_cpymad/comp_mq_offset.pdf')
+fig.savefig('/home/td271008/work/cpymadx/Orbit_cpymad/comp_mb_fielderr_roll_mq_offset.pdf')
 #plt.show()
