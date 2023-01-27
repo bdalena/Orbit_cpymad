@@ -10,19 +10,19 @@
 ! *********************** Element type : MQ arcs ****************** 
 ! -----------------------------------------------------------------------
 !                                 at injection 
-dxR_MQAll_inj     :=  0.0800 ;
-dyR_MQAll_inj     :=  0.0800 ;
+dxR_MQAll_inj     :=  0.1000 ;
+dyR_MQAll_inj     :=  0.1000 ;
 dsR_MQAll_inj     :=  1.0000 ;
 dphiR_MQAll_inj   :=  0.1000 ;
 dthetaR_MQAll_inj :=  0.1000 ;
-dpsiR_MQAll_inj   :=  0.2000 ;
+dpsiR_MQAll_inj   :=  0.0000 ;
 
 !                                 in collision 
-dxR_MQAll_col     :=  0.0800 ;
-dyR_MQAll_col     :=  0.0800 ;
+dxR_MQAll_col     :=  0.1000 ;
+dyR_MQAll_col     :=  0.1000 ;
 dsR_MQAll_col     :=  1.0000 ;
 dphiR_MQAll_col   :=  0.1000 ;
 dthetaR_MQAll_col :=  0.1000 ;
-dpsiR_MQAll_col   :=  0.2000 ;
+dpsiR_MQAll_col   :=  0.0000 ;
 
 return;

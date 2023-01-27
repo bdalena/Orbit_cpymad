@@ -10,16 +10,16 @@
 ! *********************** Element type : MB arcs ****************** 
 ! -----------------------------------------------------------------------
 !                                 at injection 
-dxR_MBAll_inj     :=  1.1500 ;
-dyR_MBAll_inj     :=  1.1500 ;
+dxR_MBAll_inj     :=  0.0000 ;
+dyR_MBAll_inj     :=  0.0000 ;
 dsR_MBAll_inj     :=  1.0000 ;
 dphiR_MBAll_inj   :=  0.0000 ;
 dthetaR_MBAll_inj :=  0.0000 ;
 dpsiR_MBAll_inj   :=  0.3000 ;
 
 !                                 in collision 
-dxR_MBAll_col     :=  1.1500 ;
-dyR_MBAll_col     :=  1.1500 ;
+dxR_MBAll_col     :=  0.0000 ;
+dyR_MBAll_col     :=  0.0000 ;
 dsR_MBAll_col     :=  1.0000 ;
 dphiR_MBAll_col   :=  0.0000 ;
 dthetaR_MBAll_col :=  0.0000 ;

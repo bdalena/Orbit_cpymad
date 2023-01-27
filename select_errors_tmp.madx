@@ -9,7 +9,7 @@
 !**********************          ERRORS        ************************
 !**********************************************************************
 ! Seed for errors assignment
-EOPTION, seed=10;
+EOPTION, seed=47;
 !**********************************************************************
 !********************** Field    ERRORS        ************************
 !**********************************************************************
@@ -17,7 +17,7 @@ EOPTION, seed=10;
 ON_A1S =  0 ;  ON_B1S =  0;
 ON_A2S =  0 ;  ON_B2S =  0;
 !** random
-ON_A1r =  0 ;  ON_B1R =  0;
+ON_A1r =  0 ;  ON_B1R =  1;
 ON_A2r =  0 ;  ON_B2r =  0;
 ON_A3r =  0 ;  ON_B3r =  0;
 ON_A4r =  0 ;  ON_B4r =  0;
@@ -54,6 +54,17 @@ call, file="/home/td271008/work/errors/Efcomp_elems.madx";
 
 ON_DXR = 1 ;  ON_DYr = 1 ;
 ON_DPHIr = 0 ;  ON_DTHETAr = 0 ;
+ON_DPSIr = 1 ;  ON_DSr   =   0 ;
+ON_MREXr = 0 ;  ON_MREYr =   0 ;
+ON_DXR=1;  !! I need to reset otherwise is zero!!!!!!
+ON_DPSIr = 1 ;  !! I need to reset otherwise is zero!!!!!!
+value, ON_DXR;
+value, ON_DPSIr;
+
+
+! load Alignment Errors tables
+call, file="errors/Ealign_MBarc_table_v0";
+=======
 ON_DPSIr = 0 ;  ON_DSr   =   0 ;
 ON_MREXr = 0 ;  ON_MREYr =   0 ;
 ON_DXR=1;  !! I need to reset otherwise is zero!!!!!!
@@ -61,7 +72,7 @@ value, ON_DXR;
 
 
 ! load Alignment Errors tables
-!call, file="errors/Ealign_MBarc_table_v0";
+call, file="errors/Ealign_MBarc_table_v0";
 call, file="errors/Ealign_MQarc_table_vtest";
 !call, file="errors/Ealign_MSarc_table_v0";
 !call, file="errors/Ealign_BPMarc_table_v0";

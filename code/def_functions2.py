@@ -6,6 +6,7 @@ from cpymad.madx import Madx
 import matplotlib.pyplot as plt 
 import numpy as np
 import pandas as pd
+import math
 import sys
 import os
 
@@ -97,6 +98,7 @@ def anal_corr_calc(file1,file2):
     #----- VARIABLES -----
 
     ind_q=ref_tfs.index[ref_tfs["NAME"]=="MQ.A1.021"].tolist()[0] #index of the first quad selected in the arc
+    ind_s=ref_tfs.index[ref_tfs["NAME"]=="MS.A1.021"].tolist()[0] #index of the first sextupole selected in the arc
     ind_d=ref_tfs.index[ref_tfs["NAME"]=="MB.A1.021A"].tolist()[0] #index of the first dpole selected in the arc
     ind_S_arc=ref_tfs.index[ref_tfs["NAME"]=="MQ.A1.001"].tolist()[0] #index for the begging of an arc
     ind_E_arc=ref_tfs.index[ref_tfs["NAME"]=="MQ.A2.001"].tolist()[0] #index for the ending of an arc
@@ -119,6 +121,24 @@ def anal_corr_calc(file1,file2):
     data_MB_A6_err=ref_err.loc[ref_err["NAME"].str.contains('MB.A6')]
     data_MB_A7_err=ref_err.loc[ref_err["NAME"].str.contains('MB.A7')]
     data_MB_A8_err=ref_err.loc[ref_err["NAME"].str.contains('MB.A8')]
+
+    data_BPM_A1_err=ref_err.loc[ref_err["NAME"].str.contains('BPMN.A1')]
+    data_BPM_A2_err=ref_err.loc[ref_err["NAME"].str.contains('BPMN.A2')]
+    data_BPM_A3_err=ref_err.loc[ref_err["NAME"].str.contains('BPMN.A3')]
+    data_BPM_A4_err=ref_err.loc[ref_err["NAME"].str.contains('BPMN.A4')]
+    data_BPM_A5_err=ref_err.loc[ref_err["NAME"].str.contains('BPMN.A5')]
+    data_BPM_A6_err=ref_err.loc[ref_err["NAME"].str.contains('BPMN.A6')]
+    data_BPM_A7_err=ref_err.loc[ref_err["NAME"].str.contains('BPMN.A7')]
+    data_BPM_A8_err=ref_err.loc[ref_err["NAME"].str.contains('BPMN.A8')]
+
+    data_MS_A1_err=ref_err.loc[ref_err["NAME"].str.contains('MS.A1')]
+    data_MS_A2_err=ref_err.loc[ref_err["NAME"].str.contains('MS.A2')]
+    data_MS_A3_err=ref_err.loc[ref_err["NAME"].str.contains('MS.A3')]
+    data_MS_A4_err=ref_err.loc[ref_err["NAME"].str.contains('MS.A4')]
+    data_MS_A5_err=ref_err.loc[ref_err["NAME"].str.contains('MS.A5')]
+    data_MS_A6_err=ref_err.loc[ref_err["NAME"].str.contains('MS.A6')]
+    data_MS_A7_err=ref_err.loc[ref_err["NAME"].str.contains('MS.A7')]
+    data_MS_A8_err=ref_err.loc[ref_err["NAME"].str.contains('MS.A8')]
     
     data_corr=ref_tfs.loc[ref_tfs["NAME"].str.contains('CORR.A')] #dataframe containing the data for all the correctors used in the arcs
     data_bpm=ref_tfs.loc[ref_tfs["NAME"].str.contains('BPM')] #dataframe containing the data for all the BPMs
@@ -146,15 +166,41 @@ def anal_corr_calc(file1,file2):
     ma7x,ma7y,std7x_mb,std7y_mb=stat_err(data_MB_A7_err,"K0L","DPSI")
     ma8x,ma8y,std8x_mb,std8y_mb=stat_err(data_MB_A8_err,"K0L","DPSI")
 
-    delta_q_x=(std1x+std2x+std3x+std4x+std5x+std6x+std7x+std8x)/8 #offset MB (m)
-    delta_q_y=(std1y+std2y+std3y+std4y+std5y+std6y+std7y+std8y)/8 #offet MQ (m)
+    ma1x,ma1y,std1x_bpm,std1y_bpm=stat_err(data_BPM_A1_err,"DX","DY")
+    ma2x,ma2y,std2x_bpm,std2y_bpm=stat_err(data_BPM_A2_err,"DX","DY")
+    ma3x,ma3y,std3x_bpm,std3y_bpm=stat_err(data_BPM_A3_err,"DX","DY")
+    ma4x,ma4y,std4x_bpm,std4y_bpm=stat_err(data_BPM_A4_err,"DX","DY")
+    ma5x,ma5y,std5x_bpm,std5y_bpm=stat_err(data_BPM_A5_err,"DX","DY")
+    ma6x,ma6y,std6x_bpm,std6y_bpm=stat_err(data_BPM_A6_err,"DX","DY")
+    ma7x,ma7y,std7x_bpm,std7y_bpm=stat_err(data_BPM_A7_err,"DX","DY")
+    ma8x,ma8y,std8x_bpm,std8y_bpm=stat_err(data_BPM_A8_err,"DX","DY")
+
+    ma1x,ma1y,std1x_ms,std1y_ms=stat_err(data_MS_A1_err,"DX","DY")
+    ma2x,ma2y,std2x_ms,std2y_ms=stat_err(data_MS_A2_err,"DX","DY")
+    ma3x,ma3y,std3x_ms,std3y_ms=stat_err(data_MS_A3_err,"DX","DY")
+    ma4x,ma4y,std4x_ms,std4y_ms=stat_err(data_MS_A4_err,"DX","DY")
+    ma5x,ma5y,std5x_ms,std5y_ms=stat_err(data_MS_A5_err,"DX","DY")
+    ma6x,ma6y,std6x_ms,std6y_ms=stat_err(data_MS_A6_err,"DX","DY")
+    ma7x,ma7y,std7x_ms,std7y_ms=stat_err(data_MS_A7_err,"DX","DY")
+    ma8x,ma8y,std8x_ms,std8y_ms=stat_err(data_MS_A8_err,"DX","DY")
+
+    #offset MQ (m)
+    delta_q_x=(std1x+std2x+std3x+std4x+std5x+std6x+std7x+std8x)/8
+    delta_q_y=(std1y+std2y+std3y+std4y+std5y+std6y+std7y+std8y)/8
+    #offset BPM (m)
+    delta_bpm_x=(std1x_bpm+std2x_bpm+std3x_bpm+std4x_bpm+std5x_bpm+std6x_bpm+std7x_bpm+std8x_bpm)/8
+    delta_bpm_y=(std1y_bpm+std2y_bpm+std3y_bpm+std4y_bpm+std5y_bpm+std6y_bpm+std7y_bpm+std8y_bpm)/8
+    #offset MS (m)
+    delta_ms_x=(std1x_ms+std2x_ms+std3x_ms+std4x_ms+std5x_ms+std6x_ms+std7x_ms+std8x_ms)/8
+    delta_ms_y=(std1y_ms+std2y_ms+std3y_ms+std4y_ms+std5y_ms+std6y_ms+std7y_ms+std8y_ms)/8
     MB_roll_angle=(std1y_mb+std2y_mb+std3y_mb+std4y_mb+std5y_mb+std6y_mb+std7y_mb+std8y_mb)/8 #DPSI (rad)
-    print('MB_roll_angle = ',MB_roll_angle)
+    #print('MB_roll_angle = ',MB_roll_angle)
 
     #Columns index
     i_S=ref_tfs.columns.get_loc("S")
     i_L=ref_tfs.columns.get_loc("L")
     i_K1L=ref_tfs.columns.get_loc("K1L")
+    i_K2L=ref_tfs.columns.get_loc("K2L")
     i_ANGLE=ref_tfs.columns.get_loc("ANGLE")
     i_DPSI=ref_err.columns.get_loc("DPSI")
 
@@ -162,7 +208,9 @@ def anal_corr_calc(file1,file2):
     L_cell=ref_tfs.iat[ind2,i_S]-ref_tfs.iat[ind1,i_S] #length of one cell (m)
     L_d=ref_tfs.iat[ind_d,i_L] #MB length (m)
     L_q=ref_tfs.iat[ind_q,i_L] #MQ length (m)
+    L_s=ref_tfs.iat[ind_s,i_L] #MQ length (m)
     K1L=ref_tfs.iat[ind_q,i_K1L] #itegrated MQ strength
+    K2L=ref_tfs.iat[ind_s,i_K2L] #itegrated MS strength
     MB_angle=ref_tfs.iat[ind_d,i_ANGLE] #MB bending angle (rad)
 
     #from headers
@@ -187,16 +235,30 @@ def anal_corr_calc(file1,file2):
 
     mu_cell=np.pi/2
     beta_bar=L_cell/np.sin(mu_cell)
-    beta_max=beta_bar*(1+np.sin(L_cell/2))
+    beta_max=beta_bar*(1+np.sin(mu_cell/2))
     rho=L_tot/(2*np.pi) #radius of the circle
     N_d=(2*np.pi)/MB_angle #total nb of MB
     N_q=N_d/2 #total nb of MQ (because we work in the arcs)
+
+    R_ref=0.026 #m
+    b2=(K2L*R_ref)/(Brho*L_s)
+
+    m=3 #MS
+    k=1 #MB
+    #b0=((b2*math.factorial(m-1))/(math.factorial(k-1)*math.factorial(m-k)))*((delta_ms_x+1j*delta_ms_y)/R_ref)**(m-k)
     
+
+    '''
+    print(' MB_field_err = ', MB_field_err)
+    print('b0 = ', b0)
+    print('\n')
+    '''
 
     #----- ORBIT DISTORTION -----
 
-    orbit_x=MB_field_err*((np.pi*beta_bar)/(np.sqrt(2)*np.sin(np.pi*Q_x)*np.sqrt(N_d)))+np.sqrt(delta_q_x**2*np.sin(mu_cell/2)**2/(1+np.sin(mu_cell/2))**2)
-    orbit_y=MB_roll_angle*((np.pi*beta_bar)/(np.sqrt(2)*np.sin(np.pi*Q_y)*np.sqrt(N_d)))+np.sqrt(delta_q_y**2*np.sin(mu_cell/2)**2/(1+np.sin(mu_cell/2))**2)
+    orbit_x=MB_field_err*((np.pi*beta_bar)/(np.sqrt(2)*np.sin(np.pi*Q_x)*np.sqrt(N_d))) + np.sqrt(delta_q_x**2*np.sin(mu_cell/2)**2/(1+np.sin(mu_cell/2))**2) + (0.5*delta_bpm_x**2)/(1+np.sin(mu_cell/2))**2
+    
+    orbit_y=MB_angle*MB_roll_angle*((np.pi*beta_bar)/(np.sqrt(2)*np.sin(np.pi*Q_y)*np.sqrt(N_d))) + np.sqrt(delta_q_y**2*np.sin(mu_cell/2)**2/(1+np.sin(mu_cell/2))**2) + (0.5*delta_bpm_y**2)/(1+np.sin(mu_cell/2))**2
     
     #----- CORRECTOR STRENGTH -----
    
@@ -215,21 +277,21 @@ def anal_corr_calc(file1,file2):
     corr_strength_y=[]
 
     #calculation correctors strength for plane x (arc by arc)
-    corr_strength_x_A1=fact1x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a1)**2+2*std1x**2*K1L**2))
+    corr_strength_x_A1=fact1x*(np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a1)**2+2*std1x**2*K1L**2))+std1x_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_x.append(corr_strength_x_A1)
-    corr_strength_x_A2=fact2x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a2)**2+2*std2x**2*K1L**2))
+    corr_strength_x_A2=fact2x*(np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a2)**2+2*std2x**2*K1L**2))+std2x_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_x.append(corr_strength_x_A2)
-    corr_strength_x_A3=fact3x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a3)**2+2*std3x**2*K1L**2))
+    corr_strength_x_A3=fact3x*(np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a3)**2+2*std3x**2*K1L**2))+std3x_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_x.append(corr_strength_x_A3)
-    corr_strength_x_A4=fact4x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a4)**2+2*std4x**2*K1L**2))
+    corr_strength_x_A4=fact4x*(np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a4)**2+2*std4x**2*K1L**2))+std4x_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_x.append(corr_strength_x_A4)
-    corr_strength_x_A5=fact5x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a5)**2+2*std5x**2*K1L**2))
+    corr_strength_x_A5=fact5x*(np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a5)**2+2*std5x**2*K1L**2))+std5x_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_x.append(corr_strength_x_A5)
-    corr_strength_x_A6=fact6x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a6)**2+2*std6x**2*K1L**2))
+    corr_strength_x_A6=fact6x*(np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a6)**2+2*std6x**2*K1L**2))+std6x_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_x.append(corr_strength_x_A6)
-    corr_strength_x_A7=fact7x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a7)**2+2*std7x**2*K1L**2))
+    corr_strength_x_A7=fact7x*(np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a7)**2+2*std7x**2*K1L**2))+std7x_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_x.append(corr_strength_x_A7)
-    corr_strength_x_A8=fact8x*np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a8)**2+2*std8x**2*K1L**2))
+    corr_strength_x_A8=fact8x*(np.sqrt((beta_bar/beta_max)*(n*(MB_angle*MB_field_err_a8)**2+2*std8x**2*K1L**2))+std8x_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_x.append(corr_strength_x_A8)
     
     fact1y=f
@@ -242,21 +304,21 @@ def anal_corr_calc(file1,file2):
     fact8y=f
 
     #calculation correctors strength for plane y (arc by arc)
-    corr_strength_y_A1=fact1y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std1y_mb/rho)**2+2*std1y**2*K1L**2))
+    corr_strength_y_A1=fact1y*(np.sqrt((beta_bar/beta_max)*(n*(L_d*std1y_mb/rho)**2+2*std1y**2*K1L**2))+std1y_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_y.append(corr_strength_y_A1)
-    corr_strength_y_A2=fact2y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std2y_mb/rho)**2+2*std2y**2*K1L**2))
+    corr_strength_y_A2=fact2y*(np.sqrt((beta_bar/beta_max)*(n*(L_d*std2y_mb/rho)**2+2*std2y**2*K1L**2))+std2y_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_y.append(corr_strength_y_A2)
-    corr_strength_y_A3=fact3y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std3y_mb/rho)**2+2*std3y**2*K1L**2))
+    corr_strength_y_A3=fact3y*(np.sqrt((beta_bar/beta_max)*(n*(L_d*std3y_mb/rho)**2+2*std3y**2*K1L**2))+std3y_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_y.append(corr_strength_y_A3)
-    corr_strength_y_A4=fact4y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std4y_mb/rho)**2+2*std4y**2*K1L**2))
+    corr_strength_y_A4=fact4y*(np.sqrt((beta_bar/beta_max)*(n*(L_d*std4y_mb/rho)**2+2*std4y**2*K1L**2))+std4y_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_y.append(corr_strength_y_A4)
-    corr_strength_y_A5=fact5y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std5y_mb/rho)**2+2*std5y**2*K1L**2))
+    corr_strength_y_A5=fact5y*(np.sqrt((beta_bar/beta_max)*(n*(L_d*std5y_mb/rho)**2+2*std5y**2*K1L**2))+std5y_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_y.append(corr_strength_y_A5)
-    corr_strength_y_A6=fact6y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std6y_mb/rho)**2+2*std6y**2*K1L**2))
+    corr_strength_y_A6=fact6y*(np.sqrt((beta_bar/beta_max)*(n*(L_d*std6y_mb/rho)**2+2*std6y**2*K1L**2))+std6y_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_y.append(corr_strength_y_A6)
-    corr_strength_y_A7=fact7y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std7y_mb/rho)**2+2*std7y**2*K1L**2))
+    corr_strength_y_A7=fact7y*(np.sqrt((beta_bar/beta_max)*(n*(L_d*std7y_mb/rho)**2+2*std7y**2*K1L**2))+std7y_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_y.append(corr_strength_y_A7)
-    corr_strength_y_A8=fact8y*np.sqrt((beta_bar/beta_max)*(n*(L_d*std8y_mb/rho)**2+2*std8y**2*K1L**2))
+    corr_strength_y_A8=fact8y*(np.sqrt((beta_bar/beta_max)*(n*(L_d*std8y_mb/rho)**2+2*std8y**2*K1L**2))+std8y_bpm**2*(1+2*(np.cos(mu_cell))**2)/(2*(L_cell/2)**2*(1+np.sin(mu_cell/2)**2)))
     corr_strength_y.append(corr_strength_y_A8)
 
     #saving the mean of correctors strength for both planes
@@ -550,7 +612,7 @@ def svd_first(madx,i_start,seq,err,tol,beta):
     treading_svd(madx,i_start,start,end,seq,err,tol,beta)
 
 
-def svd_ring(madx,seq,err,tol):
+def svd_ring(madx,seq,err,cond,sngval,sngcut,tol,direction):
     '''
     Defines the elements (BPMs and CORRs) used for the orbit correction, for all the arcs at once.
     seq = name of a valid sequence for which the calculation of optical functions should be performed
@@ -573,7 +635,7 @@ def svd_ring(madx,seq,err,tol):
             end.append('CORRN.S{0}.001'.format(i+1))
         #end.append('CORRN.A{0}.369'.format(i))
 
-    treading_svd_ring(madx,start,end,seq,err,tol)
+    treading_svd_ring(madx,start,end,seq,err,cond,sngval,sngcut,tol,direction)
 
 #- - - - - -
 '''    
@@ -612,7 +674,7 @@ def treading_svd(madx,i_start,start,end,seq,err,tol,beta):
 
     return
 
-def treading_svd_ring(madx,start,end,seq,err,tol):
+def treading_svd_ring(madx,start,end,seq,err,cond,sngval,sngcut,tol,direction):
     '''
     Do the correction of the orbit (using CORRECT and SVD) and the twiss, for all the arcs at once.
     start = list with the first selected CORRs and BPMs for thr orbit correction
@@ -640,8 +702,9 @@ def treading_svd_ring(madx,start,end,seq,err,tol):
     madx.command.usekick(status='on', range=start[13]+'/'+end[13])
     madx.command.usekick(status='on', range=start[15]+'/'+end[15])
 
-    madx.command.correct(flag='line',mode='svd',monerror=err,error=tol,plane='x',corzero=0,clist='cx_fccee_heb_mic_all.tab')
-    madx.command.correct(flag='line',mode='svd',monerror=err,error=tol,plane='y',corzero=0,clist='cy_fccee_heb_mic_all.tab')
+    
+    #madx.command.correct(flag='line',mode='svd',monerror=err,error=tol,plane='x',corzero=0,clist='cx_fccee_heb_mic_all.tab')
+    madx.command.correct(flag='line',mode='svd',monerror=err,cond=cond,sngval=sngval,sngcut=sngcut,error=tol,plane=direction,corzero=0,clist='c'+direction+'_fccee_heb_mic_all.tab')
 
     return
 
