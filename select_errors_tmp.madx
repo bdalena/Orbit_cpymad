@@ -64,6 +64,15 @@ value, ON_DPSIr;
 
 ! load Alignment Errors tables
 call, file="errors/Ealign_MBarc_table_v0";
+=======
+ON_DPSIr = 0 ;  ON_DSr   =   0 ;
+ON_MREXr = 0 ;  ON_MREYr =   0 ;
+ON_DXR=1;  !! I need to reset otherwise is zero!!!!!!
+value, ON_DXR;
+
+
+! load Alignment Errors tables
+call, file="errors/Ealign_MBarc_table_v0";
 call, file="errors/Ealign_MQarc_table_vtest";
 !call, file="errors/Ealign_MSarc_table_v0";
 !call, file="errors/Ealign_BPMarc_table_v0";

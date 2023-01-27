@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 mkdir tune_match_mb_fielderr_roll_mq_offset_90_IP5_10seeeds_corrhplus
 
 for de in `seq 1 10`; do
@@ -10,5 +11,6 @@ for de in `seq 1 10`; do
     mv *.tab test_seed"$de"
     mv test_seed"$de"/ tune_match_mb_fielderr_roll_mq_offset_90_IP5_10seeeds_corrhplus/
     mv seed-"$de".out tune_match_mb_fielderr_roll_mq_offset_90_IP5_10seeeds_corrhplus/
+    mv *.tab test_seed"$de"/
     rm tmp*.py select_errors.madx
 done
