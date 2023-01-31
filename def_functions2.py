@@ -202,7 +202,7 @@ def anal_corr_calc(file1,file2):
     #----- ORBIT DISTORTION -----
 
     orbit_x=MB_field_err*((np.pi*beta_bar)/(np.sqrt(2)*np.sin(np.pi*Q_x)*np.sqrt(N_d)))+np.sqrt(delta_q_x**2*np.sin(mu_cell/2)**2/(1+np.sin(mu_cell/2))**2)
-    orbit_y=MB_roll_angle*((np.pi*beta_bar)/(np.sqrt(2)*np.sin(np.pi*Q_y)*np.sqrt(N_d)))+np.sqrt(delta_q_y**2*np.sin(mu_cell/2)**2/(1+np.sin(mu_cell/2))**2)
+    orbit_y=MB_angle*MB_roll_angle*((np.pi*beta_bar)/(np.sqrt(2)*np.sin(np.pi*Q_y)*np.sqrt(N_d)))+np.sqrt(delta_q_y**2*np.sin(mu_cell/2)**2/(1+np.sin(mu_cell/2))**2)
     
     #----- CORRECTOR STRENGTH -----
    
