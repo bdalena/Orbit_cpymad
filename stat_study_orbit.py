@@ -19,7 +19,7 @@ eseed=100 #nb of seeds
 #path definition
 #path='/home/td271008/work/cpymadx/Orbit_cpymad/mq_offset_{0}_IP5_2it_100seeeds_corrhplus/'.format(err_mq)
 #path='/home/td271008/work/cpymadx/Orbit_cpymad/mb_fielderr_roll_mq_offset_{0}_IP5_2it_100seeeds_corrhplus/'.format(err_mq)
-path='/home/td271008/work/cpymadx/Orbit_cpymad/tune_match_mb_fielderr_roll_mq_offset_{0}_IP5_100seeeds_corrhplus/'.format(err_mq)
+path='./'
 
 fig3, ax3=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 fig3, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
@@ -68,16 +68,16 @@ orbit_x_all_seed=np.empty(0)
 orbit_y_all_seed=np.empty(0)  
 
 for i in range(eseed):
-    
-    file1=path+'test_seed{0}/FCCee_heb_modett_seed{0}.tfs'.format(i+1)
-    file2=path+'test_seed{0}/FCCee_heb_errors_corr_seed{0}.out'.format(i+1)
+    iseed= i+1
+    file1=path+'test_seed{0}/FCCee_heb_modett_seed{0}.tfs'.format(iseed)
+    file2=path+'test_seed{0}/FCCee_heb_errors_corr_seed{0}.out'.format(iseed)
     
     mean_corr_x,mean_corr_y,orbit_x,orbit_y=df.anal_corr_calc(file1,file2)
     orbit_x_all_seed=np.append(orbit_x_all_seed,orbit_x)
     orbit_y_all_seed=np.append(orbit_y_all_seed,orbit_y)
 
     #CORRECT: it 1
-    fnameall1=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_it1_seed{0}.tfs".format(i+1)
+    fnameall1=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_ring_sextuon_it1_seed{0}.tfs".format(iseed)
     if os.path.exists(fnameall1):
         xseed=np.append(xseed,iis)
         head_opt1=pd.read_csv(fnameall1, header=50, sep='\s+', nrows=0).columns[1:]
@@ -87,7 +87,7 @@ for i in range(eseed):
         ave_dist_x=np.append(ave_dist_x,np.mean(optics_all1['X']))
         rms_dist_y=np.append(rms_dist_y,np.std(optics_all1['Y']))
         ave_dist_y=np.append(ave_dist_y,np.mean(optics_all1['Y']))
-
+        print("correct sex on it 1= {0}".format(np.std(optics_all1['X'])))
         ax3[0].plot(optics_all1['S']/1000., optics_all1['X'], ".")
         ax3[0].set_ylabel("x [m]")
         #ax3[0].set_ylim(-300e-6,300e-6) #for 80um
@@ -103,7 +103,7 @@ for i in range(eseed):
         continue
     
     #CORRECT: it 2
-    fnameall2=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_it2_seed{0}.tfs".format(i+1)
+    fnameall2=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_it2_seed{0}.tfs".format(iseed)
     if os.path.exists(fnameall2):
         xseed2=np.append(xseed2,jjs)
         head_opt2=pd.read_csv(fnameall2, header=50, sep='\s+', nrows=0).columns[1:]
@@ -127,7 +127,7 @@ for i in range(eseed):
         continue
 
     #tune match: first it
-    fnameall3=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it1_seed{0}.tfs".format(i+1)
+    fnameall3=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it1_seed{0}.tfs".format(iseed)
     if os.path.exists(fnameall3):
         xseed3=np.append(xseed3,kks)
         head_opt3=pd.read_csv(fnameall3, header=50, sep='\s+', nrows=0).columns[1:]
@@ -151,13 +151,13 @@ for i in range(eseed):
         continue
 
     cnt=1
-    fnameall4=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it{1}_seed{0}.tfs".format(i+1,cnt)
+    fnameall4=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it{1}_seed{0}.tfs".format(iseed,cnt)
     
     while os.path.exists(fnameall4):
-        fnameall4=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it{1}_seed{0}.tfs".format(i+1,cnt+1)
+        fnameall4=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it{1}_seed{0}.tfs".format(iseed,cnt+1)
         cnt+=1
     
-    fnameall4=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it{1}_seed{0}.tfs".format(i+1,cnt-1)
+    fnameall4=path+"test_seed{0}/FCCee_heb_modett_orbcor_all_sextuon_tune_match_it{1}_seed{0}.tfs".format(iseed,cnt-1)
     
     #tune match: last it
     if os.path.exists(fnameall4):
@@ -183,6 +183,13 @@ for i in range(eseed):
         continue
 
 
+print(fnameall1)
+#to heavy for pdf format
+fig3.savefig(path+'orbit_distribution_correct_it1_{0}seeds.png'.format(eseed))
+#fig5.savefig(path+'orbit_distribution_correct_it2_{0}seeds.png'.format(eseed))
+#fig9.savefig(path+'orbit_distribution_tune_match_first_it_{0}seeds.png'.format(eseed))
+#fig10.savefig(path+'orbit_distribution_tune_match_last_it_{0}seeds.png'.format(eseed))
+    
 max_orbit_x=np.max(orbit_x_all_seed)
 max_orbit_y=np.max(orbit_y_all_seed)
 
@@ -190,31 +197,32 @@ print('analytical rms: max_orbit_x = ',max_orbit_x)
 print('analytical rms: max_orbit_y = ',max_orbit_y)
 print('\n')
 
-print('rms_dist_x2 = ',rms_dist_x2)
-print('rms_dist_y2 = ',rms_dist_y2)
+print('rms_dist_x = ',rms_dist_x)
+print('rms_dist_y = ',rms_dist_y)
 print('\n')
-
-print('numerical rms x = ',rms_dist_x2[0])
-print('numerical rms y = ',rms_dist_y2[0])
+"""
+print('numerical rms x = ',rms_dist_x[0])
+print('numerical rms y = ',rms_dist_y[0])
 print('\n')
+"""
+mean_rms_dist_x2=np.mean(rms_dist_x)
+mean_rms_dist_y2=np.mean(rms_dist_y)
 
-mean_rms_dist_x2=np.mean(rms_dist_x2)
-mean_rms_dist_y2=np.mean(rms_dist_y2)
-
-print('numerical rms: mean_rms_dist_x2 = ',mean_rms_dist_x2)
-print('numerical rms: mean_rms_dist_y2 = ',mean_rms_dist_y2)
-sys.exit()
+print('numerical rms: mean_rms_dist_x = ',mean_rms_dist_x2)
+print('numerical rms: mean_rms_dist_y = ',mean_rms_dist_y2)
 
 #to heavy for pdf format
 fig3.savefig(path+'orbit_distribution_correct_it1_{0}seeds.png'.format(eseed))
-fig5.savefig(path+'orbit_distribution_correct_it2_{0}seeds.png'.format(eseed))
-fig9.savefig(path+'orbit_distribution_tune_match_first_it_{0}seeds.png'.format(eseed))
-fig10.savefig(path+'orbit_distribution_tune_match_last_it_{0}seeds.png'.format(eseed))
+plt.show()
+sys.exit()
+#fig5.savefig(path+'orbit_distribution_correct_it2_{0}seeds.png'.format(eseed))
+#fig9.savefig(path+'orbit_distribution_tune_match_first_it_{0}seeds.png'.format(eseed))
+#fig10.savefig(path+'orbit_distribution_tune_match_last_it_{0}seeds.png'.format(eseed))
 
 #plot of the rms: it without tune match
 fig2, ax2=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax2[0].plot(xseed, rms_dist_x, ".", label='it n°1')
-ax2[0].plot(xseed2, rms_dist_x2, ".", label='it n°2')
+#ax2[0].plot(xseed2, rms_dist_x2, ".", label='it n°2')
 ax2[0].axhline(y=max_orbit_x, color='r', linestyle='--', label='analytical rms')
 ax2[0].set_ylabel("rms$_x$ [m]")
 #ax2[0].set_ylim(0,500e-6) #for 80um
@@ -224,7 +232,7 @@ ax2[0].set_ylim(0,250e-6) #for 60um
 #ax2[0].set_ylim(0,max_orbit_x+15e-5)
 ax2[0].legend(fontsize=10,loc='best')
 ax2[1].plot(xseed, rms_dist_y, ".", label='it n°1')
-ax2[1].plot(xseed2, rms_dist_y2, ".", label='it n°2')
+#ax2[1].plot(xseed2, rms_dist_y2, ".", label='it n°2')
 ax2[1].axhline(y=max_orbit_y, color='r', linestyle='--', label='analytical rms')
 ax2[1].set_xlabel("seed")
 ax2[1].set_ylabel("rms$_y$ [m]")
@@ -240,7 +248,7 @@ fig2.savefig(path+'rms_orbit_correct_{0}seeds.pdf'.format(eseed))
 #plot of the mean: it without tune match
 fig4, ax4=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax4[0].plot(xseed, ave_dist_x, ".", label='it n°1')
-ax4[0].plot(xseed2, ave_dist_x2, ".", label='it n°2')
+#ax4[0].plot(xseed2, ave_dist_x2, ".", label='it n°2')
 ax4[0].set_ylabel("mean$_x$ [m]")
 #ax4[0].set_ylim(-50e-6,50e-6) #for 80um
 #ax4[0].set_ylim(-3e-7,3e-7) #for 20um
@@ -248,7 +256,7 @@ ax4[0].set_ylabel("mean$_x$ [m]")
 ax4[0].set_ylim(-15e-7,15e-7) #for 60um
 ax4[0].legend(fontsize=10,loc='best')
 ax4[1].plot(xseed, ave_dist_y, ".", label='it n°1')
-ax4[1].plot(xseed2, ave_dist_y2, ".", label='it n°2')
+#ax4[1].plot(xseed2, ave_dist_y2, ".", label='it n°2')
 ax4[1].set_xlabel("seed")
 ax4[1].set_ylabel("mean$_y$ [m]")
 #ax4[1].set_ylim(-50e-6,50e-6) #for 80um
@@ -258,7 +266,7 @@ ax4[1].set_ylim(-15e-7,15e-7) #for 60um
 ax4[1].legend(fontsize=10,loc='best')
 fig4, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig4.savefig(path+'mean_orbit_correct_{0}seeds.pdf'.format(eseed))
-
+sys.exit()
 #plot of the rms: it with tune match
 fig12, ax12=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax12[0].plot(xseed3, rms_dist_x3, ".", label='first it')

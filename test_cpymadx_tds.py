@@ -22,13 +22,13 @@ madx.set(format="-18s")
 madx.option(rbarc=False)
 
 #----- SEQUENCE DEFINITION -----
-madx.call(file='/home/td271008/work/cpymadx/Orbit_cpymad/optics/FCCee_heb_modett.ele')
-madx.call(file='/home/td271008/work/cpymadx/Orbit_cpymad/optics/FCCee_heb_modett.seq')
-madx.call(file='/home/td271008/work/cpymadx/Orbit_cpymad/optics/FCCee_heb_modett.str')
+madx.call(file='/local/home/bdalena/FCC-ee/FCC-ee-lattice/check_optics/fcc-ee-heb/optics/4IPs/optics_PA31/merge_orbit_cpymad/Orbit_cpymad/optics/FCCee_heb_modett.ele')
+madx.call(file='/local/home/bdalena/FCC-ee/FCC-ee-lattice/check_optics/fcc-ee-heb/optics/4IPs/optics_PA31/merge_orbit_cpymad/Orbit_cpymad/optics/FCCee_heb_modett.seq')
+madx.call(file='/local/home/bdalena/FCC-ee/FCC-ee-lattice/check_optics/fcc-ee-heb/optics/4IPs/optics_PA31/merge_orbit_cpymad/Orbit_cpymad/optics/FCCee_heb_modett.str')
 
 #----- MACRO DEFINITION -----
-madx.call(file='/home/td271008/work/cpymadx/Orbit_cpymad/FCCee_heb_misc_macros.madx')
-madx.call(file='/home/td271008/work/cpymadx/Orbit_cpymad/errors/FCCee_errors_macros.madx')
+madx.call(file='/local/home/bdalena/FCC-ee/FCC-ee-lattice/check_optics/fcc-ee-heb/optics/4IPs/optics_PA31/merge_orbit_cpymad/Orbit_cpymad/FCCee_heb_misc_macros.madx')
+madx.call(file='/local/home/bdalena/FCC-ee/FCC-ee-lattice/check_optics/fcc-ee-heb/optics/4IPs/optics_PA31/merge_orbit_cpymad/Orbit_cpymad/errors/FCCee_errors_macros.madx')
 
 eseed=47
 beam_mode=3
@@ -189,6 +189,10 @@ madx.twiss(sequence='fcc_heb', file='test_seed{0}/FCCee_heb_modett_orbcor_all_ri
 
 
 sys.exit()
+
+"""
+We stop here since the matching procedure is not working for the moment.
+"""
 
 df.match_quad(madx,'test_seed{0}/FCCee_heb-quads.str')
 

@@ -83,11 +83,17 @@ def anal_corr_calc(file1,file2):
     fnameref1=file1
     head_opt1=pd.read_csv(fnameref1, header=50, sep='\s+', nrows=0).columns[1:]
     ref_tfs=pd.read_csv(fnameref1, skiprows=52, sep='\s+', names=head_opt1)
-    ref_tfs_headers=pd.read_csv(fnameref1, sep='\s+', names=head_opt1, on_bad_lines='skip', low_memory=False)
-
+    # pandas >= 1.4.0 on_bad_lines
+    #ref_tfs_headers=pd.read_csv(fnameref1, sep='\s+', names=head_opt1, on_bad_lines='skip', low_memory=False)
+    # pandas <= 1.4.0 error_bad_lines
+    ref_tfs_headers=pd.read_csv(fnameref1, sep='\s+', names=head_opt1, error_bad_lines=False, low_memory=False)
+    
     fnameref2=file2
     head_opt2=pd.read_csv(fnameref2, header=6, sep='\s+', nrows=0).columns[1:]
-    ref_err=pd.read_csv(fnameref2, skiprows=8, sep='\s+', names=head_opt2, on_bad_lines='skip', low_memory=False)
+    # pandas >= 1.4.0 on_bad_lines
+    #ref_err=pd.read_csv(fnameref2, skiprows=8, sep='\s+', names=head_opt2, on_bad_lines='skip', low_memory=False)
+    # pandas <= 1.4.0 error_bad_lines
+    ref_err=pd.read_csv(fnameref2, skiprows=8, sep='\s+', names=head_opt2, error_bad_lines=False, low_memory=False)
 
     s_cell="MS.A1.021" #begin of one cell
     e_cell="MS.A1.023" #end of the cell
