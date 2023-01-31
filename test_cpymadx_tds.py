@@ -89,7 +89,9 @@ dqx_tar=0
 dqy_tar=0
           
 #----- ERRORS -----
-madx.call(file='select_errors_tmp.madx') #!!!!!!!!!!!!
+#----- Seed for errors assignment ----
+madx.input("EOPTION, seed=47;")
+madx.call(file='select_errors.madx')
 
 #----- SAVE ERRORS ----
 madx.option(echo=True)
