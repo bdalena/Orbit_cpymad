@@ -13,8 +13,16 @@ import matplotlib.pyplot as plt
 import def_functions2 as df
 import numpy as np
 import pandas as pd
+from types import SimpleNamespace
 import sys
 import os
+# to save plots data
+#from astropy.io import ascii
+#from astropy.table import Table
+plt.rcParams.update({'font.size':18})
+plt.rc('xtick',labelsize=16)
+plt.rc('ytick',labelsize=16)
+plt.rc('legend', fontsize=16)
 
 err_mq=150 #quads offset
 err_ms=200 #sextupoles offset
@@ -24,24 +32,28 @@ eseed=100 #nb of seeds
 #path definition
 path='./all_err_b1_10unit/'
 
+# Init data Table
+
 fig3, ax3=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig3, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
+fig3, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
 fig5, ax5=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig5, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
+fig5, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
 fig9, ax9=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig9, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
+fig9, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
 fig10, ax10=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig10, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
+fig10, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
 fig11, ax11=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig11, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-fig17, ax17=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig17, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-fig18, ax18=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig18, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-fig21, ax21=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig21, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-fig22, ax22=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-fig22, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
+fig11, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
+fig12, ax12=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+fig12, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
+#fig17, ax17=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+#fig17, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
+#fig18, ax18=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+#fig18, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
+#fig21, ax21=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+#fig21, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
+#fig22, ax22=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
+#fig22, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.13)
 
 #line sextuoff it1
 rms_dist_x=np.empty(0)
@@ -116,10 +128,10 @@ tts=0
 mms=0
 ffs=0
 dds=0
-
+dfan = pd.DataFrame()
 orbit_x_all_seed=np.empty(0)
 orbit_y_all_seed=np.empty(0)
-
+# for each of the seed e compute the rms analytical estimate 
 for j in range(eseed):
     
     file1=path+'test_seed{0}/FCCee_heb_modett_seed{0}.tfs'.format(j+1)
@@ -127,13 +139,22 @@ for j in range(eseed):
     mean_corr_x,mean_corr_y,orbit_x,orbit_y=df.anal_corr_calc(file1,file2)
     orbit_x_all_seed=np.append(orbit_x_all_seed,orbit_x)
     orbit_y_all_seed=np.append(orbit_y_all_seed,orbit_y)
-    
+    #xcolname = 'rms_x'+str(j+1)
+    #ycolname = 'rms_y'+str(j+1)
+    #print(orbit_x)
+dfan["rms_x"] = orbit_x_all_seed
+dfan["rms_y"] = orbit_y_all_seed
+
+#... and we take the maximum     
 max_orbit_x=np.max(orbit_x_all_seed)
 max_orbit_y=np.max(orbit_y_all_seed)
 
 print('analytical rms: max_orbit_x = ',max_orbit_x)
 print('analytical rms: max_orbit_y = ',max_orbit_y)
 print('\n')
+dfan.to_csv('orbit_rms_analy.dat', sep=' ',)
+#sys.exit()
+data = pd.DataFrame()
 
 for i in range(eseed):
     
@@ -156,24 +177,26 @@ for i in range(eseed):
         rms_dist_y=np.append(rms_dist_y,np.std(optics_all1['Y']))
         ave_dist_y=np.append(ave_dist_y,np.mean(optics_all1['Y']))
 
-        ax3[0].plot(optics_all1['S']/1000., optics_all1['X'], ".")
+        ax3[0].plot(optics_all1['S']/1000., optics_all1['X'], ".", rasterized=True)
         ax3[0].set_ylabel("x [m]")
         if i==(eseed-1):
             ax3[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
             ax3[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-            ax3[0].legend(fontsize=8,loc='best')
+            ax3[0].legend(fontsize=14,loc='best')
         #ax3[0].set_ylim(-250e-6,250e-6)
         ax3[0].set_ylim(-350e-6,350e-6)
-        ax3[1].plot(optics_all1['S']/1000., optics_all1['Y'], ".")
+        ax3[1].plot(optics_all1['S']/1000., optics_all1['Y'], ".", rasterized=True)
         ax3[1].set_xlabel("longitundinal position [km]")
         ax3[1].set_ylabel("y [m]")
         if i==(eseed-1):
             ax3[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
             ax3[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-            ax3[1].legend(fontsize=8,loc='best')
+            ax3[1].legend(fontsize=14,loc='best')
         #ax3[1].set_ylim(-250e-6,250e-6)
         ax3[1].set_ylim(-350e-6,350e-6)
-        
+        ax3[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+        ax3[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+        #plt.subplots_adjust(left=.14, right=.97, top=.94, bottom=.11)
         iis+=1
     else:
         continue
@@ -190,24 +213,25 @@ for i in range(eseed):
         rms_dist_y2=np.append(rms_dist_y2,np.std(optics_all2['Y']))
         ave_dist_y2=np.append(ave_dist_y2,np.mean(optics_all2['Y']))
 
-        ax5[0].plot(optics_all2['S']/1000., optics_all2['X'], ".")
+        ax5[0].plot(optics_all2['S']/1000., optics_all2['X'], ".", rasterized=True)
         ax5[0].set_ylabel("x [m]")
         if i==(eseed-1):
             ax5[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
             ax5[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-            ax5[0].legend(fontsize=8,loc='best')
+            ax5[0].legend(fontsize=14,loc='best')
         #ax5[0].set_ylim(-250e-6,250e-6)
         ax5[0].set_ylim(-350e-6,350e-6)
-        ax5[1].plot(optics_all2['S']/1000., optics_all2['Y'], ".")
+        ax5[1].plot(optics_all2['S']/1000., optics_all2['Y'], ".", rasterized=True)
         ax5[1].set_xlabel("longitundinal position [km]")
         ax5[1].set_ylabel("y [m]")
         if i==(eseed-1):
             ax5[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
             ax5[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-            ax5[1].legend(fontsize=8,loc='best')
+            ax5[1].legend(fontsize=14,loc='best')
         #ax5[1].set_ylim(-250e-6,250e-6)
         ax5[1].set_ylim(-350e-6,350e-6)
-        
+        ax5[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+        ax5[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
         jjs+=1
     else:
         continue
@@ -224,26 +248,33 @@ for i in range(eseed):
         rms_dist_y5=np.append(rms_dist_y5,np.std(optics_all5['Y']))
         ave_dist_y5=np.append(ave_dist_y5,np.mean(optics_all5['Y']))
 
-        ax11[0].plot(optics_all5['S']/1000., optics_all5['X'], ".")
+        if i == 0: data['s'] = optics_all5['S']
+        xcolname = 'x'+str(i+1)
+        ycolname = 'y'+str(i+1)
+        data[xcolname] = optics_all5['X']
+        data[ycolname] = optics_all5['Y']
+
+        ax11[0].plot(optics_all5['S']/1000., optics_all5['X'], ".", rasterized=True)
         ax11[0].set_ylabel("x [m]")
         if i==(eseed-1):
             ax11[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
             ax11[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-            ax11[0].legend(fontsize=8,loc='best')
+            ax11[0].legend(fontsize=14,loc='best')
         #ax11[0].set_ylim(-250e-6,250e-6)
         #ax11[0].set_ylim(-350e-6,350e-6) #200um
         #ax11[0].set_ylim(-500e-6,500e-6) #200um
-        ax11[1].plot(optics_all5['S']/1000., optics_all5['Y'], ".")
+        ax11[1].plot(optics_all5['S']/1000., optics_all5['Y'], ".", rasterized=True)
         ax11[1].set_xlabel("longitundinal position [km]")
         ax11[1].set_ylabel("y [m]")
         if i==(eseed-1):
             ax11[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
             ax11[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-            ax11[1].legend(fontsize=8,loc='best')
+            ax11[1].legend(fontsize=14,loc='best')
         #ax11[1].set_ylim(-250e-6,250e-6)
         #ax11[1].set_ylim(-350e-6,350e-6) #200um
         #ax11[1].set_ylim(-500e-6,500e-6) #200um
-        
+        ax11[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+        ax11[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
         qqs+=1
     else:
         continue
@@ -260,24 +291,25 @@ for i in range(eseed):
         rms_dist_y3=np.append(rms_dist_y3,np.std(optics_all3['Y']))
         ave_dist_y3=np.append(ave_dist_y3,np.mean(optics_all3['Y']))
 
-        ax9[0].plot(optics_all3['S']/1000., optics_all3['X'], ".")
+        ax9[0].plot(optics_all3['S']/1000., optics_all3['X'], ".", rasterized=True)
         ax9[0].set_ylabel("x [m]")
         if i==(eseed-1):
             ax9[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
             ax9[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-            ax9[0].legend(fontsize=8,loc='best')
+            ax9[0].legend(fontsize=14,loc='best')
         #ax9[0].set_ylim(-250e-6,250e-6)
         ax9[0].set_ylim(-350e-6,350e-6) #200um
-        ax9[1].plot(optics_all3['S']/1000., optics_all3['Y'], ".")
+        ax9[1].plot(optics_all3['S']/1000., optics_all3['Y'], ".", rasterized=True)
         ax9[1].set_xlabel("longitundinal position [km]")
         ax9[1].set_ylabel("y [m]")
         if i==(eseed-1):
             ax9[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
             ax9[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-            ax9[1].legend(fontsize=8,loc='best')
+            ax9[1].legend(fontsize=14,loc='best')
         #ax9[1].set_ylim(-250e-6,250e-6)
         ax9[1].set_ylim(-350e-6,350e-6) #200um       
-        
+        ax9[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+        ax9[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
         kks+=1
     else:
         continue
@@ -301,24 +333,25 @@ for i in range(eseed):
         rms_dist_y4=np.append(rms_dist_y4,np.std(optics_all4['Y']))
         ave_dist_y4=np.append(ave_dist_y4,np.mean(optics_all4['Y']))
 
-        ax10[0].plot(optics_all4['S']/1000., optics_all4['X'], ".")
+        ax10[0].plot(optics_all4['S']/1000., optics_all4['X'], ".", rasterized=True)
         ax10[0].set_ylabel("x [m]")
         if i==(eseed-1):
             ax10[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
             ax10[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-            ax10[0].legend(fontsize=8,loc='best')
+            ax10[0].legend(fontsize=14,loc='best')
         #ax10[0].set_ylim(-250e-6,250e-6)
         ax10[0].set_ylim(-350e-6,350e-6) #200um
-        ax10[1].plot(optics_all4['S']/1000., optics_all4['Y'], ".")
+        ax10[1].plot(optics_all4['S']/1000., optics_all4['Y'], ".", rasterized=True)
         ax10[1].set_xlabel("longitundinal position [km]")
         ax10[1].set_ylabel("y [m]")
         if i==(eseed-1):
             ax10[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
             ax10[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-            ax10[1].legend(fontsize=8,loc='best')
+            ax10[1].legend(fontsize=14,loc='best')
         #ax10[1].set_ylim(-250e-6,250e-6)
         ax10[1].set_ylim(-350e-6,350e-6) #200um
-        
+        ax10[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+        ax10[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
         pps+=1
     else:
         continue
@@ -342,26 +375,27 @@ for i in range(eseed):
             rms_dist_y6=np.append(rms_dist_y6,np.std(optics_all6['Y']))
             ave_dist_y6=np.append(ave_dist_y6,np.mean(optics_all6['Y']))
 
-            ax17[0].plot(optics_all6['S']/1000., optics_all6['X'], ".")
+            ax17[0].plot(optics_all6['S']/1000., optics_all6['X'], ".", rasterized=True)
             ax17[0].set_ylabel("x [m]")
             if i==(eseed-1):
                 ax17[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
                 ax17[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-                ax17[0].legend(fontsize=8,loc='best')
+                ax17[0].legend(fontsize=14,loc='best')
             #ax17[0].set_ylim(-250e-6,250e-6)
             #ax17[0].set_ylim(-350e-6,350e-6) #200um
             #ax17[0].set_ylim(-100e-5,100e-5) #200um
-            ax17[1].plot(optics_all6['S']/1000., optics_all6['Y'], ".")
+            ax17[1].plot(optics_all6['S']/1000., optics_all6['Y'], ".", rasterized=True)
             ax17[1].set_xlabel("longitundinal position [km]")
             ax17[1].set_ylabel("y [m]")
             if i==(eseed-1):
                 ax17[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
                 ax17[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-                ax17[1].legend(fontsize=8,loc='best')
+                ax17[1].legend(fontsize=14,loc='best')
             #ax17[1].set_ylim(-250e-6,250e-6)
             #ax17[1].set_ylim(-350e-6,350e-6) #200um
             #ax17[0].set_ylim(-100e-5,100e-5) #200um
-
+            ax17[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+            ax17[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
             tts+=1
 
         xseed7=np.append(xseed7,mms)
@@ -370,26 +404,27 @@ for i in range(eseed):
         rms_dist_y7=np.append(rms_dist_y7,np.std(optics_all6['Y']))
         ave_dist_y7=np.append(ave_dist_y7,np.mean(optics_all6['Y']))
 
-        ax18[0].plot(optics_all6['S']/1000., optics_all6['X'], ".")
+        ax18[0].plot(optics_all6['S']/1000., optics_all6['X'], ".", rasterized=True)
         ax18[0].set_ylabel("x [m]")
         if i==(eseed-1):
             ax18[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
             ax18[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-            ax18[0].legend(fontsize=8,loc='best')
+            ax18[0].legend(fontsize=14,loc='best')
         #ax18[0].set_ylim(-250e-6,250e-6)
         #ax18[0].set_ylim(-350e-6,350e-6) #200um
         #ax18[0].set_ylim(-100e-5,100e-5) #200um
-        ax18[1].plot(optics_all6['S']/1000., optics_all6['Y'], ".")
+        ax18[1].plot(optics_all6['S']/1000., optics_all6['Y'], ".", rasterized=True)
         ax18[1].set_xlabel("longitundinal position [km]")
         ax18[1].set_ylabel("y [m]")
         if i==(eseed-1):
             ax18[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
             ax18[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-            ax18[1].legend(fontsize=8,loc='best')
+            ax18[1].legend(fontsize=14,loc='best')
         #ax18[1].set_ylim(-250e-6,250e-6)
         #ax18[1].set_ylim(-350e-6,350e-6) #200um
         #ax18[1].set_ylim(-100e-5,100e-5) #200um
-
+        ax18[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+        ax18[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
         mms+=1
     else:
         continue
@@ -413,26 +448,27 @@ for i in range(eseed):
             rms_dist_y8=np.append(rms_dist_y8,np.std(optics_all7['Y']))
             ave_dist_y8=np.append(ave_dist_y8,np.mean(optics_all7['Y']))
 
-            ax21[0].plot(optics_all7['S']/1000., optics_all7['X'], ".")
+            ax21[0].plot(optics_all7['S']/1000., optics_all7['X'], ".", rasterized=True)
             ax21[0].set_ylabel("x [m]")
             if i==(eseed-1):
                 ax21[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
                 ax21[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-                ax21[0].legend(fontsize=8,loc='best')
+                ax21[0].legend(fontsize=14,loc='best')
             #ax21[0].set_ylim(-250e-6,250e-6)
             #ax21[0].set_ylim(-350e-6,350e-6) #200um
             #ax21[0].set_ylim(-100e-5,100e-5) #200um
-            ax21[1].plot(optics_all7['S']/1000., optics_all7['Y'], ".")
+            ax21[1].plot(optics_all7['S']/1000., optics_all7['Y'], ".", rasterized=True)
             ax21[1].set_xlabel("longitundinal position [km]")
             ax21[1].set_ylabel("y [m]")
             if i==(eseed-1):
                 ax21[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
                 ax21[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-                ax21[1].legend(fontsize=8,loc='best')
+                ax21[1].legend(fontsize=14,loc='best')
             #ax21[1].set_ylim(-250e-6,250e-6)
             #ax21[1].set_ylim(-350e-6,350e-6) #200um
             #ax21[1].set_ylim(-100e-5,100e-5) #200um
-
+            ax21[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+            ax21[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
             ffs+=1
     
         xseed8=np.append(xseed8,dds)
@@ -441,55 +477,68 @@ for i in range(eseed):
         rms_dist_y8=np.append(rms_dist_y8,np.std(optics_all7['Y']))
         ave_dist_y8=np.append(ave_dist_y8,np.mean(optics_all7['Y']))
 
-        ax22[0].plot(optics_all7['S']/1000., optics_all7['X'], ".")
+        ax22[0].plot(optics_all7['S']/1000., optics_all7['X'], ".", rasterized=True)
         ax22[0].set_ylabel("x [m]")
         if i==(eseed-1):
             ax22[0].axhline(y=3*max_orbit_x, color='r', linestyle='--', label='3 analytical rms')
             ax22[0].axhline(y=-3*max_orbit_x, color='r', linestyle='--')
-            ax22[0].legend(fontsize=8,loc='best')
+            ax22[0].legend(fontsize=14,loc='best')
         #ax22[0].set_ylim(-250e-6,250e-6)
         #ax22[0].set_ylim(-350e-6,350e-6) #200um
         #ax22[0].set_ylim(-100e-5,100e-5) #200um
-        ax22[1].plot(optics_all7['S']/1000., optics_all7['Y'], ".")
+        ax22[1].plot(optics_all7['S']/1000., optics_all7['Y'], ".", rasterized=True)
         ax22[1].set_xlabel("longitundinal position [km]")
         ax22[1].set_ylabel("y [m]")
         if i==(eseed-1):
             ax22[1].axhline(y=3*max_orbit_y, color='r', linestyle='--', label='3 analytical rms')
             ax22[1].axhline(y=-3*max_orbit_y, color='r', linestyle='--')
-            ax22[1].legend(fontsize=8,loc='best')
+            ax22[1].legend(fontsize=14,loc='best')
         #ax22[1].set_ylim(-250e-6,250e-6)
         #ax22[1].set_ylim(-350e-6,350e-6) #200um
         #ax22[1].set_ylim(-100e-5,100e-5) #200um
-
+        ax22[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+        ax22[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
         dds+=1
     else:
         continue
 
-print('rms_dist_x2[0] = ',rms_dist_x2[0])
-print('rms_dist_y2[0] = ',rms_dist_y2[0])
+
+data.to_csv('orbit_values.dat', sep=' ',)
+
+print('rms_dist_x2[0] = ',rms_dist_x5[0])
+print('rms_dist_y2[0] = ',rms_dist_y5[0])
 print('\n')
 
-mean_rms_dist_x2=np.mean(rms_dist_x2)
-mean_rms_dist_y2=np.mean(rms_dist_y2)
+mean_rms_dist_x5=np.mean(rms_dist_x5)
+mean_rms_dist_y5=np.mean(rms_dist_y5)
+max_rms_dist_x5=np.max(rms_dist_x5)
+max_rms_dist_y5=np.max(rms_dist_y5)
 
-print('numerical rms: mean_rms_dist_x2 = ',mean_rms_dist_x2)
-print('numerical rms: mean_rms_dist_y2 = ',mean_rms_dist_y2)
+print('numerical rms: mean_rms_dist_x5 = ',mean_rms_dist_x5)
+print('numerical rms: mean_rms_dist_y5 = ',mean_rms_dist_y5)
+print('numerical rms: max_rms_dist_x5 = ',max_rms_dist_x5)
+print('numerical rms: max_rms_dist_y5 = ',max_rms_dist_y5)
+
+print("Successful seeds MS off last it = {}".format(len(rms_dist_x4)))
+print("Successful seeds MS on it1 = {}".format(len(rms_dist_x5)))
+
 
 #sys.exit()
 
 #to heavy for pdf format
-fig3.savefig(path+'orbit_distribution_line_sextuoff_it1_{0}seeds.png'.format(eseed))
-fig5.savefig(path+'orbit_distribution_line_sextuoff_it2_{0}seeds.png'.format(eseed))
-fig9.savefig(path+'orbit_distribution_ring_sextuoff_first_it_{0}seeds.png'.format(eseed))
-fig10.savefig(path+'orbit_distribution_ring_sextuoff_last_it_{0}seeds.png'.format(eseed))
-fig11.savefig(path+'orbit_distribution_ring_sextuon_it1_{0}seeds.png'.format(eseed))
+fig3.savefig(path+'orbit_distribution_line_sextuoff_it1_{0}seeds.pdf'.format(eseed), dpi=300)
+fig5.savefig(path+'orbit_distribution_line_sextuoff_it2_{0}seeds.pdf'.format(eseed), dpi=300)
+fig9.savefig(path+'orbit_distribution_ring_sextuoff_first_it_{0}seeds.pdf'.format(eseed), dpi=300)
+fig10.savefig(path+'orbit_distribution_ring_sextuoff_last_it_{0}seeds.pdf'.format(eseed), dpi=300)
+fig11.savefig(path+'orbit_distribution_ring_sextuon_it1_{0}seeds.pdf'.format(eseed), dpi=300)
 #fig17.savefig(path+'orbit_distribution_tm_seccessful_it0_{0}seeds.png'.format(eseed))
 #fig18.savefig(path+'orbit_distribution_tm_all_it0_{0}seeds.png'.format(eseed))
 #fig21.savefig(path+'orbit_distribution_tm_seccessful_it1_{0}seeds.png'.format(eseed))
 #fig22.savefig(path+'orbit_distribution_tm_all_it1_{0}seeds.png'.format(eseed))
-plt.show()
-sys.exit()
 
+#sys.exit()
+
+"""
 #plot of the rms: sextuoff line
 fig2, ax2=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax2[0].plot(xseed, rms_dist_x, ".", label='it n°1')
@@ -498,7 +547,7 @@ ax2[0].axhline(y=max_orbit_x, color='r', linestyle='--', label='analytical rms')
 ax2[0].set_ylabel("rms$_x$ [m]")
 #ax2[0].set_ylim(0,10e-5)
 ax2[0].set_ylim(0,25e-5) #200um
-ax2[0].legend(fontsize=8,loc='best')
+ax2[0].legend(fontsize=14,loc='best')
 ax2[1].plot(xseed, rms_dist_y, ".", label='it n°1')
 ax2[1].plot(xseed2, rms_dist_y2, ".", label='it n°2')
 ax2[1].axhline(y=max_orbit_y, color='r', linestyle='--', label='analytical rms')
@@ -506,7 +555,7 @@ ax2[1].set_xlabel("seed")
 ax2[1].set_ylabel("rms$_y$ [m]")
 #ax2[1].set_ylim(0,10e-5)
 ax2[1].set_ylim(0,25e-5) #200um
-ax2[1].legend(fontsize=8,loc='best')
+ax2[1].legend(fontsize=14,loc='best')
 fig2, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig2.savefig(path+'rms_orbit_line_sextuoff_{0}seeds.pdf'.format(eseed))
 
@@ -517,39 +566,43 @@ ax4[0].plot(xseed2, ave_dist_x2, ".", label='it n°2')
 ax4[0].set_ylabel("mean$_x$ [m]")
 #ax4[0].set_ylim(-20e-7,20e-7)
 ax4[0].set_ylim(-30e-7,30e-7) #200um
-ax4[0].legend(fontsize=8,loc='best')
+ax4[0].legend(fontsize=14,loc='best')
 ax4[1].plot(xseed, ave_dist_y, ".", label='it n°1')
 ax4[1].plot(xseed2, ave_dist_y2, ".", label='it n°2')
 ax4[1].set_xlabel("seed")
 ax4[1].set_ylabel("mean$_y$ [m]")
 #ax4[1].set_ylim(-20e-7,20e-7)
 ax4[1].set_ylim(-30e-7,30e-7) #200um
-ax4[1].legend(fontsize=8,loc='best')
+ax4[1].legend(fontsize=14,loc='best')
 fig4, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig4.savefig(path+'mean_orbit_line_sextuoff_{0}seeds.pdf'.format(eseed))
+"""
 
 #plot of the rms: sextuoff/on ring
-fig12, ax12=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
-ax12[0].plot(xseed3, rms_dist_x3, ".", label='sextuoff: first it')
-ax12[0].plot(xseed4, rms_dist_x4, ".", label='sextuoff: last it')
-ax12[0].plot(xseed5, rms_dist_x5, ".", label='sextuon')
+
+#ax12[0].plot(xseed3, rms_dist_x3, ".", label='sextuoff: first it')
+#ax12[0].plot(xseed4, rms_dist_x4, ".", label='sextuoff: last it')
+ax12[0].plot(xseed5, rms_dist_x5, ".", label='MS on')
 ax12[0].axhline(y=max_orbit_x, color='r', linestyle='--', label='analytical rms')
 ax12[0].set_ylabel("rms$_x$ [m]")
 #ax12[0].set_ylim(0,10e-5)
 ax12[0].set_ylim(0,25e-5) #200um
-ax12[0].legend(fontsize=8,loc='best')
-ax12[1].plot(xseed3, rms_dist_y3, ".", label='sextuoff: first it')
-ax12[1].plot(xseed4, rms_dist_y4, ".", label='sextuoff: last it')
-ax12[1].plot(xseed5, rms_dist_y5, ".", label='sextuon')
+ax12[0].legend(loc='best')
+#ax12[1].plot(xseed3, rms_dist_y3, ".", label='sextuoff: first it')
+#ax12[1].plot(xseed4, rms_dist_y4, ".", label='sextuoff: last it')
+ax12[1].plot(xseed5, rms_dist_y5, ".", label='MS on')
 ax12[1].axhline(y=max_orbit_y, color='r', linestyle='--', label='analytical rms')
 ax12[1].set_xlabel("seed")
 ax12[1].set_ylabel("rms$_y$ [m]")
 #ax12[1].set_ylim(0,10e-5)
 ax12[1].set_ylim(0,25e-5) #200um
-ax12[1].legend(fontsize=8,loc='best')
-fig12, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-fig12.savefig(path+'rms_orbit_ring_{0}seeds.pdf'.format(eseed))
-
+ax12[1].legend(loc='best')
+#fig12, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
+ax12[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+ax12[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+fig12.savefig(path+'rms_orbit_ring_{0}seeds.pdf'.format(eseed), dpi=300)
+plt.show()
+sys.exit()
 #plot of the mean: sextuoff/on ring
 fig13, ax13=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 ax13[0].plot(xseed3, ave_dist_x3, ".", label='sextuoff: first it')
@@ -558,7 +611,7 @@ ax13[0].plot(xseed5, ave_dist_x5, ".", label='sextuon')
 ax13[0].set_ylabel("mean$_x$ [m]")
 #ax13[0].set_ylim(-20e-7,20e-7)
 ax13[0].set_ylim(-30e-7,30e-7) #200um
-ax13[0].legend(fontsize=8,loc='best')
+ax13[0].legend(fontsize=14,loc='best')
 ax13[1].plot(xseed3, ave_dist_y3, ".", label='sextuoff: first it')
 ax13[1].plot(xseed4, ave_dist_y4, ".", label='sextuoff: last it')
 ax13[1].plot(xseed5, ave_dist_x5, ".", label='sextuon')
@@ -566,9 +619,16 @@ ax13[1].set_xlabel("seed")
 ax13[1].set_ylabel("mean$_y$ [m]")
 #ax13[1].set_ylim(-20e-7,20e-7)
 ax13[1].set_ylim(-30e-7,30e-7) #200um
-ax13[1].legend(fontsize=8,loc='best')
-fig13, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
-fig13.savefig(path+'mean_orbit_ring_{0}seeds.pdf'.format(eseed))
+ax13[1].legend(fontsize=12,loc='best')
+#fig13, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
+ax13[0].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+ax13[1].ticklabel_format(style='sci',axis='y', scilimits=(0,0),useMathText = True)
+fig13.savefig(path+'mean_orbit_ring_{0}seeds.pdf'.format(eseed), dpi=300)
+
+
+plt.show()
+
+"""
 
 #plot of the rms: tm without svd
 fig20, ax20=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
@@ -578,7 +638,7 @@ ax20[0].axhline(y=max_orbit_x, color='r', linestyle='--', label='analytical rms'
 ax20[0].set_ylabel("rms$_x$ [m]")
 #ax20[0].set_ylim(0,10e-5)
 ax20[0].set_ylim(0,25e-5) #200um
-ax20[0].legend(fontsize=8,loc='best')
+ax20[0].legend(fontsize=14,loc='best')
 ax20[1].plot(xseed6, rms_dist_y6, ".", label='tm success')
 ax20[1].plot(xseed7, rms_dist_y7, ".", label='tm all')
 ax20[1].axhline(y=max_orbit_y, color='r', linestyle='--', label='analytical rms')
@@ -586,7 +646,7 @@ ax20[1].set_xlabel("seed")
 ax20[1].set_ylabel("rms$_y$ [m]")
 #ax20[1].set_ylim(0,10e-5)
 ax20[1].set_ylim(0,25e-5) #200um
-ax20[1].legend(fontsize=8,loc='best')
+ax20[1].legend(fontsize=14,loc='best')
 fig20, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig20.savefig(path+'rms_orbit_tm_it0_{0}seeds.pdf'.format(eseed))
 
@@ -597,14 +657,14 @@ ax19[0].plot(xseed7, ave_dist_x7, ".", label='tm all')
 ax19[0].set_ylabel("mean$_x$ [m]")
 #ax19[0].set_ylim(-20e-7,20e-7)
 ax19[0].set_ylim(-30e-7,30e-7) #200um
-ax19[0].legend(fontsize=8,loc='best')
+ax19[0].legend(fontsize=14,loc='best')
 ax19[1].plot(xseed6, ave_dist_y6, ".", label='tm success')
 ax19[1].plot(xseed7, ave_dist_y7, ".", label='tm all')
 ax19[1].set_xlabel("seed")
 ax19[1].set_ylabel("mean$_y$ [m]")
 #ax19[1].set_ylim(-20e-7,20e-7)
 ax19[1].set_ylim(-30e-7,30e-7) #200um
-ax19[1].legend(fontsize=8,loc='best')
+ax19[1].legend(fontsize=14,loc='best')
 fig19, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig19.savefig(path+'mean_orbit_tm_it0_{0}seeds.pdf'.format(eseed))
 
@@ -616,7 +676,7 @@ ax23[0].axhline(y=max_orbit_x, color='r', linestyle='--', label='analytical rms'
 ax23[0].set_ylabel("rms$_x$ [m]")
 #ax23[0].set_ylim(0,10e-5)
 ax23[0].set_ylim(0,25e-5) #200um
-ax23[0].legend(fontsize=8,loc='best')
+ax23[0].legend(fontsize=14,loc='best')
 ax23[1].plot(xseed6, rms_dist_y6, ".", label='tm success')
 ax23[1].plot(xseed7, rms_dist_y7, ".", label='tm all')
 ax23[1].axhline(y=max_orbit_y, color='r', linestyle='--', label='analytical rms')
@@ -624,7 +684,7 @@ ax23[1].set_xlabel("seed")
 ax23[1].set_ylabel("rms$_y$ [m]")
 #ax23[1].set_ylim(0,10e-5)
 ax23[1].set_ylim(0,25e-5) #200um
-ax23[1].legend(fontsize=8,loc='best')
+ax23[1].legend(fontsize=14,loc='best')
 fig23, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig23.savefig(path+'rms_orbit_tm_it1_{0}seeds.pdf'.format(eseed))
 
@@ -635,21 +695,17 @@ ax24[0].plot(xseed7, ave_dist_x7, ".", label='tm all')
 ax24[0].set_ylabel("mean$_x$ [m]")
 #ax24[0].set_ylim(-20e-7,20e-7)
 ax24[0].set_ylim(-30e-7,30e-7) #200um
-ax24[0].legend(fontsize=8,loc='best')
+ax24[0].legend(fontsize=14,loc='best')
 ax24[1].plot(xseed6, ave_dist_y6, ".", label='tm success')
 ax24[1].plot(xseed7, ave_dist_y7, ".", label='tm all')
 ax24[1].set_xlabel("seed")
 ax24[1].set_ylabel("mean$_y$ [m]")
 #ax24[1].set_ylim(-20e-7,20e-7)
 ax24[1].set_ylim(-30e-7,30e-7) #200um
-ax24[1].legend(fontsize=8,loc='best')
+ax24[1].legend(fontsize=14,loc='best')
 fig24, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig24.savefig(path+'mean_orbit_tm_it1_{0}seeds.pdf'.format(eseed))
-
-
-
-
-
+"""
 
 
 '''
