@@ -1,0 +1,28 @@
+! Table contains alignment coefficients from previous tolerance estimates
+!
+! -----------------------------------------------------------------------
+! Error type  : R - Random STANDARD Gaussian cut at 3 sigma                
+! -----------------------------------------------------------------------
+
+! Units : absolute errors in units of 10^-3 (meters for x, y, read; radians for phi, theta, psi)
+
+! -----------------------------------------------------------------------
+! *********************** Element type : MS arcs ****************** 
+! -----------------------------------------------------------------------
+!                                 at injection 
+dxR_MSAll_inj     :=  0.0500 ;
+dyR_MSAll_inj     :=  0.0500 ;
+dsR_MSAll_inj     :=  1.0000 ;
+dphiR_MSAll_inj   :=  0.1000 ;
+dthetaR_MSAll_inj :=  0.1000 ;
+dpsiR_MSAll_inj   :=  0.2000 ;
+
+!                                 in collision 
+dxR_MSAll_col     :=  0.0500 ;
+dyR_MSAll_col     :=  0.0500 ;
+dsR_MSAll_col     :=  1.0000 ;
+dphiR_MSAll_col   :=  0.1000 ;
+dthetaR_MSAll_col :=  0.1000 ;
+dpsiR_MSAll_col   :=  0.2000 ;
+
+return;

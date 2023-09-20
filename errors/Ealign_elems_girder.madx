@@ -1,0 +1,154 @@
+!
+!Generation of errors for Arc elements
+!
+StartSeed=EOPTION->SEED;
+NewSeed = StartSeed + 100;
+EOPTION, SEED=NewSeed;
+!*****************************************************
+!              Main Dipoles
+!*****************************************************
+print, text="mis-align dipoles";
+select, flag=error,clear;
+select,flag=error,range=s.dis_left.a1/e.dis_right.a1,pattern="^MB*";
+select,flag=error,range=s.dis_left.a2/e.dis_right.a2,pattern="^MB*";
+select,flag=error,range=s.dis_left.a3/e.dis_right.a3,pattern="^MB*";
+select,flag=error,range=s.dis_left.a4/e.dis_right.a4,pattern="^MB*";
+select,flag=error,range=s.dis_left.a5/e.dis_right.a5,pattern="^MB*";
+select,flag=error,range=s.dis_left.a6/e.dis_right.a6,pattern="^MB*";
+select,flag=error,range=s.dis_left.a7/e.dis_right.a7,pattern="^MB*";
+select,flag=error,range=s.dis_left.a8/e.dis_right.a8,pattern="^MB*";
+exec, align_magnetindividual(MBAll);
+exec, errorgenerate_align;
+
+!*****************************************************
+!              Short Straight section
+!*****************************************************
+
+!*****************************************************
+!             Main Quadrupole
+!*****************************************************
+select_mq(arc,nelem): macro = {
+       print, text="mis-align quadrupole";
+       select, flag=error,clear;
+       select,flag=error,range=s.dis_left.arc/e.dis_right.arc,pattern="^MQ\.arc.*nelem$";
+};
+!*****************************************************
+!             Arc BPMs
+!*****************************************************
+select_bpm(arc,nelem): macro = {
+   print, text="mis-align BPM";	
+   select, flag=error,clear;
+   select,flag=error,range=s.dis_left.arc/e.dis_right.arc,pattern="^BPMN\.arc.*nelem$";
+};
+!*****************************************************
+!             Main Sextupoles
+!*****************************************************
+select_ms(arc,nelem): macro = {
+       print, text="mis-align sextupoles";
+       select, flag=error,clear;
+       select,flag=error,range=s.dis_left.arc/e.dis_right.arc,pattern="^MS\.arc.*nelem$";
+};
+dg = 0.200;
+nel = 1;
+nelems = 369;
+while (nel <= nelems) {
+      value, nel;
+      dxg =  dg * TGAUSS(3.);  
+      dyg =  dg * TGAUSS(3.);
+      ! ARC 1
+      exec, select_mq(a1,$nel);
+      exec, align_magnetindividual(MQAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_ms(a1,$nel);
+      exec, align_magnetindividual(MSAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_bpm(a1,$nel);
+      exec, align_magnetindividual(BPMAll,dxg,dyg);
+      exec, errorgenerate_align_bpm;
+      dxg =  dg * TGAUSS(3.);  
+      dyg =  dg * TGAUSS(3.);
+      ! ARC 2
+      exec, select_mq(a2,$nel);
+      exec, align_magnetindividual(MQAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_ms(a2,$nel);
+      exec, align_magnetindividual(MSAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_bpm(a2,$nel);
+      exec, align_magnetindividual(BPMAll,dxg,dyg);
+      exec, errorgenerate_align_bpm;
+      dxg =  dg * TGAUSS(3.);  
+      dyg =  dg * TGAUSS(3.);
+      ! ARC 3
+      exec, select_mq(a3,$nel);
+      exec, align_magnetindividual(MQAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_ms(a3,$nel);
+      exec, align_magnetindividual(MSAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_bpm(a3,$nel);
+      exec, align_magnetindividual(BPMAll,dxg,dyg);
+      exec, errorgenerate_align_bpm;
+      dxg =  dg * TGAUSS(3.);  
+      dyg =  dg * TGAUSS(3.);
+      ! ARC 4
+      exec, select_mq(a4,$nel);
+      exec, align_magnetindividual(MQAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_ms(a4,$nel);
+      exec, align_magnetindividual(MSAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_bpm(a4,$nel);
+      exec, align_magnetindividual(BPMAll,dxg,dyg);
+      exec, errorgenerate_align_bpm;
+      dxg =  dg * TGAUSS(3.);  
+      dyg =  dg * TGAUSS(3.);
+      ! ARC 5
+      exec, select_mq(a5,$nel);
+      exec, align_magnetindividual(MQAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_ms(a5,$nel);
+      exec, align_magnetindividual(MSAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_bpm(a5,$nel);
+      exec, align_magnetindividual(BPMAll,dxg,dyg);
+      exec, errorgenerate_align_bpm;
+      dxg =  dg * TGAUSS(3.);  
+      dyg =  dg * TGAUSS(3.);
+      ! ARC 6
+      exec, select_mq(a6,$nel);
+      exec, align_magnetindividual(MQAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_ms(a6,$nel);
+      exec, align_magnetindividual(MSAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_bpm(a6,$nel);
+      exec, align_magnetindividual(BPMAll,dxg,dyg);
+      exec, errorgenerate_align_bpm;
+      dxg =  dg * TGAUSS(3.);  
+      dyg =  dg * TGAUSS(3.);
+      ! ARC 7
+      exec, select_mq(a7,$nel);
+      exec, align_magnetindividual(MQAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_ms(a7,$nel);
+      exec, align_magnetindividual(MSAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_bpm(a7,$nel);
+      exec, align_magnetindividual(BPMAll,dxg,dyg);
+      exec, errorgenerate_align_bpm;
+      dxg =  dg * TGAUSS(3.);  
+      dyg =  dg * TGAUSS(3.);
+      ! ARC 8
+      exec, select_mq(a8,$nel);
+      exec, align_magnetindividual(MQAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_ms(a8,$nel);
+      exec, align_magnetindividual(MSAll,dxg,dyg);
+      exec, errorgenerate_align;
+      exec, select_bpm(a8,$nel);
+      exec, align_magnetindividual(BPMAll,dxg,dyg);
+      exec, errorgenerate_align_bpm;      
+      nel = nel + 1;     
+};
+

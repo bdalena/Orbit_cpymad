@@ -62,11 +62,11 @@ value, ON_DXR;
 
 ! load Alignment Errors tables
 call, file="errors/Ealign_MBarc_table_v0";
-call, file="errors/Ealign_MQarc_table_v0";
-call, file="errors/Ealign_MSarc_table_v0";
-call, file="errors/Ealign_BPMarc_table_v0";
+call, file="errors/Ealign_MQarc_table_v0_girder";
+call, file="errors/Ealign_MSarc_table_v0_girder";
+call, file="errors/Ealign_BPMarc_table_v0_girder";
 
 
 ! Add errors to the lattice
-call, file="errors/Ealign_elems.madx";
+call, file="errors/Ealign_elems_girder.madx";
 

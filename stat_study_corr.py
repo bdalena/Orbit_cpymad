@@ -27,7 +27,7 @@ eseed=100 #nb of seeds
 #path='/feynman/work/dacm/leda/td271008/Orbit_cpymad/ms_dxdy_{0}_bpm_dxdy_150_mb_b1r_dpsi_mq_dxdy_150_tm_svd_100seeds/'.format(err_ms)
 #path='/feynman/work/dacm/leda/td271008/Orbit_cpymad/bpm_res_{0}_ms_dxdy_150_bpm_dxdy_150_mb_b1r_dpsi_mq_dxdy_150_tm_svd_100seeds/'.format(err_bpm)
 #path='/feynman/work/dacm/leda/td271008/Orbit_cpymad/mb_b1r_dpsi_mq_dxdy_{0}_tm_100seeds/'.format(err_mq)
-path='./all_err_b1_10unit/'
+path='./all_err_b1_10unit_girder/'
 
 fig3, ax3=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 fig3, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
@@ -198,77 +198,78 @@ for i in range(eseed):
     if os.path.exists(path+"test_seed{0}/cx_fccee_heb_mic_all_ring_sextuon_it1.tab".format(i+1)):
         fnameallx3=path+"test_seed{0}/cx_fccee_heb_mic_all_ring_sextuon_it1.tab".format(i+1)
         fnameally3=path+"test_seed{0}/cy_fccee_heb_mic_all_ring_sextuon_it1.tab".format(i+1)
+        print("file fnameallx3 = {}".format(i+1))
 
-    if os.path.exists(path+"test_seed{0}/FCCee_heb_modett_orbcor_all_ring_sextuon_it1_seed{0}.tfs".format(i+1)):
-        xseed3=np.append(xseed3,kks)
-        head_opt=pd.read_csv(fnameallx3, header=6, sep='\s+', nrows=0).columns[1:]
-        optics_allx3=pd.read_csv(fnameallx3, skiprows=8, sep='\s+', names=head_opt)
-        optics_allx3=optics_allx3.reset_index(drop=True)
-        xcorr3=np.arange(0,len(optics_allx3),1)
-        optics_allx3_val = optics_allx3['PX.OLD'][optics_allx3['PX.OLD'] !=0.0]
-        optics_allx3_valc= optics_allx3['PX.CORRECTION'][optics_allx3['PX.CORRECTION'] !=0.0]
+        if os.path.exists(path+"test_seed{0}/FCCee_heb_modett_orbcor_all_ring_sextuon_it1_seed{0}.tfs".format(i+1)):
+            xseed3=np.append(xseed3,kks)
+            head_opt=pd.read_csv(fnameallx3, header=6, sep='\s+', nrows=0).columns[1:]
+            optics_allx3=pd.read_csv(fnameallx3, skiprows=8, sep='\s+', names=head_opt)
+            optics_allx3=optics_allx3.reset_index(drop=True)
+            xcorr3=np.arange(0,len(optics_allx3),1)
+            optics_allx3_val = optics_allx3['PX.OLD'][optics_allx3['PX.OLD'] !=0.0]
+            optics_allx3_valc= optics_allx3['PX.CORRECTION'][optics_allx3['PX.CORRECTION'] !=0.0]
 
-        rms_dist_x_it4=np.append(rms_dist_x_it4,optics_allx3_val.std()*Brho)
-        ave_dist_x_it4=np.append(ave_dist_x_it4,optics_allx3_val.mean()*Brho)
-        rms_dist_x_it5=np.append(rms_dist_x_it5,optics_allx3_valc.std()*Brho)
-        ave_dist_x_it5=np.append(ave_dist_x_it5,optics_allx3_valc.mean()*Brho)
+            rms_dist_x_it4=np.append(rms_dist_x_it4,optics_allx3_val.std()*Brho)
+            ave_dist_x_it4=np.append(ave_dist_x_it4,optics_allx3_val.mean()*Brho)
+            rms_dist_x_it5=np.append(rms_dist_x_it5,optics_allx3_valc.std()*Brho)
+            ave_dist_x_it5=np.append(ave_dist_x_it5,optics_allx3_valc.mean()*Brho)
 
-        head_opt=pd.read_csv(fnameally3, header=6, sep='\s+', nrows=0).columns[1:]
-        optics_ally3=pd.read_csv(fnameally3, skiprows=8, sep='\s+', names=head_opt)
-        optics_ally3=optics_ally3.reset_index(drop=True)
-        ycorr3=np.arange(0,len(optics_ally3),1)
-        optics_ally3_val = optics_ally3['PY.OLD'][optics_ally3['PY.OLD'] !=0.0]
-        optics_ally3_valc = optics_ally3['PY.CORRECTION'][optics_ally3['PY.CORRECTION'] !=0.0]
-        rms_dist_y_it4=np.append(rms_dist_y_it4,optics_ally3_val.std()*Brho)
-        ave_dist_y_it4=np.append(ave_dist_y_it4,optics_ally3_val.mean()*Brho)
-        rms_dist_y_it5=np.append(rms_dist_y_it5,optics_ally3_valc.std()*Brho)
-        ave_dist_y_it5=np.append(ave_dist_y_it5,optics_ally3_valc.mean()*Brho)
+            head_opt=pd.read_csv(fnameally3, header=6, sep='\s+', nrows=0).columns[1:]
+            optics_ally3=pd.read_csv(fnameally3, skiprows=8, sep='\s+', names=head_opt)
+            optics_ally3=optics_ally3.reset_index(drop=True)
+            ycorr3=np.arange(0,len(optics_ally3),1)
+            optics_ally3_val = optics_ally3['PY.OLD'][optics_ally3['PY.OLD'] !=0.0]
+            optics_ally3_valc = optics_ally3['PY.CORRECTION'][optics_ally3['PY.CORRECTION'] !=0.0]
+            rms_dist_y_it4=np.append(rms_dist_y_it4,optics_ally3_val.std()*Brho)
+            ave_dist_y_it4=np.append(ave_dist_y_it4,optics_ally3_val.mean()*Brho)
+            rms_dist_y_it5=np.append(rms_dist_y_it5,optics_ally3_valc.std()*Brho)
+            ave_dist_y_it5=np.append(ave_dist_y_it5,optics_ally3_valc.mean()*Brho)
 
-        xcolname = 'px'+str(i+1)
-        ycolname = 'py'+str(i+1)
-        data[xcolname] = optics_allx3['PX.CORRECTION']*Brho
-        data[ycolname] = optics_ally3['PY.CORRECTION']*Brho
+            xcolname = 'px'+str(i+1)
+            ycolname = 'py'+str(i+1)
+            data[xcolname] = optics_allx3['PX.CORRECTION']*Brho
+            data[ycolname] = optics_ally3['PY.CORRECTION']*Brho
 
         
-        ax10[0].plot(xcorr3, optics_allx3['PX.OLD']*Brho, ".")
-        ax10[0].set_ylabel("Corrector strength [Tm]")
-        if i==(eseed-1):
-            ax10[0].axhline(y=max_corr_x3, color='r', linestyle='--', label='3 analytical rms')
-            ax10[0].axhline(y=-max_corr_x3, color='r', linestyle='--')
-            ax10[0].legend(fontsize=8,loc='best')
-        #ax10[0].set_ylim(-180e-4,180e-4) #for 100 um
-        ax10[0].set_ylim(-250e-4,250e-4) #for 200 um 
-        ax10[1].plot(ycorr3, optics_ally3['PY.OLD']*Brho, ".")
-        ax10[1].set_xlabel("Correctors")
-        ax10[1].set_ylabel("Corrector strength [Tm]")
-        if i==(eseed-1):
-            ax10[1].axhline(y=max_corr_y3, color='r', linestyle='--', label='3 analytical rms')
-            ax10[1].axhline(y=-max_corr_y3, color='r', linestyle='--')
-            ax10[1].legend(fontsize=8,loc='best')
-         #ax10[1].set_ylim(-180e-4,180e-4) #for 100 um
-        ax10[1].set_ylim(-250e-4,250e-4) #for 200 um
+            ax10[0].plot(xcorr3, optics_allx3['PX.OLD']*Brho, ".")
+            ax10[0].set_ylabel("Corrector strength [Tm]")
+            if i==(eseed-1):
+                ax10[0].axhline(y=max_corr_x3, color='r', linestyle='--', label='3 analytical rms')
+                ax10[0].axhline(y=-max_corr_x3, color='r', linestyle='--')
+                ax10[0].legend(fontsize=8,loc='best')
+            #ax10[0].set_ylim(-180e-4,180e-4) #for 100 um
+            ax10[0].set_ylim(-250e-4,250e-4) #for 200 um 
+            ax10[1].plot(ycorr3, optics_ally3['PY.OLD']*Brho, ".")
+            ax10[1].set_xlabel("Correctors")
+            ax10[1].set_ylabel("Corrector strength [Tm]")
+            if i==(eseed-1):
+                ax10[1].axhline(y=max_corr_y3, color='r', linestyle='--', label='3 analytical rms')
+                ax10[1].axhline(y=-max_corr_y3, color='r', linestyle='--')
+                ax10[1].legend(fontsize=8,loc='best')
+            #ax10[1].set_ylim(-180e-4,180e-4) #for 100 um
+            ax10[1].set_ylim(-250e-4,250e-4) #for 200 um
 
-        ax11[0].plot(xcorr3, optics_allx3['PX.CORRECTION']*Brho, ".")
-        ax11[0].set_ylabel("Corrector strength [Tm]")
-        if i==(eseed-1):
-            ax11[0].axhline(y=max_corr_x3, color='r', linestyle='--', label='3 analytical rms')
-            ax11[0].axhline(y=-max_corr_x3, color='r', linestyle='--')
-            ax11[0].legend(fontsize=8,loc='best')
-        #ax11[0].set_ylim(-180e-4,180e-4) #for 100 um
-        ax11[0].set_ylim(-250e-4,250e-4) #for 200 um
-        ax11[1].plot(ycorr3, optics_ally3['PY.CORRECTION']*Brho, ".")
-        ax11[1].set_xlabel("Correctors")
-        ax11[1].set_ylabel("Corrector strength [Tm]")
-        if i==(eseed-1):
-            ax11[1].axhline(y=max_corr_y3, color='r', linestyle='--', label='3 analytical rms')
-            ax11[1].axhline(y=-max_corr_y3, color='r', linestyle='--')
-            ax11[1].legend(fontsize=8,loc='best')
-        #ax11[1].set_ylim(-180e-4,180e-4) #for 100 um
-        ax11[1].set_ylim(-250e-4,250e-4) #for 200 um
+            ax11[0].plot(xcorr3, optics_allx3['PX.CORRECTION']*Brho, ".")
+            ax11[0].set_ylabel("Corrector strength [Tm]")
+            if i==(eseed-1):
+                ax11[0].axhline(y=max_corr_x3, color='r', linestyle='--', label='3 analytical rms')
+                ax11[0].axhline(y=-max_corr_x3, color='r', linestyle='--')
+                ax11[0].legend(fontsize=8,loc='best')
+            #ax11[0].set_ylim(-180e-4,180e-4) #for 100 um
+            ax11[0].set_ylim(-250e-4,250e-4) #for 200 um
+            ax11[1].plot(ycorr3, optics_ally3['PY.CORRECTION']*Brho, ".")
+            ax11[1].set_xlabel("Correctors")
+            ax11[1].set_ylabel("Corrector strength [Tm]")
+            if i==(eseed-1):
+                ax11[1].axhline(y=max_corr_y3, color='r', linestyle='--', label='3 analytical rms')
+                ax11[1].axhline(y=-max_corr_y3, color='r', linestyle='--')
+                ax11[1].legend(fontsize=8,loc='best')
+            #ax11[1].set_ylim(-180e-4,180e-4) #for 100 um
+            ax11[1].set_ylim(-250e-4,250e-4) #for 200 um
         
-        kks+=1
-    else:
-        continue
+            kks+=1
+        else:
+            continue
 
     if os.path.exists(path+"test_seed{0}/cx_fccee_heb_mic_all_tm_it1.tab".format(i+1)):
         fnameallx4=path+"test_seed{0}/cx_fccee_heb_mic_all_tm_it1.tab".format(i+1)

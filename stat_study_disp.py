@@ -19,9 +19,8 @@ eseed=100 #nb of seeds
 #path definition
 #path='/home/td271008/work/cpymadx/Orbit_cpymad/mq_offset_{0}_IP5_2it_100seeeds_corrhplus/'.format(err_mq)
 #path='/home/td271008/work/cpymadx/Orbit_cpymad/mb_fielderr_roll_mq_offset_{0}_IP5_2it_100seeeds_corrhplus/'.format(err_mq)
-path='/home/td271008/work/cpymadx/Orbit_cpymad/tune_match_mb_fielderr_roll_mq_offset_{0}_IP5_100seeeds_corrhplus/'.format(err_mq)
-#path='/home/td271008/work/cpymadx/Orbit_cpymad/tune_match_mb_fielderr_roll_mq_offset_{0}_IP5_10seeeds_corrhplus/'.format(err_mq)
-
+#path='/home/td271008/work/cpymadx/Orbit_cpymad/tune_match_mb_fielderr_roll_mq_offset_{0}_IP5_100seeeds_corrhplus/'.format(err_mq)
+path='./all_err_b1_10unit_girder/'
 fig3, ax3=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)
 fig3, plt.subplots_adjust(left=.16, right=.97, top=.94, bottom=.11)
 fig5, ax5=plt.subplots(nrows=2, ncols=1, sharex=True, sharey=False)

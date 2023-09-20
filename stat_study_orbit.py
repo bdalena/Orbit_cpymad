@@ -30,7 +30,7 @@ err_bpm=50 #bpm offset
 eseed=100 #nb of seeds
 
 #path definition
-path='./all_err_b1_10unit/'
+path='./all_err_b1_10unit_girder/'
 
 # Init data Table
 
