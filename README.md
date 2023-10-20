@@ -5,9 +5,9 @@ Orbit_cpymad is a code for studying and correcting the orbit as part of the FCC-
 ## Requirements
 
 The following packages are necessary to run Orbit_cpymad:
-- pandas
-- numpy
-- cpymad
-- matplotlib
+- pandas <=2.0.3
+- numpy <=1.24.2
+- cpymad 
+- matplotlib <=3.7.3
 
 
